@@ -142,6 +142,29 @@
       <path d="M1020 440 C1040 380, 1100 370, 1120 420 C1090 460, 1050 460, 1020 440 Z" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/>
     </svg>
 
+    <!-- Animated Guide Arrow 3: Informs user on left side to scroll down or choose buttons -->
+    <div class="hero-scroll-guide" id="crt-guide-3">
+      <div class="scroll-guide-card">
+        <div class="guide-card-header">
+          <span class="guide-pulse-dot"></span>
+          <span class="guide-card-tag">SYSTEM READY · CH 00</span>
+        </div>
+        <div class="guide-card-title">SCROLL DOWN TO EXPLORE</div>
+        <div class="guide-card-desc">or choose one of the buttons below</div>
+        <div class="guide-card-shortcuts">
+          <a href="#journey" class="guide-pill-link">Explore Timeline ↗</a>
+          <a href="assets/Mohammed_Iqbal_CV.pdf" download class="guide-pill-link">Master CV ↓</a>
+        </div>
+      </div>
+      
+      <div class="scroll-guide-arrow-container" title="Click to scroll down">
+        <svg class="scroll-down-svg" width="40" height="150" viewBox="0 0 40 150" fill="none">
+          <line class="flowing-arrow-line" x1="20" y1="6" x2="20" y2="124" stroke="#00ff66" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 6"/>
+          <polygon class="arrow-head-down" points="8,120 20,144 32,120" fill="#00ff66"/>
+        </svg>
+      </div>
+    </div>
+
     <!-- Floating Audio Card with Heart & 4:20 Duration -->
     <div class="floating-player-card" title="Click to play synthesized audio">
       <div class="player-label">NOW PLAYING</div>
@@ -153,16 +176,41 @@
     <!-- Centerpiece Retro CRT Television Console -->
     <div class="crt-console-wrapper">
       
-      <!-- CRT Tube Screen (Initially powered off) -->
+      <!-- Animated Guide Arrow 1: Tell user to turn on TV -->
+      <div class="crt-guide-arrow crt-guide-arrow-1 active" id="crt-guide-1" title="Click to Power On CRT TV">
+        <div class="guide-badge">
+          <span class="guide-pulse-dot"></span>
+          <span class="guide-badge-text">TURN ON TV</span>
+        </div>
+        <svg class="guide-arrow-svg svg-arrow-power" width="60" height="45" viewBox="0 0 60 45" fill="none">
+          <path class="arrow-stroke" d="M 52 35 C 50 15, 30 12, 12 12" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
+          <polygon class="arrow-head" points="14,6 2,12 14,18" fill="#00ff66"/>
+        </svg>
+      </div>
+
+      <!-- Animated Guide Arrow 2: Tell user to change channels via UHF knob -->
+      <div class="crt-guide-arrow crt-guide-arrow-2" id="crt-guide-2" title="Click to Change Channels">
+        <div class="guide-badge">
+          <span class="guide-pulse-dot"></span>
+          <span class="guide-badge-text">CHANGE CHANNELS ↺</span>
+        </div>
+        <svg class="guide-arrow-svg svg-arrow-knob" width="64" height="48" viewBox="0 0 64 48" fill="none">
+          <!-- Curved stroke arching over and pointing down directly into rotary knob -->
+          <path class="arrow-stroke" d="M 12 12 C 32 10, 48 18, 48 34" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
+          <polygon class="arrow-head" points="41,32 48,44 55,32" fill="#00ff66"/>
+        </svg>
+      </div>
+
+      <!-- CRT Tube Screen (Initially shut down) -->
       <div class="crt-tube-container power-off">
         <div class="crt-scanlines"></div>
         <div class="crt-vignette"></div>
 
         <div class="crt-screen-content" id="crt-content">
-          <!-- Initially renders Channel 01 (Habakam APK) when turned on -->
+          <!-- Initially prepared with Channel 01 (Habakam APK) when powered on -->
           <div class="crt-project-slide">
             <div class="crt-channel-badge">CH 01</div>
-            <div class="crt-tagline">MEDICATION REMINDER APK · 2023</div>
+            <div class="crt-tagline">Medication Reminder APK · 2023</div>
             <h2 class="crt-project-title">Habakam APK</h2>
             <p class="crt-project-snippet">Android medication scheduling & healthcare logistics platform. Real-time patient reminder alarms, telematics dispatch & pharmacy integrations.</p>
             <div class="crt-badge-row">
@@ -184,22 +232,8 @@
         
         <div class="knob-section">
           <div class="knob-label">UHF CHANNEL</div>
-          <div class="rotary-knob" id="crt-rotary-knob" title="Click to rotate knob & switch channel">
+          <div class="rotary-knob" title="Click to rotate knob & switch channel">
             <div class="knob-marker"></div>
-          </div>
-
-          <!-- Guide 2: Animated Green Arrow pointing to Rotary Knob -->
-          <div class="crt-guide-callout guide-knob-callout" id="guide-knob" title="Click to change channels">
-            <div class="guide-callout-arrow">
-              <svg width="34" height="24" viewBox="0 0 34 24" fill="none">
-                <path d="M30 12 L8 12" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
-                <polygon points="2,12 12,6 12,18" fill="#00ff66"/>
-              </svg>
-            </div>
-            <div class="guide-callout-badge">
-              <span class="guide-dot"></span>
-              <span>CHANGE CHANNELS</span>
-            </div>
           </div>
         </div>
 
@@ -210,44 +244,13 @@
           <div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div>
         </div>
 
-        <div class="power-toggle-btn" id="crt-power-btn" title="Toggle CRT Power">
-          <div class="power-switch-led off" id="crt-power-led"></div>
+        <div class="power-toggle-btn guide-pulse" title="Toggle CRT Power">
+          <div class="power-switch-led off"></div>
           <div class="knob-label">POWER</div>
-
-          <!-- Guide 1: Animated Green Arrow pointing to Power Button -->
-          <div class="crt-guide-callout guide-power-callout active" id="guide-power" title="Click to turn on TV">
-            <div class="guide-callout-arrow">
-              <svg width="34" height="24" viewBox="0 0 34 24" fill="none">
-                <path d="M30 12 L8 12" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
-                <polygon points="2,12 12,6 12,18" fill="#00ff66"/>
-              </svg>
-            </div>
-            <div class="guide-callout-badge">
-              <span class="guide-dot"></span>
-              <span>TURN ON TV</span>
-            </div>
-          </div>
         </div>
 
       </div>
 
-    </div>
-
-    <!-- Guide 3: Left-Side Scroll Down & CTAs Indicator -->
-    <div class="crt-guide-scroll" id="guide-scroll-down" title="Scroll down or click to explore">
-      <div class="guide-scroll-badge">
-        <span class="guide-dot"></span>
-        <div class="guide-scroll-text-col">
-          <span class="guide-scroll-title">SCROLL DOWN TO EXPLORE</span>
-          <span class="guide-scroll-sub">OR SELECT A BUTTON BELOW ↓</span>
-        </div>
-      </div>
-      <div class="guide-scroll-stem">
-        <svg class="guide-down-arrow-svg" width="30" height="120" viewBox="0 0 30 120" fill="none">
-          <line x1="15" y1="0" x2="15" y2="102" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 4" class="dash-flow"/>
-          <polygon points="15,118 7,100 23,100" fill="#00ff66"/>
-        </svg>
-      </div>
     </div>
 
     <!-- Hero Bottom Typographic Statements & CTAs -->
