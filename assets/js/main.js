@@ -10,17 +10,32 @@
 
 const CRT_CHANNELS = [
   {
+    channel: "CH 00",
+    type: "profile",
+    tagline: "WORKSPACE SHOWREEL",
+    title: "Mohammed I. Ghaffar",
+    role: "AI Deployment Lead & Systems Architect",
+    snippet: "7+ years translating executive requirements into hardened, production-grade intelligence and mission-critical architectures.",
+    avatar: "assets/images/avatar.jpg",
+    badges: ["Agentic AI", "Odoo ERP", "Android APK", "15+ Systems"],
+    year: "2016 – 2026",
+    actionText: "Explore Journey ↗",
+    projectId: "profile"
+  },
+  {
     channel: "CH 01",
-    tagline: "Logistics Super-App",
-    title: "Habakam Delivery",
-    snippet: "Multi-tenant Android logistics & medication management platform. Real-time rider dispatch, live telematics & pharmacy integrations.",
-    badges: ["Kotlin", "Android SDK", "Node.js", "WebSockets"],
+    type: "project",
+    tagline: "Medication Reminder APK",
+    title: "Habakam APK",
+    snippet: "Android medication scheduling & healthcare logistics platform. Real-time patient reminder alarms, telematics dispatch & pharmacy integrations.",
+    badges: ["Android APK", "Kotlin", "Room DB", "WebSockets"],
     year: "2023",
     actionText: "Inspect Architecture",
     projectId: "habakam"
   },
   {
     channel: "CH 02",
+    type: "project",
     tagline: "Autonomous Agentic System",
     title: "AI Job Hunter",
     snippet: "Autonomous job hunting system with real-time multi-portal scrapers, match scoring, truth-enforced CV compiler, and live human-in-the-loop dashboard.",
@@ -31,6 +46,7 @@ const CRT_CHANNELS = [
   },
   {
     channel: "CH 03",
+    type: "project",
     tagline: "Enterprise Vector AI",
     title: "Multi-Agent RAG",
     snippet: "Enterprise retrieval-augmented generation engine with hierarchical vector indices, hybrid BM25 search, and hallucination guardrails.",
@@ -41,6 +57,7 @@ const CRT_CHANNELS = [
   },
   {
     channel: "CH 04",
+    type: "project",
     tagline: "Retail Infrastructure",
     title: "Smart Commerce POS",
     snippet: "High-throughput retail POS terminal engineered for sub-50ms transaction latency, offline-first SQLite sync, and barcode hardware integration.",
@@ -51,6 +68,7 @@ const CRT_CHANNELS = [
   },
   {
     channel: "CH 05",
+    type: "project",
     tagline: "Enterprise Transformation",
     title: "Odoo ERP Ecosystem",
     snippet: "Full-scale Odoo ERP deployment for HTS-HQ. Custom accounting, automated supply chain workflows, and multi-warehouse synchronization.",
@@ -61,6 +79,7 @@ const CRT_CHANNELS = [
   },
   {
     channel: "CH 06",
+    type: "project",
     tagline: "Speech & Audio AI",
     title: "Voice AI Synthesizer",
     snippet: "Low-latency multilingual speech synthesis pipeline supporting Kurdish, Arabic, and English with custom voice cloning and Whisper transcription.",
@@ -148,21 +167,21 @@ const TIMELINE_MILESTONES = {
 
 const PROJECT_CASE_STUDIES = {
   "habakam": {
-    title: "Habakam Delivery & Medication Super-App",
-    pill: "Mobile Logistics & Healthcare",
+    title: "Habakam — Android Medication Reminder APK",
+    pill: "Android Healthcare APK & Logistics",
     meta: {
-      client: "Habakam Logistics",
-      role: "Lead Systems Architect & Product Manager",
+      client: "Habakam Healthcare Solutions",
+      role: "Lead Android & Systems Architect",
       duration: "2023 – Present",
-      stack: "Kotlin, Android SDK, Node.js, WebSockets, Google Maps API, PostgreSQL"
+      stack: "Kotlin, Android SDK, Room DB, Background Alarms, WebSockets, PostgreSQL"
     },
     narrative: `
-      <p>Habakam was built to solve a critical healthcare logistics problem in the Kurdistan Region: reliable, timed delivery of prescription medications alongside everyday goods, backed by real-time telematics.</p>
+      <p>Habakam was engineered as a specialized native Android APK to solve critical healthcare scheduling and medication adherence: automated medication reminder alarms, dosage tracking, and pharmacy inventory routing.</p>
       <h3>The Engineering Challenge</h3>
-      <p>Prescription medications require strict chain-of-custody verification, pharmacy dispatch confirmation, and sub-minute rider coordination. Existing regional delivery apps lacked medical reminder integrations and multi-tenant pharmacy dashboards.</p>
+      <p>Prescription regimens require exact timing, strict reminder reliability across deep sleep modes (Doze mode), and secure synchronization with pharmacy networks for refills. Standard delivery applications lack automated medication schedules and clinical dosage tracking.</p>
       <h3>The Architectural Solution</h3>
-      <p>We engineered a native Kotlin Android application with background alarm scheduling, real-time rider GPS tracking via WebSockets, and an offline-first cache for low-connectivity regions. Pharmacists manage inventory via a dedicated portal, automatically generating cryptographically verified dispatch manifests.</p>
-      <p>The platform reduced prescription fulfillment latency by 68% and achieved 100% adherence to scheduled medication drops.</p>
+      <p>We engineered a native Kotlin Android application utilizing Android AlarmManager, foreground services, and Room DB for reliable offline alert scheduling. The APK connects via WebSockets to pharmacy systems for instant replenishment dispatch and verified chain-of-custody.</p>
+      <p>The platform achieved 100% adherence to scheduled medication alerts and drastically simplified prescription routines for chronic care patients.</p>
     `,
     gallery: [
       "assets/images/habakam_icon.png",
@@ -277,113 +296,151 @@ class AudioSynthEngine {
   }
 
   init() {
-    if (!this.ctx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (AudioContext) {
-        this.ctx = new AudioContext();
+    try {
+      if (!this.ctx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+          this.ctx = new AudioContext();
+        }
       }
-    }
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+    } catch (e) {
+      console.warn('AudioContext init error:', e);
     }
   }
 
   toggle() {
     this.init();
     this.enabled = !this.enabled;
-    localStorage.setItem('mokurdy_sound', this.enabled ? '1' : '0');
+    try {
+      localStorage.setItem('mokurdy_sound', this.enabled ? '1' : '0');
+    } catch(e) {}
+    if (this.enabled) {
+      this.playActivationChime();
+    } else {
+      this.playBlip(320);
+    }
     return this.enabled;
+  }
+
+  // Futuristic ascending chord on sound activation
+  playActivationChime() {
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      [440, 554.37, 659.25, 880].forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+        gain.gain.setValueAtTime(0, now + idx * 0.07);
+        gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.07 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.32);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + idx * 0.07);
+        osc.stop(now + idx * 0.07 + 0.34);
+      });
+    } catch (e) {}
   }
 
   // CRT Channel Switch Static Pop
   playCrtSwitch() {
     if (!this.enabled || !this.ctx) return;
-    this.init();
+    try {
+      this.init();
 
-    // 1. Static burst
-    const bufferSize = this.ctx.sampleRate * 0.12;
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * 0.25;
-    }
+      // 1. Static burst
+      const bufferSize = this.ctx.sampleRate * 0.12;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * 0.25;
+      }
 
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
 
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.value = 1200;
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1200;
 
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+      const gain = this.ctx.createGain();
+      gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
 
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.ctx.destination);
-    noise.start();
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+      noise.start();
 
-    // 2. Rotary knob tactile thud
-    const osc = this.ctx.createOscillator();
-    const oscGain = this.ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(220, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.08);
+      // 2. Rotary knob tactile thud
+      const osc = this.ctx.createOscillator();
+      const oscGain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.08);
 
-    oscGain.gain.setValueAtTime(0.4, this.ctx.currentTime);
-    oscGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+      oscGain.gain.setValueAtTime(0.4, this.ctx.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
 
-    osc.connect(oscGain);
-    oscGain.connect(this.ctx.destination);
-    osc.start();
-    osc.stop(this.ctx.currentTime + 0.09);
+      osc.connect(oscGain);
+      oscGain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.09);
+    } catch (e) {}
   }
 
   // Hyperspace Warp Whoosh
   playWarpWhoosh() {
     if (!this.enabled || !this.ctx) return;
-    this.init();
+    try {
+      this.init();
 
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(80, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(640, this.ctx.currentTime + 0.35);
-    osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.7);
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(80, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(640, this.ctx.currentTime + 0.35);
+      osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.7);
 
-    gain.gain.setValueAtTime(0.01, this.ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.2, this.ctx.currentTime + 0.3);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.75);
+      gain.gain.setValueAtTime(0.01, this.ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.2, this.ctx.currentTime + 0.3);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.75);
 
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 1200;
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 1200;
 
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.ctx.destination);
-    osc.start();
-    osc.stop(this.ctx.currentTime + 0.8);
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.8);
+    } catch (e) {}
   }
 
   // Subtle Futuristic UI Blip
   playBlip(freq = 600) {
     if (!this.enabled || !this.ctx) return;
-    this.init();
+    try {
+      this.init();
 
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
 
-    gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
 
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-    osc.start();
-    osc.stop(this.ctx.currentTime + 0.09);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.09);
+    } catch (e) {}
   }
 }
 
@@ -699,48 +756,82 @@ class RetroCrtController {
     this.currentIndex = 0;
     this.poweredOn = true;
     this.knobAngle = 0;
+    this.autoPlayInterval = 5000;
+    this.autoPlayTimer = null;
 
+    this.wrapperEl = document.querySelector('.crt-console-wrapper');
     this.tubeEl = document.querySelector('.crt-tube-container');
-    this.badgeEl = document.querySelector('.crt-channel-badge');
-    this.taglineEl = document.querySelector('.crt-tagline');
-    this.titleEl = document.querySelector('.crt-project-title');
-    this.snippetEl = document.querySelector('.crt-project-snippet');
-    this.badgeRowEl = document.querySelector('.crt-badge-row');
-    this.actionBtnEl = document.querySelector('.crt-action-btn');
-
+    this.contentEl = document.querySelector('.crt-screen-content');
     this.knobEl = document.querySelector('.rotary-knob');
     this.powerBtn = document.querySelector('.power-toggle-btn');
     this.powerLed = document.querySelector('.power-switch-led');
 
     this.bindEvents();
-    this.renderChannel();
+    this.renderChannel(true);
+    this.startAutoPlay();
   }
 
   bindEvents() {
     if (this.knobEl) {
-      this.knobEl.addEventListener('click', () => this.nextChannel());
+      this.knobEl.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.nextChannel(false);
+      });
     }
 
     if (this.powerBtn) {
-      this.powerBtn.addEventListener('click', () => this.togglePower());
+      this.powerBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.togglePower();
+      });
     }
 
-    if (this.actionBtnEl) {
-      this.actionBtnEl.addEventListener('click', () => {
-        const current = CRT_CHANNELS[this.currentIndex];
-        window.openProjectDrawer(current.projectId);
-      });
+    if (this.wrapperEl) {
+      this.wrapperEl.addEventListener('mouseenter', () => this.pauseAutoPlay());
+      this.wrapperEl.addEventListener('mouseleave', () => this.resumeAutoPlay());
     }
   }
 
-  nextChannel() {
+  startAutoPlay() {
+    this.stopAutoPlay();
+    this.autoPlayTimer = setInterval(() => {
+      if (this.poweredOn) {
+        this.nextChannel(true);
+      }
+    }, this.autoPlayInterval);
+  }
+
+  pauseAutoPlay() {
+    if (this.autoPlayTimer) {
+      clearInterval(this.autoPlayTimer);
+      this.autoPlayTimer = null;
+    }
+  }
+
+  resumeAutoPlay() {
+    if (!this.autoPlayTimer && this.poweredOn) {
+      this.startAutoPlay();
+    }
+  }
+
+  stopAutoPlay() {
+    if (this.autoPlayTimer) {
+      clearInterval(this.autoPlayTimer);
+      this.autoPlayTimer = null;
+    }
+  }
+
+  nextChannel(fromAuto = false) {
     if (!this.poweredOn) return;
     this.currentIndex = (this.currentIndex + 1) % CRT_CHANNELS.length;
     this.knobAngle += 60;
     if (this.knobEl) {
       this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
     }
-    this.renderChannel();
+    this.renderChannel(false);
+    if (!fromAuto) {
+      this.startAutoPlay();
+    }
   }
 
   setChannel(index) {
@@ -750,30 +841,84 @@ class RetroCrtController {
     if (this.knobEl) {
       this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
     }
-    this.renderChannel();
+    this.renderChannel(false);
+    this.startAutoPlay();
   }
 
-  renderChannel() {
-    SoundSystem.playCrtSwitch();
+  renderChannel(isInitial = false) {
+    if (!isInitial) {
+      SoundSystem.playCrtSwitch();
+    }
 
     // Trigger static burst animation
     if (this.tubeEl) {
       this.tubeEl.classList.add('static-burst');
       setTimeout(() => {
-        this.tubeEl.classList.remove('static-burst');
+        if (this.tubeEl) this.tubeEl.classList.remove('static-burst');
       }, 160);
     }
 
     const item = CRT_CHANNELS[this.currentIndex];
-    if (!item) return;
+    if (!item || !this.contentEl) return;
 
-    if (this.badgeEl) this.badgeEl.textContent = item.channel;
-    if (this.taglineEl) this.taglineEl.textContent = `${item.tagline} · ${item.year}`;
-    if (this.titleEl) this.titleEl.textContent = item.title;
-    if (this.snippetEl) this.snippetEl.textContent = item.snippet;
+    if (item.type === 'profile') {
+      this.contentEl.innerHTML = `
+        <div class="crt-profile-slide">
+          <div class="crt-channel-badge">${item.channel}</div>
+          <div class="crt-avatar-wrapper">
+            <img src="${item.avatar}" alt="${item.title}" class="crt-avatar-img">
+            <div class="crt-avatar-scanline"></div>
+            <div class="crt-avatar-corner tl"></div>
+            <div class="crt-avatar-corner tr"></div>
+            <div class="crt-avatar-corner bl"></div>
+            <div class="crt-avatar-corner br"></div>
+          </div>
+          <div class="crt-profile-details">
+            <div class="crt-tagline">${item.tagline} · ${item.year}</div>
+            <h2 class="crt-profile-title">${item.title}</h2>
+            <p class="crt-profile-desc">${item.snippet}</p>
+            <div class="crt-badge-row">
+              ${item.badges.map(b => `<span class="crt-badge">${b}</span>`).join('')}
+            </div>
+            <button class="crt-action-btn" data-action="explore">
+              <span>${item.actionText}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      this.contentEl.innerHTML = `
+        <div class="crt-project-slide">
+          <div class="crt-channel-badge">${item.channel}</div>
+          <div class="crt-tagline">${item.tagline} · ${item.year}</div>
+          <h2 class="crt-project-title">${item.title}</h2>
+          <p class="crt-project-snippet">${item.snippet}</p>
+          <div class="crt-badge-row">
+            ${item.badges.map(b => `<span class="crt-badge">${b}</span>`).join('')}
+          </div>
+          <button class="crt-action-btn" data-project="${item.projectId}">
+            <span>${item.actionText}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      `;
+    }
 
-    if (this.badgeRowEl) {
-      this.badgeRowEl.innerHTML = item.badges.map(b => `<span class="crt-badge">${b}</span>`).join('');
+    // Attach listener to action button
+    const btn = this.contentEl.querySelector('.crt-action-btn');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const action = btn.dataset.action;
+        const proj = btn.dataset.project;
+        if (action === 'explore') {
+          const journeyEl = document.querySelector('#journey');
+          if (journeyEl) journeyEl.scrollIntoView({ behavior: 'smooth' });
+        } else if (proj && window.openProjectDrawer) {
+          window.openProjectDrawer(proj);
+        }
+      });
     }
   }
 
@@ -787,6 +932,12 @@ class RetroCrtController {
 
     if (this.tubeEl) {
       this.tubeEl.classList.toggle('power-off', !this.poweredOn);
+    }
+
+    if (this.poweredOn) {
+      this.startAutoPlay();
+    } else {
+      this.stopAutoPlay();
     }
   }
 }
@@ -871,38 +1022,91 @@ class SpatialProjectCarousel {
   constructor() {
     this.rotator = document.querySelector('.carousel-rotator');
     this.cards = document.querySelectorAll('.carousel-project-card');
-    this.prevBtn = document.querySelector('.carousel-nav-btn.prev');
-    this.nextBtn = document.querySelector('.carousel-nav-btn.next');
+    this.prevBtn = document.querySelector('#carousel-prev') || document.querySelector('.carousel-nav-btn.prev');
+    this.nextBtn = document.querySelector('#carousel-next') || document.querySelector('.carousel-nav-btn.next');
 
     this.cardCount = this.cards.length;
     this.theta = 360 / Math.max(this.cardCount, 1);
-    this.radius = 420;
+    this.radius = 400;
     this.currentRotation = 0;
 
     this.setupCards();
     this.bindEvents();
+    this.updateCardDepths();
   }
 
   setupCards() {
     this.cards.forEach((card, i) => {
       const angle = i * this.theta;
       card.style.transform = `rotateY(${angle}deg) translateZ(${this.radius}px)`;
-      card.addEventListener('click', () => {
+      card.addEventListener('click', (e) => {
         const projectId = card.dataset.project;
-        window.openProjectDrawer(projectId);
+        if (projectId && window.openProjectDrawer) {
+          window.openProjectDrawer(projectId);
+        }
       });
     });
   }
 
+  updateCardDepths() {
+    const normalizedRot = ((-this.currentRotation % 360) + 360) % 360;
+    const activeIndex = Math.round(normalizedRot / this.theta) % this.cardCount;
+
+    this.cards.forEach((card, i) => {
+      const diff = Math.min(Math.abs(i - activeIndex), this.cardCount - Math.abs(i - activeIndex));
+      if (diff === 0) {
+        card.style.opacity = '1';
+        card.style.pointerEvents = 'auto';
+        card.style.zIndex = '30';
+      } else if (diff === 1) {
+        card.style.opacity = '0.75';
+        card.style.pointerEvents = 'auto';
+        card.style.zIndex = '20';
+      } else {
+        card.style.opacity = '0.35';
+        card.style.pointerEvents = 'none';
+        card.style.zIndex = '10';
+      }
+    });
+  }
+
   bindEvents() {
+    const handlePrev = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      this.rotate(1);
+    };
+
+    const handleNext = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      this.rotate(-1);
+    };
+
     if (this.prevBtn) {
-      this.prevBtn.addEventListener('click', () => this.rotate(1));
+      this.prevBtn.addEventListener('click', handlePrev);
     }
     if (this.nextBtn) {
-      this.nextBtn.addEventListener('click', () => this.rotate(-1));
+      this.nextBtn.addEventListener('click', handleNext);
     }
 
-    // Drag support
+    // Keyboard navigation when user is on the section
+    window.addEventListener('keydown', (e) => {
+      const projSec = document.querySelector('#projects');
+      if (projSec) {
+        const rect = projSec.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          if (e.key === 'ArrowLeft') handlePrev(e);
+          if (e.key === 'ArrowRight') handleNext(e);
+        }
+      }
+    });
+
+    // Mouse drag support
     let isDragging = false;
     let startX = 0;
 
@@ -920,10 +1124,28 @@ class SpatialProjectCarousel {
       window.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         const dx = e.clientX - startX;
-        if (Math.abs(dx) > 40) {
+        if (Math.abs(dx) > 35) {
           this.rotate(dx > 0 ? 1 : -1);
           isDragging = false;
         }
+      });
+
+      // Touch swipe support
+      container.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          startX = e.touches[0].clientX;
+          isDragging = true;
+        }
+      }, { passive: true });
+
+      container.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        const endX = e.changedTouches[0].clientX;
+        const dx = endX - startX;
+        if (Math.abs(dx) > 30) {
+          this.rotate(dx > 0 ? 1 : -1);
+        }
+        isDragging = false;
       });
     }
   }
@@ -934,6 +1156,7 @@ class SpatialProjectCarousel {
     if (this.rotator) {
       this.rotator.style.transform = `rotateY(${this.currentRotation}deg)`;
     }
+    this.updateCardDepths();
   }
 }
 
@@ -1138,15 +1361,20 @@ document.addEventListener('DOMContentLoaded', () => {
   if (soundBtn) {
     if (localStorage.getItem('mokurdy_sound') === '1') {
       soundBtn.classList.add('active');
-      soundBtn.querySelector('.sound-label').textContent = 'SOUND ON';
+      const lbl = soundBtn.querySelector('.sound-label');
+      if (lbl) lbl.textContent = 'SOUND ON';
       SoundSystem.enabled = true;
     }
 
-    soundBtn.addEventListener('click', () => {
+    const handleSoundToggle = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
       const active = SoundSystem.toggle();
       soundBtn.classList.toggle('active', active);
-      soundBtn.querySelector('.sound-label').textContent = active ? 'SOUND ON' : 'SOUND OFF';
-    });
+      const lbl = soundBtn.querySelector('.sound-label');
+      if (lbl) lbl.textContent = active ? 'SOUND ON' : 'SOUND OFF';
+    };
+
+    soundBtn.addEventListener('click', handleSoundToggle);
   }
 
   // Fullscreen Navigation Drawer
@@ -1154,24 +1382,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const drawer = document.querySelector('.fullscreen-nav-drawer');
   const drawerCloseBtn = document.querySelector('.drawer-close-btn');
 
-  if (menuBtn && drawer) {
-    menuBtn.addEventListener('click', () => {
+  function openDrawer(e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    if (drawer) {
       drawer.classList.add('open');
+      document.body.style.overflow = 'hidden';
       SoundSystem.playBlip(750);
-    });
+    }
+  }
+
+  function closeDrawer(e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    if (drawer) {
+      drawer.classList.remove('open');
+      document.body.style.overflow = 'auto';
+      SoundSystem.playBlip(400);
+    }
+  }
+
+  if (menuBtn && drawer) {
+    menuBtn.addEventListener('click', openDrawer);
   }
 
   if (drawerCloseBtn && drawer) {
-    drawerCloseBtn.addEventListener('click', () => {
-      drawer.classList.remove('open');
-      SoundSystem.playBlip(400);
-    });
+    drawerCloseBtn.addEventListener('click', closeDrawer);
   }
 
   document.querySelectorAll('.drawer-link-item a').forEach(link => {
     link.addEventListener('click', () => {
-      drawer.classList.remove('open');
+      closeDrawer();
     });
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (drawer && drawer.classList.contains('open')) closeDrawer();
+      if (window.closeProjectDrawer) window.closeProjectDrawer();
+    }
   });
 
   // Drawer back button
