@@ -833,7 +833,11 @@ class RetroCrtController {
   }
 
   setGuideStep(step) {
-    this.guideStep = step;
+    this.guideStep = step; // 0 (hidden), 1 (turn on), 2 (change channels), 3 (scroll down)
+
+    if (this.heroScene) {
+      this.heroScene.setAttribute('data-guide-state', String(step));
+    }
 
     if (this.guide1El) {
       this.guide1El.classList.toggle('active', step === 1);
@@ -850,9 +854,6 @@ class RetroCrtController {
     }
     if (this.knobEl) {
       this.knobEl.classList.toggle('guide-pulse', step === 2);
-    }
-    if (this.heroScene) {
-      this.heroScene.classList.toggle('step-3-active', step === 3);
     }
   }
 
@@ -894,9 +895,12 @@ class RetroCrtController {
     }
     this.renderChannel(false);
 
-    // 3. When user finishes channels and gets to CH 00, show Arrow 3 on the left side
+    // 3. When user finishes channels and gets to CH 00, show Arrow 3 on the far left side
     if (this.currentIndex === 0) {
       this.setGuideStep(3);
+    } else if (this.guideStep === 3) {
+      // If user rotates past CH 00 back to another channel, hide Guide 3
+      this.setGuideStep(0);
     }
 
     if (!fromAuto) {
@@ -914,6 +918,8 @@ class RetroCrtController {
     this.renderChannel(false);
     if (this.currentIndex === 0) {
       this.setGuideStep(3);
+    } else {
+      this.setGuideStep(0);
     }
     this.startAutoPlay();
   }
@@ -937,7 +943,7 @@ class RetroCrtController {
     if (item.type === 'profile') {
       this.contentEl.innerHTML = `
         <div class="crt-profile-slide">
-          <div class="crt-channel-badge">${item.channel}</div>
+          <div class="crt-channel-badge"><span class="crt-live-dot"></span>${item.channel} · SHOWREEL</div>
           <div class="crt-avatar-wrapper">
             <img src="${item.avatar}" alt="${item.title}" class="crt-avatar-img">
             <div class="crt-avatar-scanline"></div>
@@ -963,7 +969,7 @@ class RetroCrtController {
     } else {
       this.contentEl.innerHTML = `
         <div class="crt-project-slide">
-          <div class="crt-channel-badge">${item.channel}</div>
+          <div class="crt-channel-badge"><span class="crt-live-dot"></span>${item.channel}</div>
           <div class="crt-tagline">${item.tagline} · ${item.year}</div>
           <h2 class="crt-project-title">${item.title}</h2>
           <p class="crt-project-snippet">${item.snippet}</p>
@@ -1008,22 +1014,18 @@ class RetroCrtController {
     }
 
     if (this.poweredOn) {
-      // 2. When turned on, TV must show CH 01 first, then Arrow 2 tells user to change channels
-      if (this.guideStep === 1) {
-        this.currentIndex = 1; // CH 01 (Habakam APK)
-        this.knobAngle = 60;
-        if (this.knobEl) {
-          this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
-        }
-        this.setGuideStep(2);
+      // 2. When turned on, TV must show CH 01 first, then Guide 2 tells user to change channels
+      this.currentIndex = 1; // CH 01 (Habakam APK)
+      this.knobAngle = 60;
+      if (this.knobEl) {
+        this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
       }
+      this.setGuideStep(2);
       this.renderChannel(false);
       this.startAutoPlay();
     } else {
       this.stopAutoPlay();
-      if (this.guideStep !== 3) {
-        this.setGuideStep(1);
-      }
+      this.setGuideStep(1); // Reset cleanly to Step 1 (Turn on TV)
     }
   }
 }

@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Core Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=2.5">
   
   <!-- Three.js & GSAP CDNs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -96,7 +96,7 @@
   <!-- ==========================================================================
        SCENE 1: THE RETRO CRT TV SHOWREEL WORKSPACE (HERO)
        ========================================================================== -->
-  <section class="hero-scene" id="hero">
+  <section class="hero-scene" id="hero" data-guide-state="1">
     
     <!-- Fine White Wireframe Background Desk Line Art -->
     <svg class="desk-wireframe-svg" viewBox="0 0 1200 680" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -176,40 +176,43 @@
     <!-- Centerpiece Retro CRT Television Console -->
     <div class="crt-console-wrapper">
       
-      <!-- Animated Guide Arrow 1: Tell user to turn on TV -->
-      <div class="crt-guide-arrow crt-guide-arrow-1 active" id="crt-guide-1" title="Click to Power On CRT TV">
-        <div class="guide-badge">
-          <span class="guide-pulse-dot"></span>
-          <span class="guide-badge-text">TURN ON TV</span>
+      <!-- Dedicated Guides Overlay (Positioned Absolute: zero flex layout interference) -->
+      <div class="crt-guides-overlay">
+        <!-- Animated Guide Arrow 1: Tell user to turn on TV -->
+        <div class="crt-guide-arrow crt-guide-arrow-1 active" id="crt-guide-1" title="Click to Power On CRT TV">
+          <div class="guide-badge">
+            <span class="guide-pulse-dot"></span>
+            <span class="guide-badge-text">TURN ON TV</span>
+          </div>
+          <svg class="guide-arrow-svg svg-arrow-power" width="34" height="36" viewBox="0 0 34 36" fill="none">
+            <path class="arrow-stroke" d="M 17 32 L 17 8" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
+            <polygon class="arrow-head" points="10,12 17,2 24,12" fill="#00ff66"/>
+          </svg>
         </div>
-        <svg class="guide-arrow-svg svg-arrow-power" width="60" height="45" viewBox="0 0 60 45" fill="none">
-          <path class="arrow-stroke" d="M 52 35 C 50 15, 30 12, 12 12" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
-          <polygon class="arrow-head" points="14,6 2,12 14,18" fill="#00ff66"/>
-        </svg>
-      </div>
 
-      <!-- Animated Guide Arrow 2: Tell user to change channels via UHF knob -->
-      <div class="crt-guide-arrow crt-guide-arrow-2" id="crt-guide-2" title="Click to Change Channels">
-        <div class="guide-badge">
-          <span class="guide-pulse-dot"></span>
-          <span class="guide-badge-text">CHANGE CHANNELS ↺</span>
+        <!-- Animated Guide Arrow 2: Tell user to change channels via UHF knob -->
+        <div class="crt-guide-arrow crt-guide-arrow-2" id="crt-guide-2" title="Click to Change Channels">
+          <div class="guide-badge">
+            <span class="guide-pulse-dot"></span>
+            <span class="guide-badge-text">CHANGE CHANNELS ↺</span>
+          </div>
+          <svg class="guide-arrow-svg svg-arrow-knob" width="60" height="46" viewBox="0 0 60 46" fill="none">
+            <path class="arrow-stroke" d="M 10 10 C 28 8, 44 16, 44 32" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
+            <polygon class="arrow-head" points="37,30 44,42 51,30" fill="#00ff66"/>
+          </svg>
         </div>
-        <svg class="guide-arrow-svg svg-arrow-knob" width="64" height="48" viewBox="0 0 64 48" fill="none">
-          <!-- Curved stroke arching over and pointing down directly into rotary knob -->
-          <path class="arrow-stroke" d="M 12 12 C 32 10, 48 18, 48 34" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
-          <polygon class="arrow-head" points="41,32 48,44 55,32" fill="#00ff66"/>
-        </svg>
       </div>
 
       <!-- CRT Tube Screen (Initially shut down) -->
       <div class="crt-tube-container power-off">
         <div class="crt-scanlines"></div>
+        <div class="crt-glare"></div>
         <div class="crt-vignette"></div>
 
         <div class="crt-screen-content" id="crt-content">
           <!-- Initially prepared with Channel 01 (Habakam APK) when powered on -->
           <div class="crt-project-slide">
-            <div class="crt-channel-badge">CH 01</div>
+            <div class="crt-channel-badge"><span class="crt-live-dot"></span>CH 01</div>
             <div class="crt-tagline">Medication Reminder APK · 2023</div>
             <h2 class="crt-project-title">Habakam APK</h2>
             <p class="crt-project-snippet">Android medication scheduling & healthcare logistics platform. Real-time patient reminder alarms, telematics dispatch & pharmacy integrations.</p>
@@ -250,6 +253,8 @@
         </div>
 
       </div>
+
+      <div class="crt-model-badge">MOKURDY · COLOR CRT MK-77 · 60Hz</div>
 
     </div>
 
@@ -819,7 +824,7 @@
   </section>
 
   <!-- Core Interactive Script -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=2.5"></script>
 
 </body>
 </html>
