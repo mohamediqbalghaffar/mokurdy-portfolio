@@ -153,38 +153,28 @@
     <!-- Centerpiece Retro CRT Television Console -->
     <div class="crt-console-wrapper">
       
-      <!-- CRT Tube Screen -->
-      <div class="crt-tube-container">
+      <!-- CRT Tube Screen (Initially powered off) -->
+      <div class="crt-tube-container power-off">
         <div class="crt-scanlines"></div>
         <div class="crt-vignette"></div>
 
         <div class="crt-screen-content" id="crt-content">
-          <!-- Initially renders Channel 00 (Candidate Showreel Profile) without cuts -->
-          <div class="crt-profile-slide">
-            <div class="crt-channel-badge">LIVE · CH 00</div>
-            <div class="crt-avatar-wrapper">
-              <img src="assets/images/avatar.jpg" alt="Mohammed I. Ghaffar" class="crt-avatar-img">
-              <div class="crt-avatar-scanline"></div>
-              <div class="crt-avatar-corner tl"></div>
-              <div class="crt-avatar-corner tr"></div>
-              <div class="crt-avatar-corner bl"></div>
-              <div class="crt-avatar-corner br"></div>
+          <!-- Initially renders Channel 01 (Habakam APK) when turned on -->
+          <div class="crt-project-slide">
+            <div class="crt-channel-badge">CH 01</div>
+            <div class="crt-tagline">MEDICATION REMINDER APK · 2023</div>
+            <h2 class="crt-project-title">Habakam APK</h2>
+            <p class="crt-project-snippet">Android medication scheduling & healthcare logistics platform. Real-time patient reminder alarms, telematics dispatch & pharmacy integrations.</p>
+            <div class="crt-badge-row">
+              <span class="crt-badge">Android APK</span>
+              <span class="crt-badge">Kotlin</span>
+              <span class="crt-badge">Room DB</span>
+              <span class="crt-badge">WebSockets</span>
             </div>
-            <div class="crt-profile-details">
-              <div class="crt-tagline">SHOWREEL · 2016 – 2026</div>
-              <h2 class="crt-profile-title">Mohammed I. Ghaffar</h2>
-              <p class="crt-profile-desc">AI Deployment Lead & Systems Architect. Hardening autonomous intelligence and enterprise backbones across the Gulf.</p>
-              <div class="crt-badge-row">
-                <span class="crt-badge">Agentic AI</span>
-                <span class="crt-badge">Odoo ERP</span>
-                <span class="crt-badge">Android APK</span>
-                <span class="crt-badge">15+ Systems</span>
-              </div>
-              <button class="crt-action-btn" data-action="explore">
-                <span>Explore Journey ↗</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </button>
-            </div>
+            <button class="crt-action-btn" data-project="habakam">
+              <span>Inspect Architecture</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
           </div>
         </div>
       </div>
@@ -194,8 +184,22 @@
         
         <div class="knob-section">
           <div class="knob-label">UHF CHANNEL</div>
-          <div class="rotary-knob" title="Click to rotate knob & switch channel">
+          <div class="rotary-knob" id="crt-rotary-knob" title="Click to rotate knob & switch channel">
             <div class="knob-marker"></div>
+          </div>
+
+          <!-- Guide 2: Animated Green Arrow pointing to Rotary Knob -->
+          <div class="crt-guide-callout guide-knob-callout" id="guide-knob" title="Click to change channels">
+            <div class="guide-callout-arrow">
+              <svg width="34" height="24" viewBox="0 0 34 24" fill="none">
+                <path d="M30 12 L8 12" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
+                <polygon points="2,12 12,6 12,18" fill="#00ff66"/>
+              </svg>
+            </div>
+            <div class="guide-callout-badge">
+              <span class="guide-dot"></span>
+              <span>CHANGE CHANNELS</span>
+            </div>
           </div>
         </div>
 
@@ -206,13 +210,44 @@
           <div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div>
         </div>
 
-        <div class="power-toggle-btn" title="Toggle CRT Power">
-          <div class="power-switch-led"></div>
+        <div class="power-toggle-btn" id="crt-power-btn" title="Toggle CRT Power">
+          <div class="power-switch-led off" id="crt-power-led"></div>
           <div class="knob-label">POWER</div>
+
+          <!-- Guide 1: Animated Green Arrow pointing to Power Button -->
+          <div class="crt-guide-callout guide-power-callout active" id="guide-power" title="Click to turn on TV">
+            <div class="guide-callout-arrow">
+              <svg width="34" height="24" viewBox="0 0 34 24" fill="none">
+                <path d="M30 12 L8 12" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round"/>
+                <polygon points="2,12 12,6 12,18" fill="#00ff66"/>
+              </svg>
+            </div>
+            <div class="guide-callout-badge">
+              <span class="guide-dot"></span>
+              <span>TURN ON TV</span>
+            </div>
+          </div>
         </div>
 
       </div>
 
+    </div>
+
+    <!-- Guide 3: Left-Side Scroll Down & CTAs Indicator -->
+    <div class="crt-guide-scroll" id="guide-scroll-down" title="Scroll down or click to explore">
+      <div class="guide-scroll-badge">
+        <span class="guide-dot"></span>
+        <div class="guide-scroll-text-col">
+          <span class="guide-scroll-title">SCROLL DOWN TO EXPLORE</span>
+          <span class="guide-scroll-sub">OR SELECT A BUTTON BELOW ↓</span>
+        </div>
+      </div>
+      <div class="guide-scroll-stem">
+        <svg class="guide-down-arrow-svg" width="30" height="120" viewBox="0 0 30 120" fill="none">
+          <line x1="15" y1="0" x2="15" y2="102" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 4" class="dash-flow"/>
+          <polygon points="15,118 7,100 23,100" fill="#00ff66"/>
+        </svg>
+      </div>
     </div>
 
     <!-- Hero Bottom Typographic Statements & CTAs -->

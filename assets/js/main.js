@@ -753,8 +753,9 @@ class DuneTerrainHorizon {
 
 class RetroCrtController {
   constructor() {
-    this.currentIndex = 0;
-    this.poweredOn = true;
+    this.currentIndex = 1; // Start on CH 01 (Habakam APK) when turned on
+    this.poweredOn = false; // Initially shut down
+    this.userInteractedWithKnob = false;
     this.knobAngle = 0;
     this.autoPlayInterval = 5000;
     this.autoPlayTimer = null;
@@ -766,12 +767,36 @@ class RetroCrtController {
     this.powerBtn = document.querySelector('.power-toggle-btn');
     this.powerLed = document.querySelector('.power-switch-led');
 
+    // Onboarding Guide Elements
+    this.guidePower = document.querySelector('#guide-power');
+    this.guideKnob = document.querySelector('#guide-knob');
+    this.guideScroll = document.querySelector('#guide-scroll-down');
+    this.heroActions = document.querySelectorAll('.hero-actions-row a');
+
     this.bindEvents();
+    
+    // Initial state: powered OFF, screen black, power LED off, Guide 1 active
+    if (this.powerLed) this.powerLed.classList.add('off');
+    if (this.tubeEl) this.tubeEl.classList.add('power-off');
     this.renderChannel(true);
-    this.startAutoPlay();
+    this.showGuide('power');
+    this.stopAutoPlay();
+  }
+
+  showGuide(type) {
+    if (this.guidePower) this.guidePower.classList.toggle('active', type === 'power');
+    if (this.guideKnob) this.guideKnob.classList.toggle('active', type === 'knob');
+    if (this.guideScroll) this.guideScroll.classList.toggle('active', type === 'scroll');
+  }
+
+  hideAllGuides() {
+    if (this.guidePower) this.guidePower.classList.remove('active');
+    if (this.guideKnob) this.guideKnob.classList.remove('active');
+    if (this.guideScroll) this.guideScroll.classList.remove('active');
   }
 
   bindEvents() {
+    // Rotary Knob click to advance channel
     if (this.knobEl) {
       this.knobEl.addEventListener('click', (e) => {
         e.preventDefault();
@@ -779,6 +804,15 @@ class RetroCrtController {
       });
     }
 
+    // Guide 2 click to advance channel
+    if (this.guideKnob) {
+      this.guideKnob.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.nextChannel(false);
+      });
+    }
+
+    // Power toggle button click
     if (this.powerBtn) {
       this.powerBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -786,6 +820,41 @@ class RetroCrtController {
       });
     }
 
+    // Guide 1 click to turn on power
+    if (this.guidePower) {
+      this.guidePower.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.togglePower();
+      });
+    }
+
+    // Guide 3 click to scroll down to journey
+    if (this.guideScroll) {
+      this.guideScroll.addEventListener('click', (e) => {
+        e.preventDefault();
+        const journeyEl = document.querySelector('#journey');
+        if (journeyEl) journeyEl.scrollIntoView({ behavior: 'smooth' });
+        this.hideAllGuides();
+      });
+    }
+
+    // Dismiss Guide 3 on scroll down
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80 && this.guideScroll && this.guideScroll.classList.contains('active')) {
+        this.hideAllGuides();
+      }
+    }, { passive: true });
+
+    // Dismiss Guide 3 on clicking either hero button
+    if (this.heroActions) {
+      this.heroActions.forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.hideAllGuides();
+        });
+      });
+    }
+
+    // Hover pauses auto-play
     if (this.wrapperEl) {
       this.wrapperEl.addEventListener('mouseenter', () => this.pauseAutoPlay());
       this.wrapperEl.addEventListener('mouseleave', () => this.resumeAutoPlay());
@@ -809,7 +878,7 @@ class RetroCrtController {
   }
 
   resumeAutoPlay() {
-    if (!this.autoPlayTimer && this.poweredOn) {
+    if (!this.autoPlayTimer && this.poweredOn && this.userInteractedWithKnob) {
       this.startAutoPlay();
     }
   }
@@ -823,14 +892,25 @@ class RetroCrtController {
 
   nextChannel(fromAuto = false) {
     if (!this.poweredOn) return;
+    this.userInteractedWithKnob = true;
     this.currentIndex = (this.currentIndex + 1) % CRT_CHANNELS.length;
     this.knobAngle += 60;
     if (this.knobEl) {
       this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
     }
     this.renderChannel(false);
-    if (!fromAuto) {
-      this.startAutoPlay();
+
+    // Requirement 3: When user finishes channels and gets to CH 00, show Guide 3 on the left side
+    if (this.currentIndex === 0) {
+      this.showGuide('scroll');
+      if (!fromAuto) {
+        this.startAutoPlay();
+      }
+    } else {
+      // While still cycling through channels, keep Guide 2 active
+      if (!this.guideScroll || !this.guideScroll.classList.contains('active')) {
+        this.showGuide('knob');
+      }
     }
   }
 
@@ -842,7 +922,9 @@ class RetroCrtController {
       this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
     }
     this.renderChannel(false);
-    this.startAutoPlay();
+    if (this.currentIndex === 0) {
+      this.showGuide('scroll');
+    }
   }
 
   renderChannel(isInitial = false) {
@@ -915,6 +997,7 @@ class RetroCrtController {
         if (action === 'explore') {
           const journeyEl = document.querySelector('#journey');
           if (journeyEl) journeyEl.scrollIntoView({ behavior: 'smooth' });
+          this.hideAllGuides();
         } else if (proj && window.openProjectDrawer) {
           window.openProjectDrawer(proj);
         }
@@ -935,9 +1018,21 @@ class RetroCrtController {
     }
 
     if (this.poweredOn) {
-      this.startAutoPlay();
+      // Requirement 2: when turned on then TV must show CH 1 first, then another green arrow tells user to change channels by that control
+      if (!this.userInteractedWithKnob) {
+        this.currentIndex = 1; // Explicitly ensure CH 01 is shown
+        this.renderChannel(false);
+        this.showGuide('knob'); // Show Arrow 2 pointing to UHF knob
+      } else {
+        if (this.currentIndex === 0) {
+          this.showGuide('scroll');
+        } else {
+          this.showGuide('knob');
+        }
+      }
     } else {
       this.stopAutoPlay();
+      this.showGuide('power'); // If turned off, show Guide 1 again
     }
   }
 }
