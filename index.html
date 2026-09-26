@@ -1,949 +1,774 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mohammed Iqbal Ghaffar | AI Solutions & Product Lead | Portfolio</title>
-  <meta name="description" content="Portfolio of Mohammed Iqbal Ghaffar - AI Integration & Solutions Architect, Full Stack Zero-Code Developer, Product Lead & Deputy Administrative Manager.">
-  <link rel="icon" type="image/jpeg" href="assets/images/avatar.jpg">
-
-  <!-- Open Graph / Meta -->
-  <meta property="og:type" content="website">
+  <title>Mohammed Iqbal Ghaffar (mokurdy) — 7-Year Journey</title>
+  
+  <!-- SEO & OpenGraph -->
+  <meta name="description" content="Cinematic spatial portfolio of Mohammed Iqbal Ghaffar (mokurdy) — AI Deployment Lead, Systems Architect & Deputy Administrative Manager.">
+  <meta property="og:title" content="Mohammed Iqbal Ghaffar — 7-Year Journey Portfolio">
+  <meta property="og:description" content="Cinematic spatial portfolio inspired by Zajno's 7-Year Journey. Real-time 3D WebGL, Retro CRT showreel, and hyperspace timeline.">
   <meta property="og:url" content="https://mokurdy.vercel.app">
-  <meta property="og:title" content="Mohammed Iqbal Ghaffar | AI Solutions & Product Lead">
-  <meta property="og:description" content="Portfolio of Mohammed Iqbal Ghaffar - AI Integration, Full Stack Prototyping, Odoo ERP & Multilingual Enterprise Solutions.">
-  <meta property="og:image" content="assets/images/avatar.jpg">
-
-  <!-- Fonts & Icons -->
+  <meta property="og:type" content="website">
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Stylesheet -->
+  <!-- Core Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- Three.js & GSAP CDNs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <header class="navbar">
-    <div class="container nav-container">
-      <a href="#hero" class="nav-brand">
-        <div class="brand-logo">MI</div>
-        <div class="brand-title">
-          <span class="brand-name">Mohammed Iqbal</span>
-          <span class="brand-status">Open to Riyadh / GCC</span>
-        </div>
+  <!-- Custom Fluid Magnetic Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-follower"></div>
+
+  <!-- Fixed 3-Point Floating Navigation Bar -->
+  <nav class="site-nav">
+    <div class="nav-left">
+      <a href="#contact" class="contact-btn">
+        <span>Contact Me</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
-
-      <ul class="nav-links">
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#projects" class="nav-link">Projects</a></li>
-        <li><a href="#experience" class="nav-link">Experience</a></li>
-        <li><a href="#certifications" class="nav-link">Certifications</a></li>
-        <li><a href="#skills" class="nav-link">Skills</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme">
-          <i class="ri-sun-line"></i>
-        </button>
-        <a href="assets/Mohammed_Iqbal_CV.pdf" target="_blank" class="btn btn-secondary" download>
-          <i class="ri-download-2-line"></i> Resume
-        </a>
-        <a href="#contact" class="btn btn-primary">
-          <i class="ri-mail-send-line"></i> Contact
-        </a>
-        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Menu">
-          <i class="ri-menu-4-line"></i>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section id="hero" class="hero-section">
-    <div class="container hero-grid">
-      <div class="hero-text-content">
-        <div class="hero-badge-pill">
-          <i class="ri-sparkling-fill" style="color: var(--accent-secondary);"></i>
-          <span>AI Solutions • Product Lead • ERP Systems</span>
-        </div>
-        <h1 class="hero-title">
-          Architecting <span class="highlight-text">Autonomous AI</span> & Scalable Enterprise Workflows.
-        </h1>
-        <div class="hero-subtitle">
-          <span id="typewriter" class="typewriter"></span>
-        </div>
-        <p class="hero-desc">
-          I bridge business vision, user problem discovery, and rapid engineering delivery—specializing in agentic AI workflows, Odoo ERP administration, and multilingual Arabic-first solutions across Saudi Arabia and the GCC.
-        </p>
-        <div class="hero-actions">
-          <a href="#projects" class="btn btn-primary">
-            <i class="ri-folder-open-line"></i> Explore Shipped Projects
-          </a>
-          <a href="#certifications" class="btn btn-secondary">
-            <i class="ri-award-line"></i> View 10+ Certifications
-          </a>
-        </div>
-        <div class="hero-socials">
-          <a href="https://www.linkedin.com/in/mokurdy" target="_blank" class="social-icon-btn" title="LinkedIn">
-            <i class="ri-linkedin-fill"></i>
-          </a>
-          <a href="https://github.com/mohamediqbalghaffar" target="_blank" class="social-icon-btn" title="GitHub">
-            <i class="ri-github-fill"></i>
-          </a>
-          <a href="https://wa.me/9647503424545" target="_blank" class="social-icon-btn" title="WhatsApp Direct">
-            <i class="ri-whatsapp-line"></i>
-          </a>
-          <a href="mailto:moham.iqbal99@gmail.com" class="social-icon-btn" title="Email Me">
-            <i class="ri-mail-line"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Hero Visual Card -->
-      <div class="hero-visual">
-        <div class="avatar-wrapper">
-          <img src="assets/images/avatar.jpg" alt="Mohammed Iqbal Ghaffar" class="avatar-img">
-        </div>
-        <div class="floating-pill pill-1">
-          <div class="pill-icon" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">
-            <i class="ri-robot-2-line"></i>
-          </div>
-          <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Specialty</div>
-            <div style="font-size: 0.85rem; color: var(--text-primary); font-weight: 700;">Agentic AI Systems</div>
-          </div>
-        </div>
-        <div class="floating-pill pill-2">
-          <div class="pill-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">
-            <i class="ri-checkbox-circle-line"></i>
-          </div>
-          <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Execution</div>
-            <div style="font-size: 0.85rem; color: var(--text-primary); font-weight: 700;">83% SLA Rate</div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Quick Stats Banner -->
-    <div class="stats-banner">
-      <div class="container stats-grid">
-        <div class="stat-item">
-          <div class="stat-number">4<span>+</span></div>
-          <div class="stat-label">Years Experience</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">5<span>+</span></div>
-          <div class="stat-label">Business Units Digitized</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">83<span>%</span></div>
-          <div class="stat-label">SLA Compliance Rate</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">50<span>%+</span></div>
-          <div class="stat-label">Workflow Cycle Reduction</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">10<span>+</span></div>
-          <div class="stat-label">Verified Certifications</div>
-        </div>
-      </div>
+    <div class="nav-center">
+      <a href="#hero" class="brand-logo">
+        <span class="brand-dot"></span>
+        <span>mokurdy</span>
+      </a>
     </div>
-  </section>
 
-  <!-- About Section -->
-  <section id="about" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">About Mohammed Iqbal</span>
-        <h2 class="section-title">Bridging Product Strategy, Hands-on AI & Enterprise Execution</h2>
-        <p class="section-desc">
-          Passionate product builder with a background in structural linguistics and English pedagogy, uniquely positioning me to engineer high-precision LLM prompts, design intuitive Arabic-first UX, and align cross-functional technical teams.
-        </p>
-      </div>
-
-      <div class="about-grid">
-        <div class="about-card">
-          <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">
-            Who I Am & How I Work
-          </h3>
-          <p class="about-text">
-            Currently serving as <strong>Full Stack Zero Code Developer & Deputy Administrative Manager</strong> at <strong>HTS-HQ</strong> (Halabja Telecom Services & Renewable Energy, part of the Halabja Group of Companies), I orchestrate enterprise digital transformation across multiple business units.
-          </p>
-          <p class="about-text">
-            My methodology combines rigorous customer problem discovery with rapid prototyping using <strong>Google Antigravity, LLM prompt engineering, and modern web/Android architectures</strong>. Rather than writing long theoretical documents, I prototype and test real, interactive solutions that achieve 100% adoption and measurable ROI.
-          </p>
-          
-          <div class="about-pillars">
-            <div class="pillar-box">
-              <div class="pillar-icon"><i class="ri-brain-line"></i></div>
-              <div class="pillar-title">Agentic AI & RAG</div>
-              <div class="pillar-desc">Google Antigravity, multi-agent orchestration, prompt caching, and enterprise document intelligence.</div>
-            </div>
-            <div class="pillar-box">
-              <div class="pillar-icon"><i class="ri-building-line"></i></div>
-              <div class="pillar-title">Enterprise ERP (Odoo)</div>
-              <div class="pillar-desc">Odoo ERP administration, multi-warehouse inventory reconciliation, automated approval workflows.</div>
-            </div>
-            <div class="pillar-box">
-              <div class="pillar-icon"><i class="ri-translate-2"></i></div>
-              <div class="pillar-title">Regional BiDi & RTL</div>
-              <div class="pillar-desc">Trilingual fluency in Arabic, English, Kurdish & Turkish with native Saudi/GCC market alignment.</div>
-            </div>
-            <div class="pillar-box">
-              <div class="pillar-icon"><i class="ri-speed-up-line"></i></div>
-              <div class="pillar-title">Rapid Zero-Code Prototyping</div>
-              <div class="pillar-desc">Full-stack web apps, Android APK deployments, and interactive dashboards delivered at record speed.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Details Column -->
-        <div class="about-info-list">
-          <div class="info-item-row">
-            <span class="info-key">Full Name</span>
-            <span class="info-val">Mohammed Iqbal Ghaffar</span>
-          </div>
-          <div class="info-item-row">
-            <span class="info-key">Current Location</span>
-            <span class="info-val">Sulaimaniyah, Iraq</span>
-          </div>
-          <div class="info-item-row">
-            <span class="info-key">Relocation</span>
-            <span class="info-val" style="color: var(--accent-emerald);">Immediate (Riyadh / Saudi Arabia / GCC)</span>
-          </div>
-          <div class="info-item-row">
-            <span class="info-key">Education</span>
-            <span class="info-val">B.A. in TESL, University of Halabja</span>
-          </div>
-          <div class="info-item-row">
-            <span class="info-key">Languages</span>
-            <span class="info-val">Arabic, English, Kurdish, Turkish</span>
-          </div>
-          <div class="info-item-row">
-            <span class="info-key">Driver's License</span>
-            <span class="info-val">International Iraqi Private License</span>
-          </div>
-          <div class="info-item-row">
-            <span class="info-key">Availability</span>
-            <span class="info-val" style="color: var(--accent-secondary);">Immediate / 2 Weeks Notice</span>
-          </div>
-          <div class="info-item-row">
-            <span class="info-key">Target Roles</span>
-            <span class="info-val">AI Deployment Lead • Product Lead</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects Showcase Section -->
-  <section id="projects" class="section" style="background: var(--bg-secondary);">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Portfolio & Shipped Work</span>
-        <h2 class="section-title">Real Deployments, Quantifiable Impact</h2>
-        <p class="section-desc">
-          A showcase of custom AI solutions, mobile applications, enterprise ERP modules, and interactive dashboards deployed to production.
-        </p>
-      </div>
-
-      <!-- Filter Buttons -->
-      <div class="filter-tabs">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="ai">AI & Agentic Systems</button>
-        <button class="filter-btn" data-filter="erp">Enterprise & ERP</button>
-        <button class="filter-btn" data-filter="app">Mobile & Web Apps</button>
-      </div>
-
-      <div class="projects-grid">
-        
-        <!-- Project 1: Approval & SLA Tracking Dashboard -->
-        <div class="project-card" data-category="erp app">
-          <div class="project-media">
-            <img src="assets/images/mock_form_filled.png" alt="HTS Approval & SLA Dashboard">
-            <span class="project-badge-tag">Web App</span>
-          </div>
-          <div class="project-body">
-            <span class="project-company">HTS-HQ • Halabja Group</span>
-            <h3 class="project-name">Approval & SLA Tracking Dashboard</h3>
-            <p class="project-snippet">
-              Centralized operational platform tracking internal requests, administrative approvals, and SLA response times across 5+ business units.
-            </p>
-            <div class="project-impact">
-              <i class="ri-arrow-up-circle-fill"></i> Achieved 83% SLA compliance across departments.
-            </div>
-            <div class="project-tags">
-              <span class="tech-tag">HTML5/JS</span>
-              <span class="tech-tag">Odoo API</span>
-              <span class="tech-tag">Analytics</span>
-              <span class="tech-tag">SLA Tracking</span>
-            </div>
-            <div class="project-footer">
-              <button class="project-link-btn" data-project-modal>
-                View Case Study <i class="ri-arrow-right-line"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 2: Habakam Medication Reminder APK -->
-        <div class="project-card" data-category="app">
-          <div class="project-media">
-            <img src="assets/images/habakam_icon.png" alt="Habakam Android App" style="object-fit: contain; padding: 1.5rem; background: #1a2234;">
-            <span class="project-badge-tag">Android APK & PWA</span>
-          </div>
-          <div class="project-body">
-            <span class="project-company">Healthcare & Mobile</span>
-            <h3 class="project-name">Habakam ("My Pill") Reminder</h3>
-            <p class="project-snippet">
-              Real-time personal medication tracking Android application featuring interactive notifications, voice-over alerts, and visual medicine identification.
-            </p>
-            <div class="project-impact">
-              <i class="ri-arrow-up-circle-fill"></i> Slashed missed dosage rates with 100% adherence logs.
-            </div>
-            <div class="project-tags">
-              <span class="tech-tag">Android Kotlin</span>
-              <span class="tech-tag">PWA</span>
-              <span class="tech-tag">Local Storage</span>
-              <span class="tech-tag">Audio Alerts</span>
-            </div>
-            <div class="project-footer">
-              <button class="project-link-btn" data-project-modal>
-                View Case Study <i class="ri-arrow-right-line"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3: Autonomous AI Job Hunter Engine -->
-        <div class="project-card" data-category="ai app">
-          <div class="project-media">
-            <img src="assets/images/mock_submission_confirmed.png" alt="AI Job Hunter Engine">
-            <span class="project-badge-tag">Agentic AI Platform</span>
-          </div>
-          <div class="project-body">
-            <span class="project-company">Autonomous AI Tools</span>
-            <h3 class="project-name">Autonomous AI Job Hunter Engine</h3>
-            <p class="project-snippet">
-              Full-stack agentic job aggregation and candidate evaluation engine designed for the Saudi Arabian AI and tech market with 1-click tailored single-page PDF generation.
-            </p>
-            <div class="project-impact">
-              <i class="ri-arrow-up-circle-fill"></i> Sub-second candidate scoring & headless Chrome PDF compiler.
-            </div>
-            <div class="project-tags">
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">WebSockets</span>
-              <span class="tech-tag">Headless Chrome</span>
-              <span class="tech-tag">FastAPI</span>
-            </div>
-            <div class="project-footer">
-              <button class="project-link-btn" data-project-modal>
-                View Case Study <i class="ri-arrow-right-line"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 4: Bed Art Group CRM & Inventory Engine -->
-        <div class="project-card" data-category="erp">
-          <div class="project-media">
-            <img src="assets/images/project_rag_flow.png" alt="Bed Art Group CRM & Inventory Engine">
-            <span class="project-badge-tag">Odoo ERP Architecture</span>
-          </div>
-          <div class="project-body">
-            <span class="project-company">Bed Art Group • Commerce</span>
-            <h3 class="project-name">Asset & Inventory Tracking Module</h3>
-            <p class="project-snippet">
-              Multi-channel retail and central warehouse inventory reconciliation system bridging POS registers, barcode auditing, and Odoo ERP.
-            </p>
-            <div class="project-impact">
-              <i class="ri-arrow-up-circle-fill"></i> Cut monthly closing cycle times by 35% with zero discrepancies.
-            </div>
-            <div class="project-tags">
-              <span class="tech-tag">Odoo ERP</span>
-              <span class="tech-tag">Inventory</span>
-              <span class="tech-tag">POS Systems</span>
-              <span class="tech-tag">Data Audit</span>
-            </div>
-            <div class="project-footer">
-              <button class="project-link-btn" data-project-modal>
-                View Case Study <i class="ri-arrow-right-line"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 5: Enterprise RAG Systems Architecture -->
-        <div class="project-card" data-category="ai">
-          <div class="project-media">
-            <img src="assets/images/project_rag_architecture.png" alt="Enterprise RAG Architecture">
-            <span class="project-badge-tag">Research & Architecture</span>
-          </div>
-          <div class="project-body">
-            <span class="project-company">Enterprise AI Architecture</span>
-            <h3 class="project-name">Enterprise Dual-Track RAG Systems</h3>
-            <p class="project-snippet">
-              Comprehensive architectural blueprint and technical research on dual-track retrieval-augmented generation, vector search re-ranking, and RBAC governance.
-            </p>
-            <div class="project-impact">
-              <i class="ri-arrow-up-circle-fill"></i> Enterprise-grade AI governance with sub-200ms latency.
-            </div>
-            <div class="project-tags">
-              <span class="tech-tag">Google Antigravity</span>
-              <span class="tech-tag">Vector DB</span>
-              <span class="tech-tag">RAG</span>
-              <span class="tech-tag">LLMs</span>
-            </div>
-            <div class="project-footer">
-              <button class="project-link-btn" data-project-modal>
-                View Case Study <i class="ri-arrow-right-line"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 6: Arabic Merchant & Staff Operational Portal -->
-        <div class="project-card" data-category="app erp">
-          <div class="project-media">
-            <img src="assets/images/mock_form_filled.png" alt="Arabic Merchant Portal">
-            <span class="project-badge-tag">Zero-Code Portal</span>
-          </div>
-          <div class="project-body">
-            <span class="project-company">HTS-HQ Operations</span>
-            <h3 class="project-name">Arabic Merchant & Staff Portal</h3>
-            <p class="project-snippet">
-              Zero-code mobile and web workflow engine automating employee leave requests, equipment procurement, and multi-tier executive dispatch.
-            </p>
-            <div class="project-impact">
-              <i class="ri-arrow-up-circle-fill"></i> Slashed request turnaround by over 50%.
-            </div>
-            <div class="project-tags">
-              <span class="tech-tag">Firebase Studio</span>
-              <span class="tech-tag">BiDi RTL</span>
-              <span class="tech-tag">Zero-Code</span>
-              <span class="tech-tag">Workflow</span>
-            </div>
-            <div class="project-footer">
-              <button class="project-link-btn" data-project-modal>
-                View Case Study <i class="ri-arrow-right-line"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Work Experience Section -->
-  <section id="experience" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Career History</span>
-        <h2 class="section-title">Professional Experience</h2>
-        <p class="section-desc">
-          Demonstrated progression across product leadership, enterprise digital transformation, commercial operations, and international NGO research.
-        </p>
-      </div>
-
-      <div class="timeline-wrapper">
-
-        <!-- Role 1: HTS-HQ -->
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
-              <div>
-                <h3 class="timeline-role">Full Stack Zero Code Developer & Deputy Admin Manager</h3>
-                <div class="timeline-company">HTS-HQ (Halabja Telecom Services & Renewable Energy – Halabja Group)</div>
-              </div>
-              <span class="timeline-date-badge">Nov 2024 – Present</span>
-            </div>
-            <ul class="timeline-bullets">
-              <li>Spearhead end-to-end product direction, roadmapping, and feature definition for internal operational platforms, slashing request turnaround by <strong>over 50%</strong>.</li>
-              <li>Leverage agentic AI (<strong>Google Antigravity</strong>, Firebase Studio, LLM prompt engineering) to author specifications, build interactive prototypes, and ship functional web & native Android APKs.</li>
-              <li>Partner closely with Engineering to take user pain points through acceptance criteria testing to <strong>100% adoption</strong> across 5+ business units.</li>
-              <li>Administer enterprise <strong>Odoo ERP</strong> operational modules, overseeing continuous workflow optimization, data architecture accuracy, and multi-departmental audit compliance.</li>
-              <li>Engineer dynamic HTML analytics dashboards and quantitative Excel models to measure adoption metrics and maintain an <strong>83% SLA compliance rate</strong>.</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Role 2: Bed Art Group -->
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
-              <div>
-                <h3 class="timeline-role">Commerce Operations & Inventory Specialist</h3>
-                <div class="timeline-company">Bed Art Group (Retail & Multi-Channel Commerce)</div>
-              </div>
-              <span class="timeline-date-badge">Nov 2021 – Oct 2024 (3 Years)</span>
-            </div>
-            <ul class="timeline-bullets">
-              <li>Discovered merchant and retail friction points across points of sale (POS) and central warehouse inventory, translating customer and supplier bottlenecks into structured workflow specifications.</li>
-              <li>Defined standardized data validation protocols and inventory reconciliation routines, eliminating entry discrepancies and cutting monthly accounting closing cycles by <strong>35%</strong>.</li>
-              <li>Collaborated with cross-functional supply chain, sales, and finance teams to streamline multi-channel order tracking, inventory auditing, and merchant database management.</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Role 3: Islamic Relief Worldwide -->
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
-              <div>
-                <h3 class="timeline-role">User Discovery & Field Research Lead (Survey Enumerator)</h3>
-                <div class="timeline-company">Islamic Relief Worldwide</div>
-              </div>
-              <span class="timeline-date-badge">May 2024 – Oct 2024 (6 Months)</span>
-            </div>
-            <ul class="timeline-bullets">
-              <li>Executed structured field discovery and demographic data gathering across <strong>1,000+ community beneficiaries</strong>, translating qualitative interviews into structured data specifications and actionable insights.</li>
-              <li>Enforced quantitative measurement and data verification protocols, achieving <strong>100% data integrity</strong> adhering to international NGO standards and strict compliance guidelines.</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Role 4: Halabja Glory Organization -->
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
-              <div>
-                <h3 class="timeline-role">Arabic Localization Specialist & Trilingual Liaison</h3>
-                <div class="timeline-company">Halabja Glory Organization (NGO)</div>
-              </div>
-              <span class="timeline-date-badge">Feb 2018 – Oct 2021 (3 Years 9 Months)</span>
-            </div>
-            <ul class="timeline-bullets">
-              <li>Directed trilingual localization (Arabic, English, Kurdish [Hawrami], Turkish) across official legal, administrative, and stakeholder document suites, ensuring regional cultural nuance and terminology accuracy.</li>
-              <li>Facilitated consecutive interpretation and cross-functional alignment during high-stakes donor conferences, NGO partner negotiations, and community leadership assemblies.</li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Certifications & Accreditations (Lightbox Gallery) -->
-  <section id="certifications" class="section" style="background: var(--bg-secondary);">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Verified Credentials</span>
-        <h2 class="section-title">Certifications & Accreditations</h2>
-        <p class="section-desc">
-          Click any credential to inspect the high-resolution certificate scan or official PDF completion document.
-        </p>
-      </div>
-
-      <div class="certs-grid">
-
-        <!-- Cert 1: 51Labs & UNICEF -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="Five One Labs Youth Incubator" 
-             data-cert-issuer="UNICEF & Five One Labs (51LABS)" 
-             data-cert-date="Nov 2020 – Feb 2021" 
-             data-cert-img="assets/certificates/cert_01_entrepreneurship_51labs_unicef.jpg"
-             data-cert-desc="Intensive business development program covering over 100 hours of business training in English, 380 hours of hands-on product development, financial management, pitching, and the creation of a working product prototype.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_01_entrepreneurship_51labs_unicef.jpg" alt="51Labs UNICEF Certificate">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">UNICEF & 51Labs</span>
-            <h4 class="cert-title">Youth Incubator & Entrepreneurship</h4>
-            <div class="cert-meta">
-              <span>Nov 2020 – Feb 2021</span>
-              <span>480 Total Hours</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cert 2: Building Agentic AI Systems -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="Building Agentic AI Systems" 
-             data-cert-issuer="LinkedIn Learning" 
-             data-cert-date="Sep 24, 2026" 
-             data-cert-img="assets/certificates/cert_06_building_agentic_ai_systems.png"
-             data-cert-pdf="assets/certificates/cert_06_building_agentic_ai_systems.pdf"
-             data-cert-desc="Covering AI Agents, AI Software Development, autonomous tool invocation, multi-agent collaboration, and agentic reasoning architectures. Certificate ID: 3945632ba841437f0c9fc1176ead858b7a844e6fc6daa62acc77629f9287cded.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_06_building_agentic_ai_systems.png" alt="Building Agentic AI Systems">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">LinkedIn Learning</span>
-            <h4 class="cert-title">Building Agentic AI Systems</h4>
-            <div class="cert-meta">
-              <span>Sep 2026</span>
-              <span>AI Agents & Dev</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cert 3: Google Antigravity Agentic Workflows -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="The Google Antigravity Agentic Workflow: Plan, Execute, Verify" 
-             data-cert-issuer="LinkedIn Learning" 
-             data-cert-date="Sep 24, 2026" 
-             data-cert-img="assets/certificates/cert_07_google_antigravity_agentic_workflows.png"
-             data-cert-pdf="assets/certificates/cert_07_google_antigravity_agentic_workflows.pdf"
-             data-cert-desc="Specialized certification in Google Antigravity workflows: iterative planning, multi-step subagent execution, and automated verification loops. Certificate ID: f088f59641315e88e04b2e0865acd1cbe29fe58c4d3b0105ce2a625b6f396f75.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_07_google_antigravity_agentic_workflows.png" alt="Google Antigravity Workflows">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">LinkedIn Learning</span>
-            <h4 class="cert-title">Google Antigravity Workflows</h4>
-            <div class="cert-meta">
-              <span>Sep 2026</span>
-              <span>Plan • Execute • Verify</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cert 4: Applied Machine Learning (Supervised Learning) -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="Applied Machine Learning: Supervised Learning" 
-             data-cert-issuer="LinkedIn Learning" 
-             data-cert-date="Sep 25, 2026" 
-             data-cert-img="assets/certificates/cert_08_applied_machine_learning.png"
-             data-cert-pdf="assets/certificates/cert_08_applied_machine_learning.pdf"
-             data-cert-desc="Rigorous machine learning training covering classification, regression algorithms, model validation, and supervised learning pipelines. Certificate ID: c2b253fc5edec674aaa58393f962115b005819afefdb7182f0cf924725254290.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_08_applied_machine_learning.png" alt="Applied Machine Learning">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">LinkedIn Learning</span>
-            <h4 class="cert-title">Applied Machine Learning</h4>
-            <div class="cert-meta">
-              <span>Sep 2026</span>
-              <span>Supervised Learning</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cert 5: Become an AI-Powered People Manager -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="Become an AI-Powered People Manager" 
-             data-cert-issuer="LinkedIn Learning" 
-             data-cert-date="Sep 25, 2026" 
-             data-cert-img="assets/certificates/cert_09_ai_powered_people_manager.png"
-             data-cert-pdf="assets/certificates/cert_09_ai_powered_people_manager.pdf"
-             data-cert-desc="Strategic training on AI for Business, Generative AI for operational leadership, and managing technical teams. Certificate ID: 317c9bd7ae1474f31f04cc072c6bafc4b6e7911cd0c63a7860c92e99fa04db78.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_09_ai_powered_people_manager.png" alt="AI-Powered People Manager">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">LinkedIn Learning</span>
-            <h4 class="cert-title">AI-Powered People Manager</h4>
-            <div class="cert-meta">
-              <span>Sep 2026</span>
-              <span>GenAI Management</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cert 6: Boost Productivity with AI Tools (PMI) -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="How to Boost Your Productivity with AI Tools (2023)" 
-             data-cert-issuer="PMI (Project Management Institute) & LinkedIn" 
-             data-cert-date="Sep 24, 2026" 
-             data-cert-img="assets/certificates/cert_10_productivity_ai_tools_pmi.png"
-             data-cert-pdf="assets/certificates/cert_10_productivity_ai_tools_pmi.pdf"
-             data-cert-desc="PMI Registered Education Provider (Provider #4101, Activity #4101HN5HUZ, 1.00 PDU). Covering AI productivity enhancement and enterprise workflow automation. Certificate ID: 2ad28646e90b48825e1b79b110bdf0b26651183478a958af0154b2b99b35bcc2.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_10_productivity_ai_tools_pmi.png" alt="PMI AI Productivity Certificate">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">PMI • Provider #4101</span>
-            <h4 class="cert-title">Productivity with AI Tools</h4>
-            <div class="cert-meta">
-              <span>Sep 2026</span>
-              <span>1.00 PMI PDU</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cert 7: Turkish Language B1 International Exam -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="International Turkish Language Exam (B1 Level - Orta Seviye)" 
-             data-cert-issuer="Nevlisan Yayınları / TURKCETESTI (Pearson & Edexcel Accredited)" 
-             data-cert-date="May 2017 – London" 
-             data-cert-img="assets/certificates/cert_03_turkish_language_b1_edexcel.jpg"
-             data-cert-desc="Awarded for high performance in the Uluslararası Türkçe Sertifika Sınavı, achieving 82/100 points. Verified multilingual competency in Turkish grammar, listening, speaking, and professional correspondence.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_03_turkish_language_b1_edexcel.jpg" alt="Turkish Language B1 Certificate">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">Pearson / Edexcel Partner</span>
-            <h4 class="cert-title">Türkçe Sertifika (B1 Level)</h4>
-            <div class="cert-meta">
-              <span>May 2017</span>
-              <span>Score: 82 / 100</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cert 8: Young Communicators English Contest Silver Medal -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="Certificate of Excellence – Silver Medal Winner" 
-             data-cert-issuer="Fezalar Educational Institutions & Oxford Quality" 
-             data-cert-date="March 7, 2015" 
-             data-cert-img="assets/certificates/cert_02_english_contest_silver_medal.jpg"
-             data-cert-desc="4th Young Communicators English Contest Silver Medal winner, awarded by Fezalar Educational Institutions in partnership with Oxford University Press (Oxford Quality) and Libra.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_02_english_contest_silver_medal.jpg" alt="Young Communicators Silver Medal">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">Oxford Quality Partner</span>
-            <h4 class="cert-title">Young Communicators Silver Medal</h4>
-            <div class="cert-meta">
-              <span>March 2015</span>
-              <span>Silver Medal</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cert 9: High School Certificate of Excellence -->
-        <div class="cert-card" data-cert-modal 
-             data-cert-title="High School Certificate of Excellence" 
-             data-cert-issuer="United Science Colleges (US Colleges)" 
-             data-cert-date="January 2, 2019" 
-             data-cert-img="assets/certificates/cert_04_high_school_excellence.jpg"
-             data-cert-desc="Awarded for high performance and outstanding academic achievement at Halabjay Shaheed Communal Boys' College during the 2017–2018 academic year.">
-          <div class="cert-thumb">
-            <img src="assets/certificates/cert_04_high_school_excellence.jpg" alt="High School Certificate of Excellence">
-            <div class="cert-overlay"><span><i class="ri-zoom-in-line"></i> View Credential</span></div>
-          </div>
-          <div class="cert-body">
-            <span class="cert-issuer">United Science Colleges</span>
-            <h4 class="cert-title">Academic Certificate of Excellence</h4>
-            <div class="cert-meta">
-              <span>Jan 2019</span>
-              <span>High Academic Honors</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Skills & Competencies Section -->
-  <section id="skills" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Capabilities</span>
-        <h2 class="section-title">Technical Skills & Tooling</h2>
-        <p class="section-desc">
-          Core toolkits spanning agentic AI systems, enterprise ERP, full-stack prototyping, and international localization.
-        </p>
-      </div>
-
-      <div class="skills-container">
-
-        <!-- Category 1 -->
-        <div class="skill-category-card">
-          <div class="skill-category-title">
-            <i class="ri-robot-2-line"></i> Agentic AI & Machine Learning
-          </div>
-          <div class="skill-items-grid">
-            <span class="skill-chip featured">Google Antigravity</span>
-            <span class="skill-chip featured">AI Agent Orchestration</span>
-            <span class="skill-chip featured">Prompt Engineering</span>
-            <span class="skill-chip">Context Caching</span>
-            <span class="skill-chip">Dual-Track RAG</span>
-            <span class="skill-chip">Vector Search</span>
-            <span class="skill-chip">Supervised ML</span>
-            <span class="skill-chip">AI Vibe Coding</span>
-            <span class="skill-chip">Firebase Studio</span>
-          </div>
-        </div>
-
-        <!-- Category 2 -->
-        <div class="skill-category-card">
-          <div class="skill-category-title">
-            <i class="ri-briefcase-4-line"></i> Product Leadership & Strategy
-          </div>
-          <div class="skill-items-grid">
-            <span class="skill-chip featured">Product Vision & Roadmapping</span>
-            <span class="skill-chip featured">Feature Definition (PRDs)</span>
-            <span class="skill-chip">User Acceptance Testing (UAT)</span>
-            <span class="skill-chip">Problem Discovery</span>
-            <span class="skill-chip">Merchant Enablement</span>
-            <span class="skill-chip">Prioritization Tradeoffs</span>
-            <span class="skill-chip">Go-To-Market (GTM)</span>
-            <span class="skill-chip">Cross-Functional Alignment</span>
-          </div>
-        </div>
-
-        <!-- Category 3 -->
-        <div class="skill-category-card">
-          <div class="skill-category-title">
-            <i class="ri-database-2-line"></i> Enterprise ERP & Commerce
-          </div>
-          <div class="skill-items-grid">
-            <span class="skill-chip featured">Odoo ERP Administration</span>
-            <span class="skill-chip featured">Inventory Reconciliation</span>
-            <span class="skill-chip">Retail & POS Systems</span>
-            <span class="skill-chip">SOP Creation</span>
-            <span class="skill-chip">Paperless Digitization</span>
-            <span class="skill-chip">Multi-Channel Warehousing</span>
-            <span class="skill-chip">Approval Routing Workflows</span>
-            <span class="skill-chip">HR & Attendance Modules</span>
-          </div>
-        </div>
-
-        <!-- Category 4 -->
-        <div class="skill-category-card">
-          <div class="skill-category-title">
-            <i class="ri-global-line"></i> Multilingual & Regional Localization
-          </div>
-          <div class="skill-items-grid">
-            <span class="skill-chip featured">Arabic (Professional / GCC-aligned)</span>
-            <span class="skill-chip featured">English (Fluent / TESL Degree)</span>
-            <span class="skill-chip featured">Kurdish (Native Hawrami & Sorani)</span>
-            <span class="skill-chip">Turkish (B1 International Certificate)</span>
-            <span class="skill-chip">Right-to-Left (RTL) / BiDi UX</span>
-            <span class="skill-chip">Linguistic Analysis</span>
-            <span class="skill-chip">Cross-Cultural Negotiation</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="section" style="background: var(--bg-secondary);">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Let's Connect</span>
-        <h2 class="section-title">Get In Touch</h2>
-        <p class="section-desc">
-          Interested in discussing a product leadership role, AI deployment project, or enterprise digitization initiative? Reach out directly.
-        </p>
-      </div>
-
-      <div class="contact-grid">
-        <div class="contact-channels">
-          <a href="https://wa.me/9647503424545" target="_blank" class="contact-item-card">
-            <div class="contact-icon-box" style="color: #25d366;">
-              <i class="ri-whatsapp-line"></i>
-            </div>
-            <div class="contact-info-text">
-              <span class="contact-label">WhatsApp Direct</span>
-              <span class="contact-val">+964 750 342 4545</span>
-            </div>
-          </a>
-
-          <a href="mailto:moham.iqbal99@gmail.com" class="contact-item-card">
-            <div class="contact-icon-box" style="color: #6366f1;">
-              <i class="ri-mail-line"></i>
-            </div>
-            <div class="contact-info-text">
-              <span class="contact-label">Direct Email</span>
-              <span class="contact-val">moham.iqbal99@gmail.com</span>
-            </div>
-          </a>
-
-          <a href="https://www.linkedin.com/in/mokurdy" target="_blank" class="contact-item-card">
-            <div class="contact-icon-box" style="color: #0a66c2;">
-              <i class="ri-linkedin-fill"></i>
-            </div>
-            <div class="contact-info-text">
-              <span class="contact-label">Verified LinkedIn</span>
-              <span class="contact-val">linkedin.com/in/mokurdy</span>
-            </div>
-          </a>
-
-          <a href="https://github.com/mohamediqbalghaffar" target="_blank" class="contact-item-card">
-            <div class="contact-icon-box" style="color: #f8fafc;">
-              <i class="ri-github-fill"></i>
-            </div>
-            <div class="contact-info-text">
-              <span class="contact-label">GitHub Portfolio</span>
-              <span class="contact-val">github.com/mohamediqbalghaffar</span>
-            </div>
-          </a>
-
-          <div class="contact-item-card">
-            <div class="contact-icon-box" style="color: var(--accent-emerald);">
-              <i class="ri-map-pin-line"></i>
-            </div>
-            <div class="contact-info-text">
-              <span class="contact-label">Location & Relocation</span>
-              <span class="contact-val">Sulaimaniyah, Iraq (Open to Riyadh / GCC)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Contact Form -->
-        <div class="contact-form-card">
-          <form id="contact-form">
-            <div class="form-group">
-              <label for="contact-name" class="form-label">Your Name</label>
-              <input type="text" id="contact-name" class="form-control" placeholder="e.g. Abdullah Al-Otaibi" required>
-            </div>
-            <div class="form-group">
-              <label for="contact-email" class="form-label">Your Email</label>
-              <input type="email" id="contact-email" class="form-control" placeholder="name@company.com" required>
-            </div>
-            <div class="form-group">
-              <label for="contact-msg" class="form-label">Your Message</label>
-              <textarea id="contact-msg" class="form-control" placeholder="Write your message, project idea, or opportunity..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem;">
-              <i class="ri-send-plane-fill"></i> Send Message Directly
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <div class="footer-copy">
-        © 2026 Mohammed Iqbal Ghaffar (mokurdy). Built with passion, precision & AI.
-      </div>
-      <ul class="footer-links">
-        <li><a href="#hero">Back to Top</a></li>
-        <li><a href="assets/Mohammed_Iqbal_CV.pdf" target="_blank" download>Download CV</a></li>
-        <li><a href="https://www.linkedin.com/in/mokurdy" target="_blank">LinkedIn</a></li>
-        <li><a href="https://github.com/mohamediqbalghaffar" target="_blank">GitHub</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  <!-- Lightbox / Detail Modal Backdrop -->
-  <div id="modal-backdrop" class="modal-backdrop">
-    <div class="modal-container">
-      <button id="modal-close" class="modal-close-btn" aria-label="Close modal">
-        <i class="ri-close-line"></i>
+    <div class="nav-right">
+      <button class="sound-toggle-btn" aria-label="Toggle Sound Effects">
+        <span class="sound-icon">🔊</span>
+        <span class="sound-label">Sound Off</span>
       </button>
-      <div id="modal-body" class="modal-content"></div>
+
+      <button class="menu-toggle-btn" aria-label="Open Navigation Menu">
+        <span>Menu</span>
+        <div class="menu-bars">
+          <div class="menu-bar"></div>
+          <div class="menu-bar"></div>
+        </div>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Fullscreen Brutalist Navigation Drawer -->
+  <div class="fullscreen-nav-drawer" id="nav-drawer">
+    <div class="drawer-header">
+      <div class="brand-logo">
+        <span class="brand-dot"></span>
+        <span>mokurdy / index</span>
+      </div>
+      <button class="drawer-close-btn" aria-label="Close Menu">Close ✕</button>
+    </div>
+
+    <ul class="drawer-links-list">
+      <li class="drawer-link-item"><a href="#hero"><span class="num">01</span> Workspace Showreel</a></li>
+      <li class="drawer-link-item"><a href="#journey"><span class="num">02</span> 7-Year Warp Timeline</a></li>
+      <li class="drawer-link-item"><a href="#deployments"><span class="num">03</span> 100+ Deployments</a></li>
+      <li class="drawer-link-item"><a href="#projects"><span class="num">04</span> Special Projects 3D</a></li>
+      <li class="drawer-link-item"><a href="#philosophy"><span class="num">05</span> Architectural Philosophy</a></li>
+      <li class="drawer-link-item"><a href="#certifications"><span class="num">06</span> Verified Credentials</a></li>
+      <li class="drawer-link-item"><a href="#contact"><span class="num">07</span> Direct Reach</a></li>
+    </ul>
+
+    <div class="drawer-footer">
+      <div>Sulaimaniyah (KRI) · Riyadh (KSA) · Global</div>
+      <div class="drawer-socials">
+        <a href="https://www.linkedin.com/in/mokurdy" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/mohamediqbalghaffar" target="_blank" rel="noopener">GitHub</a>
+        <a href="assets/Mohammed_Iqbal_CV.pdf" download="Mohammed_Iqbal_CV.pdf">Master CV (PDF)</a>
+      </div>
     </div>
   </div>
 
-  <!-- JavaScript -->
+
+  <!-- ==========================================================================
+       SCENE 1: THE RETRO CRT TV SHOWREEL WORKSPACE (HERO)
+       ========================================================================== -->
+  <section class="hero-scene" id="hero">
+    
+    <!-- Fine White Wireframe Background Desk Line Art -->
+    <svg class="desk-wireframe-svg" viewBox="0 0 1200 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Desk Horizon Line -->
+      <line x1="0" y1="520" x2="1200" y2="520" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+      <line x1="0" y1="524" x2="1200" y2="524" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+      <!-- Studio Audio Monitor (Left) -->
+      <rect x="70" y="240" width="160" height="260" rx="10" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+      <circle cx="150" cy="310" r="30" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+      <circle cx="150" cy="310" r="14" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <circle cx="150" cy="420" r="50" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+      <circle cx="150" cy="420" r="22" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <line x1="150" y1="500" x2="150" y2="520" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+
+      <!-- Pencil Cup with Rulers & Pens -->
+      <path d="M120 520 L130 630 L190 630 L200 520 Z" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+      <line x1="140" y1="520" x2="135" y2="440" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+      <line x1="160" y1="520" x2="160" y2="420" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
+      <line x1="180" y1="520" x2="190" y2="450" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+
+      <!-- Origami Bird (Paper Crane) -->
+      <path d="M220 520 L245 470 L280 500 L240 520 Z M245 470 L260 430 L275 480 Z" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+
+      <!-- Mini Clean Wind Turbine -->
+      <line x1="80" y1="520" x2="80" y2="390" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+      <line x1="80" y1="390" x2="55" y2="355" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+      <line x1="80" y1="390" x2="105" y2="355" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+      <line x1="80" y1="390" x2="80" y2="425" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+
+      <!-- Drumsticks / Precision Pencils across desk -->
+      <line x1="280" y1="550" x2="520" y2="590" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+      <line x1="280" y1="570" x2="510" y2="610" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+
+      <!-- Vinyl Record (Right) -->
+      <ellipse cx="940" cy="560" rx="90" ry="35" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+      <ellipse cx="940" cy="560" rx="60" ry="24" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+      <ellipse cx="940" cy="560" rx="24" ry="10" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+
+      <!-- Plant Leaves & Books -->
+      <rect x="990" y="470" width="120" height="45" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+      <rect x="980" y="445" width="130" height="25" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <path d="M1020 440 C1040 380, 1100 370, 1120 420 C1090 460, 1050 460, 1020 440 Z" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/>
+    </svg>
+
+    <!-- Floating Audio Card with Heart & 4:20 Duration -->
+    <div class="floating-player-card" title="Click to play synthesized audio">
+      <div class="player-label">NOW PLAYING</div>
+      <svg class="player-heart-icon" viewBox="0 0 24 24" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <div class="player-time-tag">4:20</div>
+      <div class="player-label">SPATIAL SYNTH</div>
+    </div>
+
+    <!-- Centerpiece Retro CRT Television Console -->
+    <div class="crt-console-wrapper">
+      
+      <!-- CRT Tube Screen -->
+      <div class="crt-tube-container">
+        <div class="crt-scanlines"></div>
+        <div class="crt-vignette"></div>
+
+        <div class="crt-screen-content">
+          <div class="crt-channel-badge">CH 01</div>
+          <div class="crt-tagline">Logistics Super-App · 2023</div>
+          <h2 class="crt-project-title">Habakam Delivery</h2>
+          <p class="crt-project-snippet">Multi-tenant Android logistics & medication platform with real-time rider telematics and pharmacy inventory routing.</p>
+          <div class="crt-badge-row">
+            <span class="crt-badge">Kotlin</span>
+            <span class="crt-badge">Android SDK</span>
+            <span class="crt-badge">Node.js</span>
+            <span class="crt-badge">WebSockets</span>
+          </div>
+          <button class="crt-action-btn">
+            <span>Inspect Architecture</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- CRT Side Physical Panel with Rotary Knobs & Speaker -->
+      <div class="crt-side-panel">
+        
+        <div class="knob-section">
+          <div class="knob-label">UHF CHANNEL</div>
+          <div class="rotary-knob" title="Click to rotate knob & switch channel">
+            <div class="knob-marker"></div>
+          </div>
+        </div>
+
+        <div class="speaker-grille">
+          <div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div>
+          <div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div>
+          <div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div>
+          <div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div>
+        </div>
+
+        <div class="power-toggle-btn" title="Toggle CRT Power">
+          <div class="power-switch-led"></div>
+          <div class="knob-label">POWER</div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Hero Bottom Typographic Statements & CTAs -->
+    <div class="hero-footer-content">
+      <h1 class="hero-primary-statement">
+        Mohammed Iqbal <span class="editorial-serif">Ghaffar</span>
+      </h1>
+      <p class="hero-subtitle">
+        AI Solutions Architect · Operations Lead · Systems Engineer<br>
+        Translating business complexity into hardened, production-grade autonomous intelligence.
+      </p>
+
+      <div class="hero-actions-row">
+        <a href="#journey" class="pill-btn-white">
+          <span>Explore 7-Year Timeline</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+        <a href="assets/Mohammed_Iqbal_CV.pdf" download="Mohammed_Iqbal_CV.pdf" class="pill-btn-glass">
+          <span>Download Master CV ↓</span>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================================
+       SCENE 2: HYPERSPACE WARP SPEED TIMELINE (2016 -> 2026)
+       ========================================================================== -->
+  <section class="hyperspace-journey-section" id="journey">
+    
+    <!-- Three.js Real-Time 3D Starfield Warp Tunnel -->
+    <canvas id="warp-tunnel-canvas"></canvas>
+
+    <div class="warp-content-container">
+      <div class="warp-tagline">CHRONOLOGY OF INNOVATION · 2016 TO 2026</div>
+      
+      <!-- Monumental Year Display -->
+      <div class="monumental-year-display">2026</div>
+
+      <!-- Floating 3D Milestone Card -->
+      <div class="milestone-3d-card">
+        <div class="milestone-header-row">
+          <div>
+            <h3 class="milestone-role-title">AI Deployment Lead & Solutions Architect</h3>
+            <div class="milestone-company-tag">Enterprise & Global Deployments (Riyadh / Global)</div>
+          </div>
+          <span class="milestone-category-pill">Executive AI Delivery</span>
+        </div>
+
+        <p class="milestone-desc">
+          Bridging executive enterprise requirements with state-of-the-art AI model deployments. Leading multi-million SAR customer deployments, technical trade-offs, and mission-critical SLAs across Saudi Arabia and the Gulf.
+        </p>
+
+        <ul class="milestone-highlights-list">
+          <li>Translating executive requirements into hardened technical specifications</li>
+          <li>Governing enterprise LLM reliability, guardrails, and latency optimization</li>
+          <li>Driving customer-centric AI adoption across enterprise stakeholders</li>
+        </ul>
+      </div>
+
+      <!-- Timeline Year Scrubber Bar -->
+      <div class="timeline-scrubber-bar">
+        <div class="timeline-progress-line"></div>
+        <button class="year-node-btn" data-year="2016">2016</button>
+        <button class="year-node-btn" data-year="2019">2019</button>
+        <button class="year-node-btn" data-year="2021">2021</button>
+        <button class="year-node-btn" data-year="2023">2023</button>
+        <button class="year-node-btn" data-year="2025">2025</button>
+        <button class="year-node-btn active" data-year="2026">2026</button>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================================
+       SCENE 3: "100+ DEPLOYMENTS" MONOLITH & ROSTER
+       ========================================================================== -->
+  <section class="monolith-stats-section" id="deployments">
+    
+    <!-- Three.js 3D Molten Obsidian Sculpture Canvas -->
+    <canvas id="monolith-canvas"></canvas>
+
+    <div class="monolith-layout-grid">
+      
+      <!-- Left Peripheral Skill / Architecture Columns -->
+      <div class="peripheral-column left-col">
+        <div>
+          <div class="peripheral-sublist-title">AI SYSTEMS & MODELS</div>
+          <ul class="peripheral-items-list">
+            <li>Large Language Models (LLMs)</li>
+            <li>Multi-Agent Architectures</li>
+            <li>Retrieval-Augmented Generation</li>
+            <li>Vector DBs (Qdrant, ChromaDB)</li>
+            <li>Prompt Engineering & Evals</li>
+            <li>Whisper Audio Transcriptions</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="peripheral-sublist-title">LANGUAGES & RUNTIMES</div>
+          <ul class="peripheral-items-list">
+            <li>Python 3.12+ (AsyncIO)</li>
+            <li>Kotlin / Android SDK</li>
+            <li>TypeScript / Node.js</li>
+            <li>SQL & PostgreSQL Tuning</li>
+            <li>RESTful APIs & WebSockets</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Center Monolith Massive Typography & Orbital Ring -->
+      <div class="monolith-center-focal">
+        <div class="orbital-ring-container">
+          <div class="orbital-ellipse">
+            <span class="orbital-star">✦</span>
+          </div>
+        </div>
+
+        <div class="monolith-number">100+</div>
+        <div class="monolith-label">DEPLOYMENTS</div>
+        <p class="monolith-caption">
+          Mission-critical retail POS terminals, multi-tenant logistics networks, and enterprise ERP backbones delivered with uncompromising reliability.
+        </p>
+      </div>
+
+      <!-- Right Peripheral Enterprise & Operations Columns -->
+      <div class="peripheral-column right-col">
+        <div>
+          <div class="peripheral-sublist-title">ENTERPRISE & OPERATIONS</div>
+          <ul class="peripheral-items-list">
+            <li>Odoo ERP Custom Workflows</li>
+            <li>Supply Chain & Logistics</li>
+            <li>Multi-Warehouse Accounting</li>
+            <li>High-Throughput Retail POS</li>
+            <li>Offline-First Synchronization</li>
+            <li>Hardware ESC/POS Thermal I/O</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="peripheral-sublist-title">INFRASTRUCTURE & CLOUD</div>
+          <ul class="peripheral-items-list">
+            <li>Docker Containerization</li>
+            <li>Linux Server Administration</li>
+            <li>Nginx & Reverse Proxies</li>
+            <li>CI/CD Deployment Pipelines</li>
+            <li>Zero-Data-Loss Architecture</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================================
+       SCENE 4: "SPECIAL PROJECTS" & 3D CYLINDRICAL CAROUSEL
+       ========================================================================== -->
+  <section class="special-projects-section" id="projects">
+    
+    <div class="special-projects-header">
+      <h2 class="editorial-headline-split">
+        SPECIAL <span class="slash">/</span> <span class="serif-italic">Projects</span>
+      </h2>
+      <p style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">
+        Click any card to inspect full architectural case studies
+      </p>
+    </div>
+
+    <!-- 3D Carousel Stage -->
+    <div class="carousel-stage-container">
+      
+      <!-- Central Morphing Fluid Sphere Canvas -->
+      <canvas id="sphere-canvas"></canvas>
+
+      <div class="carousel-rotator">
+        
+        <!-- Card 1: Habakam -->
+        <div class="carousel-project-card" data-project="habakam">
+          <div class="card-image-wrap">
+            <span class="card-pill-tag">LOGISTICS</span>
+            <img src="assets/images/habakam_icon.png" alt="Habakam App" style="padding: 2.5rem; object-fit: contain; background: #181820;">
+          </div>
+          <div class="card-body-content">
+            <div>
+              <h3 class="card-title">Habakam Super-App</h3>
+              <p class="card-snippet">Android logistics & medication scheduling platform with real-time telematics and pharmacy routing.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>Kotlin · Android SDK</span>
+              <span class="card-view-indicator">View ↗</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: AI Job Hunter -->
+        <div class="carousel-project-card" data-project="job-hunter">
+          <div class="card-image-wrap">
+            <span class="card-pill-tag">AGENTIC AI</span>
+            <img src="assets/images/mock_form_filled.png" alt="AI Job Hunter">
+          </div>
+          <div class="card-body-content">
+            <div>
+              <h3 class="card-title">AI Job Hunter</h3>
+              <p class="card-snippet">Autonomous job hunting system with real-time multi-portal scrapers and truth-enforced CV compiler.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>FastAPI · Headless Chrome</span>
+              <span class="card-view-indicator">View ↗</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Multi-Agent RAG -->
+        <div class="carousel-project-card" data-project="multi-agent-rag">
+          <div class="card-image-wrap">
+            <span class="card-pill-tag">VECTOR AI</span>
+            <img src="assets/images/project_rag_architecture.png" alt="Multi-Agent RAG">
+          </div>
+          <div class="card-body-content">
+            <div>
+              <h3 class="card-title">Multi-Agent RAG</h3>
+              <p class="card-snippet">Enterprise document intelligence with hybrid BM25 + dense semantic retrieval and verification loops.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>LangChain · Qdrant</span>
+              <span class="card-view-indicator">View ↗</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Smart Commerce POS -->
+        <div class="carousel-project-card" data-project="smart-pos">
+          <div class="card-image-wrap">
+            <span class="card-pill-tag">FINTECH POS</span>
+            <img src="assets/images/mock_submission_confirmed.png" alt="Smart POS">
+          </div>
+          <div class="card-body-content">
+            <div>
+              <h3 class="card-title">Smart Commerce POS</h3>
+              <p class="card-snippet">Sub-50ms transaction point-of-sale with offline-first SQLite synchronization and hardware thermal print.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>Electron · SQLite</span>
+              <span class="card-view-indicator">View ↗</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Odoo ERP -->
+        <div class="carousel-project-card" data-project="odoo-erp">
+          <div class="card-image-wrap">
+            <span class="card-pill-tag">ERP SYSTEM</span>
+            <img src="assets/images/project_rag_flow.png" alt="Odoo ERP">
+          </div>
+          <div class="card-body-content">
+            <div>
+              <h3 class="card-title">Odoo ERP Ecosystem</h3>
+              <p class="card-snippet">Enterprise-wide digital transformation for HTS-HQ replacing legacy paperwork with automated ledgers.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>Python · PostgreSQL</span>
+              <span class="card-view-indicator">View ↗</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: Voice AI -->
+        <div class="carousel-project-card" data-project="voice-ai">
+          <div class="card-image-wrap">
+            <span class="card-pill-tag">SPEECH AI</span>
+            <img src="assets/images/avatar.jpg" alt="Voice AI" style="object-position: top;">
+          </div>
+          <div class="card-body-content">
+            <div>
+              <h3 class="card-title">Voice AI Synthesizer</h3>
+              <p class="card-snippet">Low-latency multilingual neural speech engine supporting Kurdish, Arabic, and English voice synthesis.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>PyTorch · Whisper</span>
+              <span class="card-view-indicator">View ↗</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Carousel Controls -->
+    <div class="carousel-nav-controls">
+      <button class="carousel-nav-btn prev" aria-label="Previous Project">←</button>
+      <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.1em;">DRAG OR ARROW</span>
+      <button class="carousel-nav-btn next" aria-label="Next Project">→</button>
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================================
+       SCENE 5: EDITORIAL CASE STUDY DRAWER (FULLSCREEN MODAL)
+       ========================================================================== -->
+  <div class="case-study-drawer" id="case-drawer">
+    <div class="case-drawer-container">
+      
+      <button class="drawer-back-btn" onclick="window.closeProjectDrawer()">
+        ← Back to Projects
+      </button>
+
+      <div class="case-study-hero">
+        <span class="case-pill-badge">LOGISTICS ARCHITECTURE</span>
+        <h2 class="case-study-title">Habakam Delivery & Logistics Super-App</h2>
+        
+        <div class="case-meta-grid">
+          <!-- Filled dynamically via JS -->
+        </div>
+
+        <div class="case-narrative-content">
+          <!-- Filled dynamically via JS -->
+        </div>
+
+        <div class="case-gallery-grid">
+          <!-- Filled dynamically via JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ==========================================================================
+       SCENE 6: DUNE HORIZON & EDITORIAL STATEMENTS
+       ========================================================================== -->
+  <section class="dune-philosophy-section" id="philosophy">
+    
+    <!-- Vertical Starburst Light Beams -->
+    <div class="starburst-beam-origin">
+      <div class="starburst-glimmer-star">✦</div>
+      <div class="starburst-vertical-cone"></div>
+    </div>
+
+    <!-- 3D Dune Terrain Horizon Canvas -->
+    <canvas id="terrain-canvas"></canvas>
+
+    <div class="philosophy-typography-deck">
+      <h2 class="deck-lead-sans">WE'RE AN IDEAL MATCH IF YOU</h2>
+      <span class="deck-lead-serif">Strive for Extraordinary Systems</span>
+      <p class="deck-body-quote">
+        "True engineering excellence isn't just about building functional code—it is the discipline of eliminating ambiguity, enforcing mathematical truth, and constructing platforms that scale under pressure without excuses."
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 1rem;">
+        <a href="#contact" class="pill-btn-white">Initiate Discussion ↗</a>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================================
+       SCENE 7: CERTIFICATIONS VAULT (HOLOGRAPHIC 3D TOKENS)
+       ========================================================================== -->
+  <section class="certifications-section" id="certifications">
+    
+    <div class="cert-section-header">
+      <div class="warp-tagline">VERIFIED ARCHIVES</div>
+      <h2 class="editorial-headline-split">
+        CREDENTIALS <span class="slash">/</span> <span class="serif-italic">Honors</span>
+      </h2>
+      <p style="color: var(--text-secondary); margin-top: 0.8rem; font-size: 0.95rem;">
+        10+ verified certifications spanning Agentic AI, Machine Learning, Entrepreneurship, and Mathematics.
+      </p>
+    </div>
+
+    <div class="cert-grid-layout">
+      
+      <!-- Cert 1: Google Antigravity Agentic AI -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_07_google_antigravity_agentic_workflows.png">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_07_google_antigravity_agentic_workflows.png" alt="Google Antigravity Agentic AI" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">Google Antigravity</div>
+          <h3 class="cert-name">The Google Antigravity Agentic Workflow (Plan · Execute · Verify)</h3>
+          <div class="cert-date-meta">Issued 2025 · Verified Agentic Architecture</div>
+        </div>
+      </div>
+
+      <!-- Cert 2: Building Agentic AI Systems -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_06_building_agentic_ai_systems.png">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_06_building_agentic_ai_systems.png" alt="Building Agentic AI Systems" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">LinkedIn Learning</div>
+          <h3 class="cert-name">Building Agentic AI Systems with Multi-Agent Reasoning</h3>
+          <div class="cert-date-meta">Issued 2025 · Multi-Agent Autonomy</div>
+        </div>
+      </div>
+
+      <!-- Cert 3: Applied Machine Learning -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_08_applied_machine_learning.png">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_08_applied_machine_learning.png" alt="Applied Machine Learning" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">DeepLearning.AI</div>
+          <h3 class="cert-name">Applied Machine Learning: Supervised Learning Models</h3>
+          <div class="cert-date-meta">Issued 2025 · Deep Learning Core</div>
+        </div>
+      </div>
+
+      <!-- Cert 4: AI-Powered People Manager -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_09_ai_powered_people_manager.png">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_09_ai_powered_people_manager.png" alt="AI-Powered People Manager" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">LinkedIn Learning</div>
+          <h3 class="cert-name">Become an AI-Powered People & Engineering Manager</h3>
+          <div class="cert-date-meta">Issued 2025 · Leadership & Operations</div>
+        </div>
+      </div>
+
+      <!-- Cert 5: PMI Productivity AI -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_10_productivity_ai_tools_pmi.png">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_10_productivity_ai_tools_pmi.png" alt="PMI AI Productivity" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">Project Management Institute (PMI)</div>
+          <h3 class="cert-name">Boost Productivity with Generative AI Tools for Projects</h3>
+          <div class="cert-date-meta">Issued 2024 · Enterprise Delivery</div>
+        </div>
+      </div>
+
+      <!-- Cert 6: Five One Labs & UNICEF -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_01_entrepreneurship_51labs_unicef.jpg">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_01_entrepreneurship_51labs_unicef.jpg" alt="Social Entrepreneurship" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">Five One Labs & UNICEF</div>
+          <h3 class="cert-name">Social Entrepreneurship Business Incubation Fellowship</h3>
+          <div class="cert-date-meta">Issued 2019 · Venture Strategy</div>
+        </div>
+      </div>
+
+      <!-- Cert 7: Kangaroo Math Competition -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_05_math_contest_aksf.jpg">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_05_math_contest_aksf.jpg" alt="Math Contest" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">AKSF Kangaroo Math</div>
+          <h3 class="cert-name">International Kangaroo Math Competition Honor Award</h3>
+          <div class="cert-date-meta">Issued 2016 · Mathematical Logic</div>
+        </div>
+      </div>
+
+      <!-- Cert 8: Turkish Language Fluency -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_03_turkish_language_b1_edexcel.jpg">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_03_turkish_language_b1_edexcel.jpg" alt="Turkish Language" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">Edexcel & TÖMER</div>
+          <h3 class="cert-name">Turkish Language Fluency Certification (B1 Intermediate)</h3>
+          <div class="cert-date-meta">Issued 2016 · Multilingual Fluency</div>
+        </div>
+      </div>
+
+      <!-- Cert 9: English Contest Silver Medal -->
+      <div class="cert-token-card" data-highres="assets/certificates/cert_02_english_contest_silver_medal.jpg">
+        <div class="cert-thumbnail-box">
+          <img src="assets/certificates/cert_02_english_contest_silver_medal.jpg" alt="English Medal" loading="lazy">
+          <span class="cert-zoom-pill">Zoom ⊕</span>
+        </div>
+        <div class="cert-body-box">
+          <div class="cert-issuer-tag">Regional Academic Board</div>
+          <h3 class="cert-name">Silver Medalist: English Language Proficiency Contest</h3>
+          <div class="cert-date-meta">Issued 2016 · Professional English</div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Lightbox Zoom Modal -->
+  <div class="lightbox-modal">
+    <div class="lightbox-dialog">
+      <button class="lightbox-close-btn">Close ✕</button>
+      <div class="lightbox-img-wrap">
+        <img src="" alt="Certificate Preview">
+      </div>
+      <div class="lightbox-caption-text"></div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================================
+       SCENE 8: CONTACT TERMINAL & FOOTER
+       ========================================================================== -->
+  <section class="contact-footer-section" id="contact">
+    
+    <div class="contact-card-box">
+      <div class="warp-tagline">INITIATE PARTNERSHIP</div>
+      <h2 class="contact-title-monument">Let's Build Something Extraordinary</h2>
+      <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto; line-height: 1.6;">
+        Available for AI Solutions Leadership, Enterprise Technical Delivery, and Autonomous Agent Architectures in Riyadh, the GCC, and globally.
+      </p>
+
+      <div class="contact-channels-grid">
+        <a href="mailto:moham.iqbal99@gmail.com" class="channel-link-card">
+          <div class="channel-label">Direct Email</div>
+          <div class="channel-val">moham.iqbal99@gmail.com</div>
+        </a>
+
+        <a href="https://www.linkedin.com/in/mokurdy" target="_blank" rel="noopener" class="channel-link-card">
+          <div class="channel-label">LinkedIn Profile</div>
+          <div class="channel-val">linkedin.com/in/mokurdy</div>
+        </a>
+
+        <a href="https://github.com/mohamediqbalghaffar" target="_blank" rel="noopener" class="channel-link-card">
+          <div class="channel-label">GitHub Repos</div>
+          <div class="channel-val">github.com/mohamediqbalghaffar</div>
+        </a>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="mailto:moham.iqbal99@gmail.com?subject=Executive%20Opportunity%20-%20Mohammed%20Iqbal" class="pill-btn-white">
+          <span>Send Direct Message ✉</span>
+        </a>
+        <a href="assets/Mohammed_Iqbal_CV.pdf" download="Mohammed_Iqbal_CV.pdf" class="pill-btn-glass">
+          <span>Download Master CV ↓</span>
+        </a>
+      </div>
+    </div>
+
+    <footer class="site-bottom-footer">
+      <div>
+        © 2026 Mohammed Iqbal Ghaffar (mokurdy). Built with precision, Three.js & Agentic AI.
+      </div>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/mokurdy" target="_blank" rel="noopener">LinkedIn</a>
+        <span style="color: var(--border-medium);">·</span>
+        <a href="https://github.com/mohamediqbalghaffar" target="_blank" rel="noopener">GitHub</a>
+        <span style="color: var(--border-medium);">·</span>
+        <a href="assets/Mohammed_Iqbal_CV.pdf" download="Mohammed_Iqbal_CV.pdf">Master CV</a>
+      </div>
+    </footer>
+
+  </section>
+
+  <!-- Core Interactive Script -->
   <script src="assets/js/main.js"></script>
+
 </body>
 </html>
