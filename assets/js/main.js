@@ -755,7 +755,8 @@ class RetroCrtController {
   constructor() {
     this.currentIndex = 1; // Initially set to CH 01 (Habakam APK) when powered on
     this.poweredOn = false; // Initially shut down
-    this.knobAngle = 60;
+    this.turnCount = 0;
+    this.knobAngle = Math.round(1 * (360 / CRT_CHANNELS.length));
     this.autoPlayInterval = 5000;
     this.autoPlayTimer = null;
     this.guideStep = 1; // 1: Turn on, 2: Change channels, 3: Scroll down
@@ -772,9 +773,13 @@ class RetroCrtController {
     this.guide2El = document.getElementById('crt-guide-2');
     this.guide3El = document.getElementById('crt-guide-3');
 
+    if (this.knobEl) {
+      this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
+    }
+
     this.bindEvents();
     this.renderChannel(true); // Prepare CH 01 content inside screen
-    this.setGuideStep(1); // Step 1: Arrow 1 tells user to turn on TV
+    this.setGuideStep(1); // Step 1: Guide 1 tells user to turn on TV
   }
 
   bindEvents() {
@@ -888,40 +893,50 @@ class RetroCrtController {
 
   nextChannel(fromAuto = false) {
     if (!this.poweredOn) return;
-    this.currentIndex = (this.currentIndex + 1) % CRT_CHANNELS.length;
-    this.knobAngle += 60;
+    const numChannels = CRT_CHANNELS.length;
+    const prevIndex = this.currentIndex;
+    this.currentIndex = (this.currentIndex + 1) % numChannels;
+    if (this.currentIndex === 0 && prevIndex > 0) {
+      this.turnCount++;
+    }
+    const stepAngle = 360 / numChannels;
+    this.knobAngle = Math.round((this.turnCount * 360) + (this.currentIndex * stepAngle));
     if (this.knobEl) {
       this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
     }
     this.renderChannel(false);
 
-    // 3. When user finishes channels and gets to CH 00, show Arrow 3 on the far left side
+    // 3. When user finishes channels and gets to CH 00, show Guide 3 and pause autoplay
     if (this.currentIndex === 0) {
       this.setGuideStep(3);
+      this.stopAutoPlay(); // Pause on CH 00 profile so user can absorb showreel & explore
     } else if (this.guideStep === 3) {
       // If user rotates past CH 00 back to another channel, hide Guide 3
       this.setGuideStep(0);
     }
 
-    if (!fromAuto) {
+    if (!fromAuto && this.currentIndex !== 0) {
       this.startAutoPlay();
     }
   }
 
   setChannel(index) {
     if (!this.poweredOn) return;
-    this.currentIndex = index % CRT_CHANNELS.length;
-    this.knobAngle += 60;
+    const numChannels = CRT_CHANNELS.length;
+    this.currentIndex = index % numChannels;
+    const stepAngle = 360 / numChannels;
+    this.knobAngle = Math.round((this.turnCount * 360) + (this.currentIndex * stepAngle));
     if (this.knobEl) {
       this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
     }
     this.renderChannel(false);
     if (this.currentIndex === 0) {
       this.setGuideStep(3);
+      this.stopAutoPlay();
     } else {
       this.setGuideStep(0);
+      this.startAutoPlay();
     }
-    this.startAutoPlay();
   }
 
   renderChannel(isInitial = false) {
@@ -1014,9 +1029,11 @@ class RetroCrtController {
     }
 
     if (this.poweredOn) {
-      // 2. When turned on, TV must show CH 01 first, then Guide 2 tells user to change channels
+      // 2. When turned on, TV displays CH 01 first, and Guide 2 tells user to change channels
       this.currentIndex = 1; // CH 01 (Habakam APK)
-      this.knobAngle = 60;
+      this.turnCount = 0;
+      const stepAngle = 360 / CRT_CHANNELS.length;
+      this.knobAngle = Math.round(this.currentIndex * stepAngle);
       if (this.knobEl) {
         this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
       }
@@ -1025,6 +1042,11 @@ class RetroCrtController {
       this.startAutoPlay();
     } else {
       this.stopAutoPlay();
+      this.turnCount = 0;
+      this.knobAngle = 0;
+      if (this.knobEl) {
+        this.knobEl.style.transform = 'rotate(0deg)';
+      }
       this.setGuideStep(1); // Reset cleanly to Step 1 (Turn on TV)
     }
   }
