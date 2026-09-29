@@ -1537,6 +1537,16 @@ document.addEventListener('DOMContentLoaded', () => {
     drawerBackBtn.addEventListener('click', () => window.closeProjectDrawer());
   }
 
+  // Dynamic Scroll Backdrop for Site Navigation Bar
+  const siteNav = document.querySelector('.site-nav');
+  if (siteNav) {
+    const handleNavScroll = () => {
+      siteNav.classList.toggle('scrolled', window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleNavScroll, { passive: true });
+    handleNavScroll();
+  }
+
   // Initialize Scenes
   const warpExp = new WarpTunnelExperience('warp-tunnel-canvas');
   new MoltenSculpture('monolith-canvas');
