@@ -25,68 +25,68 @@ const CRT_CHANNELS = [
   {
     channel: "CH 01",
     type: "project",
-    tagline: "Medication Reminder APK",
-    title: "Habakam APK",
-    snippet: "Android medication scheduling & healthcare logistics platform. Real-time patient reminder alarms, telematics dispatch & pharmacy integrations.",
-    badges: ["Android APK", "Kotlin", "Room DB", "WebSockets"],
-    year: "2023",
+    tagline: "Correspondence Tracking & SLA Intelligence",
+    title: "Tracking Approvals",
+    snippet: "Enterprise administrative correspondence monitoring and SLA compliance dashboard with live department comparison, presentation mode, and TV kiosk feeds.",
+    badges: ["Next.js", "TypeScript", "Tailwind CSS", "Recharts"],
+    year: "2024 – 2026",
     actionText: "Inspect Architecture",
-    projectId: "habakam"
+    projectId: "tracking-approvals"
   },
   {
     channel: "CH 02",
     type: "project",
-    tagline: "Autonomous Agentic System",
-    title: "AI Job Hunter",
-    snippet: "Autonomous job hunting system with real-time multi-portal scrapers, match scoring, truth-enforced CV compiler, and live human-in-the-loop dashboard.",
-    badges: ["Python", "FastAPI", "Headless Chrome", "WebSockets"],
-    year: "2025",
+    tagline: "Humanitarian Aid & Beneficiary CRM",
+    title: "Charity NGO Web",
+    snippet: "NGO aid distribution platform with 9-stage beneficiary investigation workflows, interactive Leaflet GIS aid mapping, relief warehouse deductions, and dual-currency ledger (IQD/USD).",
+    badges: ["React 19", "Vite", "Leaflet GIS", "ExcelJS"],
+    year: "2024 – 2026",
     actionText: "Inspect Architecture",
-    projectId: "job-hunter"
+    projectId: "charity-ngo"
   },
   {
     channel: "CH 03",
     type: "project",
-    tagline: "Enterprise Vector AI",
-    title: "Multi-Agent RAG",
-    snippet: "Enterprise retrieval-augmented generation engine with hierarchical vector indices, hybrid BM25 search, and hallucination guardrails.",
-    badges: ["LangChain", "Qdrant", "Python", "LlamaIndex"],
-    year: "2025",
+    tagline: "Commercial CRM & Inventory ERP",
+    title: "CRM & Warehouse ERP",
+    snippet: "Bilingual Kurdish/English retail CRM and warehouse inventory platform with multi-branch stock transfers, automated COGS & break-even analytics, and thermal POS receipt printing.",
+    badges: ["Next.js 15", "React 19", "Tailwind RTL", "Recharts"],
+    year: "2024 – 2026",
     actionText: "Inspect Architecture",
-    projectId: "multi-agent-rag"
+    projectId: "crm-erp"
   },
   {
     channel: "CH 04",
     type: "project",
-    tagline: "Retail Infrastructure",
-    title: "Smart Commerce POS",
-    snippet: "High-throughput retail POS terminal engineered for sub-50ms transaction latency, offline-first SQLite sync, and barcode hardware integration.",
-    badges: ["TypeScript", "Electron", "SQLite", "Tailwind"],
-    year: "2022",
+    tagline: "Elder-Friendly Kurdish Medication Reminder",
+    title: "Habakam Android APK",
+    snippet: "Native Android medication scheduling application in Sorani Kurdish. Spoken Kurdish voice alarms, pill photo identification, and offline-first Room DB.",
+    badges: ["Android APK", "Kotlin", "Jetpack Compose", "Room DB"],
+    year: "2023 – 2026",
     actionText: "Inspect Architecture",
-    projectId: "smart-pos"
+    projectId: "habakam"
   },
   {
     channel: "CH 05",
     type: "project",
-    tagline: "Enterprise Transformation",
-    title: "Odoo ERP Ecosystem",
-    snippet: "Full-scale Odoo ERP deployment for HTS-HQ. Custom accounting, automated supply chain workflows, and multi-warehouse synchronization.",
-    badges: ["Odoo ERP", "Python", "PostgreSQL", "XML-RPC"],
-    year: "2021",
+    tagline: "Retail POS & Multi-Branch Inventory",
+    title: "BedArt Group Enterprise",
+    snippet: "High-throughput retail point-of-sale and enterprise management deployment for multi-branch furniture and bedding operations with real-time stock allocation.",
+    badges: ["Next.js", "React", "Tailwind CSS", "Enterprise ERP"],
+    year: "2024 – 2026",
     actionText: "Inspect Architecture",
-    projectId: "odoo-erp"
+    projectId: "bedart-management"
   },
   {
     channel: "CH 06",
     type: "project",
-    tagline: "Speech & Audio AI",
-    title: "Voice AI Synthesizer",
-    snippet: "Low-latency multilingual speech synthesis pipeline supporting Kurdish, Arabic, and English with custom voice cloning and Whisper transcription.",
-    badges: ["PyTorch", "Whisper", "FastAPI", "TTS"],
-    year: "2024",
+    tagline: "Enterprise RAG & Neural Networks",
+    title: "HTS AI Academy",
+    snippet: "Enterprise retrieval-augmented generation (RAG) platform, multi-agent evaluation workflows, and advanced neural network curriculum portal for executive engineering teams.",
+    badges: ["Enterprise RAG", "Multi-Agent AI", "Vector Search", "Python"],
+    year: "2024 – 2026",
     actionText: "Inspect Architecture",
-    projectId: "voice-ai"
+    projectId: "hts-ai-academy"
   }
 ];
 
@@ -166,120 +166,143 @@ const TIMELINE_MILESTONES = {
 };
 
 const PROJECT_CASE_STUDIES = {
+  "tracking-approvals": {
+    title: "Tracking Approvals — Correspondence Monitoring & SLA Intelligence",
+    pill: "GOVERNMENT & CORPORATE WORKFLOWS",
+    meta: {
+      client: "Governmental & Corporate Administration",
+      role: "Lead Systems Architect & Frontend Engineer",
+      duration: "2024 – 2026",
+      stack: "Next.js App Router, TypeScript, Tailwind CSS, Recharts, date-fns",
+      liveUrl: "https://trackingapprovals.vercel.app",
+      liveDomain: "trackingapprovals.vercel.app"
+    },
+    narrative: `
+      <p>Tracking Approvals is an enterprise correspondence intelligence system designed for corporate headquarters and public sector bodies. It monitors incoming, outgoing, and received official letters with strict Service Level Agreement (SLA) turnaround tracking.</p>
+      <h3>SLA Compliance Intelligence</h3>
+      <p>The platform automatically computes response turnaround deadlines, categorizing correspondence into <em>Within SLA</em>, <em>Approaching Deadline</em>, and <em>Overdue</em>. Dynamic countdown timers alert administrative officers to impending bottlenecks before deadlines lapse.</p>
+      <h3>Boardroom Presentation & TV Kiosk Modes</h3>
+      <p>Built-in display modes include an executive high-contrast projector presentation mode for ministerial meetings and an auto-updating TV kiosk mode for office lobby statistics, featuring live department workload comparisons and Excel tracking dossier exports.</p>
+    `,
+    gallery: [
+      "assets/images/projects/tracking_dashboard.png",
+      "assets/images/projects/tracking_analytics.png"
+    ]
+  },
+  "charity-ngo": {
+    title: "Charity NGO Web — Humanitarian Aid Tracking & Beneficiary CRM",
+    pill: "HUMANITARIAN LOGISTICS & GIS",
+    meta: {
+      client: "Humanitarian Foundations & Regional NGOs",
+      role: "Full Stack Engineer & GIS Architect",
+      duration: "2024 – 2026",
+      stack: "React 19, Vite, TypeScript, Tailwind CSS RTL, Leaflet GIS, ExcelJS",
+      liveUrl: "https://charityngoweb.vercel.app",
+      liveDomain: "charityngoweb.vercel.app"
+    },
+    narrative: `
+      <p>A comprehensive humanitarian aid management, beneficiary dossier tracking, and relief logistics platform built specifically for non-governmental organizations operating across the Kurdistan Region.</p>
+      <h3>9-Stage Investigation & Confidential Masking</h3>
+      <p>Features 9 granular investigation statuses from initial intake to field verification and urgent emergency aid. Sensitive beneficiary identities are shielded with role-based confidential masking to protect dignity and privacy.</p>
+      <h3>Interactive Leaflet GIS Mapping & Relief Inventory</h3>
+      <p>Integrates an interactive regional map displaying beneficiary density and relief dispatch points across Sulaymaniyah, Erbil, Duhok, and Halabja, with automated inventory deductions for food baskets, heating fuel, and medical relief supplies.</p>
+    `,
+    gallery: [
+      "assets/images/projects/charity_dashboard.png",
+      "assets/images/projects/charity_gis_map.png"
+    ]
+  },
+  "crm-erp": {
+    title: "CRM & Warehouse ERP — Commercial Retail & Stock Management",
+    pill: "RETAIL ERP & INVENTORY MANAGEMENT",
+    meta: {
+      client: "Bedding & Furniture Commercial Retailers",
+      role: "Lead Systems Architect & Full Stack Engineer",
+      duration: "2024 – 2026",
+      stack: "Next.js 15, React 19, TypeScript, Tailwind RTL, Recharts, SheetJS",
+      liveUrl: "https://crmwebapp-xi.vercel.app",
+      liveDomain: "crmwebapp-xi.vercel.app"
+    },
+    narrative: `
+      <p>A full-featured Kurdish and English commercial CRM and warehouse inventory platform tailored for furniture, bedding, and retail enterprises. Delivers end-to-end sales processing, multi-branch stock transfers, and financial metrics.</p>
+      <h3>Automated COGS & Break-Even Analytics</h3>
+      <p>Computes Cost-of-Goods-Sold (COGS), operational expense ratios, and break-even points in real time. Visual analytics render profit margin trends and expense distribution donuts across multi-currency transactions (USD & IQD).</p>
+      <h3>POS Thermal Receipt Generation</h3>
+      <p>Includes an integrated point-of-sale receipt engine generating thermal 80mm receipts and A4 official sales invoices, paired with an Excel import/export pipeline for high-volume catalog synchronization.</p>
+    `,
+    gallery: [
+      "assets/images/projects/crm_dashboard.png",
+      "assets/images/projects/crm_products.png"
+    ]
+  },
   "habakam": {
-    title: "Habakam — Android Medication Reminder APK",
-    pill: "Android Healthcare APK & Logistics",
+    title: "Habakam (حەبەکەم) — Android Medication Reminder APK",
+    pill: "NATIVE ANDROID HEALTHCARE APK",
     meta: {
-      client: "Habakam Healthcare Solutions",
-      role: "Lead Android & Systems Architect",
-      duration: "2023 – Present",
-      stack: "Kotlin, Android SDK, Room DB, Background Alarms, WebSockets, PostgreSQL"
+      client: "Healthcare & Chronic Care Patients",
+      role: "Lead Android Architect",
+      duration: "2023 – 2026",
+      stack: "Kotlin, Jetpack Compose, Room DB, AlarmManager, Hilt, Material 3",
+      liveUrl: null,
+      liveDomain: "Android APK (Native Mobile)"
     },
     narrative: `
-      <p>Habakam was engineered as a specialized native Android APK to solve critical healthcare scheduling and medication adherence: automated medication reminder alarms, dosage tracking, and pharmacy inventory routing.</p>
-      <h3>The Engineering Challenge</h3>
-      <p>Prescription regimens require exact timing, strict reminder reliability across deep sleep modes (Doze mode), and secure synchronization with pharmacy networks for refills. Standard delivery applications lack automated medication schedules and clinical dosage tracking.</p>
-      <h3>The Architectural Solution</h3>
-      <p>We engineered a native Kotlin Android application utilizing Android AlarmManager, foreground services, and Room DB for reliable offline alert scheduling. The APK connects via WebSockets to pharmacy systems for instant replenishment dispatch and verified chain-of-custody.</p>
-      <p>The platform achieved 100% adherence to scheduled medication alerts and drastically simplified prescription routines for chronic care patients.</p>
+      <p>Habakam is a specialized native Android medication adherence application developed with Jetpack Compose, designed specifically for Kurdish speakers (Central Kurdish / Sorani) with an elder-accessible, high-contrast interface.</p>
+      <h3>Spoken Kurdish Voice Reminders & Pill Photos</h3>
+      <p>Features spoken Kurdish voice notifications alongside customizable ringtones, enabling elderly patients to recognize medication times easily. Visual pill photo capture allows users to identify specific pill shapes and boxes directly on alerts.</p>
+      <h3>Offline-First Room DB & Exact Alarms</h3>
+      <p>Built with Android AlarmManager and foreground services to guarantee exact alarm delivery across device deep sleep (Doze mode), backed by an offline-first SQLite Room database requiring zero cloud dependencies.</p>
     `,
     gallery: [
-      "assets/images/habakam_icon.png",
-      "assets/images/mock_form_filled.png",
-      "assets/images/mock_submission_confirmed.png"
+      "assets/images/projects/habakam_app_screen.png",
+      "assets/images/habakam_icon.png"
     ]
   },
-  "job-hunter": {
-    title: "Autonomous AI Job Hunter Platform",
-    pill: "Autonomous Agentic AI",
+  "bedart-management": {
+    title: "BedArt Group Enterprise — POS & Multi-Branch Operations",
+    pill: "ENTERPRISE POINT-OF-SALE & SUPPLY CHAIN",
     meta: {
-      client: "Autonomous Research",
-      role: "AI Systems Architect",
-      duration: "2025 – Present",
-      stack: "Python, FastAPI, Playwright, Chrome Headless, WebSockets, PyMuPDF, ChromaDB"
+      client: "BedArt Group Commercial Enterprises",
+      role: "Enterprise Solutions Architect",
+      duration: "2024 – 2026",
+      stack: "Next.js, React, Tailwind CSS, LocalStorage Sync, ESC/POS Printing",
+      liveUrl: "https://bedartg.vercel.app",
+      liveDomain: "bedartg.vercel.app"
     },
     narrative: `
-      <p>The AI Job Hunter is a production autonomous platform designed to search, score, tailor, and auto-submit job applications across Saudi Arabian portals (LinkedIn, Bayt, Tanqeeb, Indeed) while strictly enforcing candidate truth constraints.</p>
-      <h3>Zero-Fabrication Truth Engine</h3>
-      <p>Unlike standard generative AI tools that hallucinate candidate qualifications, the tailoring engine is constrained to a cryptographically validated verified profile. It re-emphasizes and reorders authentic accomplishments without ever inventing degrees or false skills.</p>
-      <h3>Headless Chrome & WebSockets Pipeline</h3>
-      <p>Scrapers run asynchronously via <code>aiohttp</code> and <code>BeautifulSoup</code>, feeding scored listings into an in-memory deduplicated store. Tailored single-page CVs are compiled via headless Chrome to pixel-perfect A4 PDFs, verified for page count, and streamed directly to an executive dark-mode dashboard.</p>
+      <p>Production point-of-sale and multi-branch management deployment engineered for BedArt Group's retail operations, handling high-throughput showroom checkout and warehouse logistics.</p>
+      <h3>Showroom to Warehouse Allocation</h3>
+      <p>Enables instant product lookup, real-time stock availability verification between central warehouse and retail branches, and rapid transaction checkout with sub-second response times.</p>
+      <h3>Multi-Currency Financial Reconciliation</h3>
+      <p>Handles seamless conversions between Iraqi Dinar (IQD) and US Dollar (USD), generating itemized invoices and tracking customer balances with robust local caching.</p>
     `,
     gallery: [
-      "assets/images/mock_form_filled.png",
-      "assets/images/mock_submission_confirmed.png"
+      "assets/images/projects/bedart_pos.png",
+      "assets/images/projects/crm_dashboard.png"
     ]
   },
-  "multi-agent-rag": {
-    title: "Enterprise Multi-Agent RAG System",
-    pill: "Distributed Vector Intelligence",
+  "hts-ai-academy": {
+    title: "HTS AI Academy & Enterprise RAG Platform",
+    pill: "ENTERPRISE RETRIEVAL-AUGMENTED GENERATION",
     meta: {
-      client: "Enterprise AI Infrastructure",
-      role: "Principal AI Engineer",
-      duration: "2024 – 2025",
-      stack: "LangChain, LlamaIndex, Qdrant, OpenAI, Python, Docker"
+      client: "HTS-HQ & Enterprise AI Training",
+      role: "AI Solutions Lead & Systems Architect",
+      duration: "2024 – 2026",
+      stack: "Next.js, Python, Vector Embeddings, LangChain, Qdrant, React",
+      liveUrl: "https://hts-ai-academy.vercel.app",
+      liveDomain: "hts-ai-academy.vercel.app"
     },
     narrative: `
-      <p>Designed for organizations with extensive multi-thousand page regulatory, financial, and procedural archives. The system coordinates specialized retrieval and evaluation agents to deliver zero-hallucination citations.</p>
-      <h3>Autonomous Verification Loops</h3>
-      <p>A retrieval agent pulls candidate text fragments using hybrid BM25 + dense semantic embeddings. A separate evaluator agent performs self-consistency cross-checks before the synthesizer delivers the verified executive briefing with exact line-number citations.</p>
+      <p>The HTS AI Academy platform pairs a comprehensive enterprise training portal with a production-grade Retrieval-Augmented Generation (RAG) architecture developed for corporate engineering leadership.</p>
+      <h3>Hierarchical Vector Indices & Guardrails</h3>
+      <p>Implements dense semantic vector embeddings combined with sparse BM25 retrieval across thousands of pages of technical and operational documentation, backed by multi-agent verification loops to eliminate hallucinations.</p>
+      <h3>Curriculum Delivery for Modern AI Workflows</h3>
+      <p>Houses advanced coursework in Applied Prompt Engineering, Multi-Agent Orchestration, and Deep Neural Network architectures, structured to transition enterprise teams to autonomous systems delivery.</p>
     `,
     gallery: [
+      "assets/images/projects/hts_ai_academy.png",
       "assets/images/project_rag_architecture.png",
       "assets/images/project_rag_flow.png"
-    ]
-  },
-  "smart-pos": {
-    title: "High-Throughput Smart Commerce POS",
-    pill: "Retail FinTech & Hardware",
-    meta: {
-      client: "Suli Tech Clients",
-      role: "Full Stack Engineer",
-      duration: "2022 – 2023",
-      stack: "TypeScript, Electron, SQLite, ESC/POS Thermal Printers, React"
-    },
-    narrative: `
-      <p>Engineered for high-volume retail locations experiencing intermittent internet connectivity. The POS terminal executes transactions in under 50ms with instantaneous thermal receipt printing.</p>
-      <h3>Offline-First Conflict-Free Sync</h3>
-      <p>Transactions queue locally in an ACID SQLite database. When internet connectivity restores, changes sync to the central cloud cluster using deterministic vector-clock merging, preventing duplicate inventory deductions.</p>
-    `,
-    gallery: [
-      "assets/images/mock_form_filled.png"
-    ]
-  },
-  "odoo-erp": {
-    title: "Odoo ERP Enterprise Digitalization",
-    pill: "ERP Architecture & Operations",
-    meta: {
-      client: "HTS-HQ (Sulaimaniyah)",
-      role: "Deputy Administrative Manager",
-      duration: "2021 – 2024",
-      stack: "Odoo ERP, Python, PostgreSQL, Linux Ubuntu Server, Nginx"
-    },
-    narrative: `
-      <p>Spearheaded the complete end-to-end migration of HTS headquarters from paper ledgers to an automated Odoo Enterprise deployment.</p>
-      <h3>Operational Impact</h3>
-      <p>Configured custom modules for multi-currency reconciliation, automated vendor purchase orders, and warehouse inventory tracking across 3 regional hubs. Cut administrative processing overhead by 45%.</p>
-    `,
-    gallery: [
-      "assets/images/mock_submission_confirmed.png"
-    ]
-  },
-  "voice-ai": {
-    title: "Multilingual AI Voice Synthesizer",
-    pill: "Generative Audio AI",
-    meta: {
-      client: "Research & Media Prototyping",
-      role: "AI Audio Engineer",
-      duration: "2024 – 2025",
-      stack: "PyTorch, OpenAI Whisper, Coqui TTS, Python, FastAPI"
-    },
-    narrative: `
-      <p>A specialized neural speech engine adapted for under-represented languages, including Sorani Kurdish, alongside standard Arabic and English.</p>
-      <p>Enables natural conversational synthesis with pitch modulation and sub-second generation latency for IVR and voice assistant interfaces.</p>
-    `,
-    gallery: [
-      "assets/images/project_rag_architecture.png"
     ]
   }
 };
@@ -1292,6 +1315,20 @@ window.openProjectDrawer = function(projectId) {
   if (pillEl) pillEl.textContent = data.pill;
 
   if (metaGrid) {
+    const liveItem = data.meta.liveUrl
+      ? `<div class="case-meta-item" style="border-color: rgba(0, 255, 102, 0.4); background: rgba(0, 255, 102, 0.06);">
+          <div class="meta-heading" style="color: #00ff66;">Live Production URL</div>
+          <div class="meta-val">
+            <a href="${data.meta.liveUrl}" target="_blank" rel="noopener" style="color: #00ff66; text-decoration: underline; text-underline-offset: 4px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+              ${data.meta.liveDomain} ↗
+            </a>
+          </div>
+        </div>`
+      : `<div class="case-meta-item">
+          <div class="meta-heading">Platform</div>
+          <div class="meta-val" style="color: #38bdf8;">${data.meta.liveDomain || 'Native Mobile APK'}</div>
+        </div>`;
+
     metaGrid.innerHTML = `
       <div class="case-meta-item">
         <div class="meta-heading">Organization</div>
@@ -1305,7 +1342,8 @@ window.openProjectDrawer = function(projectId) {
         <div class="meta-heading">Timeline</div>
         <div class="meta-val">${data.meta.duration}</div>
       </div>
-      <div class="case-meta-item">
+      ${liveItem}
+      <div class="case-meta-item full-width-meta" style="grid-column: 1 / -1;">
         <div class="meta-heading">Core Stack</div>
         <div class="meta-val">${data.meta.stack}</div>
       </div>
@@ -1313,7 +1351,15 @@ window.openProjectDrawer = function(projectId) {
   }
 
   if (narrativeEl) {
-    narrativeEl.innerHTML = data.narrative;
+    const ctaButton = data.meta.liveUrl
+      ? `<div style="margin-bottom: 2rem;">
+          <a href="${data.meta.liveUrl}" target="_blank" rel="noopener" class="crt-action-btn" style="display: inline-flex; text-decoration: none; background: #00ff66; color: #000; font-weight: 800; padding: 0.6rem 1.4rem; gap: 0.5rem; border-radius: 999px;">
+            <span>Visit Live Application (${data.meta.liveDomain})</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>`
+      : '';
+    narrativeEl.innerHTML = ctaButton + data.narrative;
   }
 
   if (galleryGrid) {
