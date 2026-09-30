@@ -738,7 +738,13 @@ class RetroCrtController {
   }
 
   bindEvents() {
-    if (this.knobEl) {
+    const knobSection = document.querySelector('.knob-section');
+    if (knobSection) {
+      knobSection.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.nextChannel(false);
+      });
+    } else if (this.knobEl) {
       this.knobEl.addEventListener('click', (e) => {
         e.preventDefault();
         this.nextChannel(false);
@@ -1026,6 +1032,12 @@ class TimelineJourneyScrubber {
 
     this.bindEvents();
     this.selectYear('2024/current', false);
+    setTimeout(() => {
+      const activeBtn = document.querySelector('.year-node-btn[data-year="2024/current"]');
+      if (activeBtn) {
+        activeBtn.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
+      }
+    }, 150);
   }
 
   bindEvents() {
@@ -1047,7 +1059,10 @@ class TimelineJourneyScrubber {
 
     this.buttons.forEach(b => b.classList.remove('active'));
     const activeBtn = document.querySelector(`.year-node-btn[data-year="${year}"]`);
-    if (activeBtn) activeBtn.classList.add('active');
+    if (activeBtn) {
+      activeBtn.classList.add('active');
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
 
     // Update progress line width
     if (this.progressLine) {
@@ -1113,6 +1128,7 @@ class SpatialProjectCarousel {
   setupCards() {
     this.cards.forEach((card, index) => {
       card.addEventListener('click', (e) => {
+        if (Date.now() - (this.lastSwipeTime || 0) < 350) return;
         // If clicking on direct live url link, allow normal navigation
         if (e.target.closest('a')) return;
 
@@ -1133,9 +1149,9 @@ class SpatialProjectCarousel {
   updateLayout() {
     const isMobile = window.innerWidth < 768;
     const isTablet = window.innerWidth < 1024;
-    const spreadX = isMobile ? Math.min(window.innerWidth * 0.72, 270) : isTablet ? 320 : 380;
-    const depthZ = isMobile ? -80 : -110;
-    const rotateYDeg = isMobile ? 12 : 20;
+    const spreadX = isMobile ? Math.min(window.innerWidth * 0.58, 220) : isTablet ? 320 : 380;
+    const depthZ = isMobile ? -70 : -110;
+    const rotateYDeg = isMobile ? 10 : 20;
 
     this.cards.forEach((card, i) => {
       let offset = (i - this.currentIndex) % this.cardCount;
@@ -1191,7 +1207,11 @@ class SpatialProjectCarousel {
 
     // Update Tabs
     this.tabs.forEach((tab, idx) => {
-      tab.classList.toggle('active', idx === this.currentIndex);
+      const isActive = idx === this.currentIndex;
+      tab.classList.toggle('active', isActive);
+      if (isActive && window.innerWidth < 768) {
+        tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     });
   }
 
@@ -1282,6 +1302,7 @@ class SpatialProjectCarousel {
       });
 
       // Touch swipe support
+      this.lastSwipeTime = 0;
       this.container.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
           startX = e.touches[0].clientX;
@@ -1293,7 +1314,8 @@ class SpatialProjectCarousel {
         if (!isDragging) return;
         const endX = e.changedTouches[0].clientX;
         const dx = endX - startX;
-        if (Math.abs(dx) > 30) {
+        if (Math.abs(dx) > 25) {
+          this.lastSwipeTime = Date.now();
           if (dx > 0) this.prev();
           else this.next();
         }
