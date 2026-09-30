@@ -65,28 +65,6 @@ const CRT_CHANNELS = [
     year: "2023 – 2026",
     actionText: "Inspect Architecture",
     projectId: "habakam"
-  },
-  {
-    channel: "CH 05",
-    type: "project",
-    tagline: "Retail POS & Multi-Branch Inventory",
-    title: "BedArt Group Enterprise",
-    snippet: "High-throughput retail point-of-sale and enterprise management deployment for multi-branch furniture and bedding operations with real-time stock allocation.",
-    badges: ["Next.js", "React", "Tailwind CSS", "Enterprise ERP"],
-    year: "2024 – 2026",
-    actionText: "Inspect Architecture",
-    projectId: "bedart-management"
-  },
-  {
-    channel: "CH 06",
-    type: "project",
-    tagline: "Enterprise RAG & Neural Networks",
-    title: "HTS AI Academy",
-    snippet: "Enterprise retrieval-augmented generation (RAG) platform, multi-agent evaluation workflows, and advanced neural network curriculum portal for executive engineering teams.",
-    badges: ["Enterprise RAG", "Multi-Agent AI", "Vector Search", "Python"],
-    year: "2024 – 2026",
-    actionText: "Inspect Architecture",
-    projectId: "hts-ai-academy"
   }
 ];
 
