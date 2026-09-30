@@ -17,8 +17,8 @@ const CRT_CHANNELS = [
     role: "AI Deployment Lead & Systems Architect",
     snippet: "7+ years translating executive requirements into hardened, production-grade intelligence and mission-critical architectures.",
     avatar: "assets/images/avatar.jpg",
-    badges: ["Agentic AI", "Odoo ERP", "Android APK", "15+ Systems"],
-    year: "2016 – 2026",
+    badges: ["Next.js", "React 19", "Android APK", "4 Systems Shipped"],
+    year: "2016 – Present",
     actionText: "Explore Journey ↗",
     projectId: "profile"
   },
@@ -29,7 +29,7 @@ const CRT_CHANNELS = [
     title: "Tracking Approvals",
     snippet: "Enterprise administrative correspondence monitoring and SLA compliance dashboard with live department comparison, presentation mode, and TV kiosk feeds.",
     badges: ["Next.js", "TypeScript", "Tailwind CSS", "Recharts"],
-    year: "2024 – 2026",
+    year: "2024 – Present",
     actionText: "Inspect Architecture",
     projectId: "tracking-approvals"
   },
@@ -40,7 +40,7 @@ const CRT_CHANNELS = [
     title: "Charity NGO Web",
     snippet: "NGO aid distribution platform with 9-stage beneficiary investigation workflows, interactive Leaflet GIS aid mapping, relief warehouse deductions, and dual-currency ledger (IQD/USD).",
     badges: ["React 19", "Vite", "Leaflet GIS", "ExcelJS"],
-    year: "2024 – 2026",
+    year: "2024 – Present",
     actionText: "Inspect Architecture",
     projectId: "charity-ngo"
   },
@@ -51,7 +51,7 @@ const CRT_CHANNELS = [
     title: "CRM & Warehouse ERP",
     snippet: "Bilingual Kurdish/English retail CRM and warehouse inventory platform with multi-branch stock transfers, automated COGS & break-even analytics, and thermal POS receipt printing.",
     badges: ["Next.js 15", "React 19", "Tailwind RTL", "Recharts"],
-    year: "2024 – 2026",
+    year: "2021 – 2023",
     actionText: "Inspect Architecture",
     projectId: "crm-erp"
   },
@@ -62,7 +62,7 @@ const CRT_CHANNELS = [
     title: "Habakam Android APK",
     snippet: "Native Android medication scheduling application in Sorani Kurdish. Spoken Kurdish voice alarms, pill photo identification, and offline-first Room DB.",
     badges: ["Android APK", "Kotlin", "Jetpack Compose", "Room DB"],
-    year: "2023 – 2026",
+    year: "2023 – 2024",
     actionText: "Inspect Architecture",
     projectId: "habakam"
   }
@@ -149,9 +149,9 @@ const PROJECT_CASE_STUDIES = {
     title: "Tracking Approvals — Correspondence Monitoring & SLA Intelligence",
     pill: "GOVERNMENT & CORPORATE WORKFLOWS",
     meta: {
-      client: "Governmental & Corporate Administration",
+      client: "Corporate Administration & Government Headquarters",
       role: "Lead Systems Architect & Frontend Engineer",
-      duration: "2024 – 2026",
+      duration: "2024 – Present",
       stack: "Next.js App Router, TypeScript, Tailwind CSS, Recharts, date-fns",
       liveUrl: "https://trackingapprovals.vercel.app",
       liveDomain: "trackingapprovals.vercel.app"
@@ -172,9 +172,9 @@ const PROJECT_CASE_STUDIES = {
     title: "Charity NGO Web — Humanitarian Aid Tracking & Beneficiary CRM",
     pill: "HUMANITARIAN LOGISTICS & GIS",
     meta: {
-      client: "Humanitarian Foundations & Regional NGOs",
+      client: "Regional Humanitarian Foundations & NGOs",
       role: "Full Stack Engineer & GIS Architect",
-      duration: "2024 – 2026",
+      duration: "2024 – Present",
       stack: "React 19, Vite, TypeScript, Tailwind CSS RTL, Leaflet GIS, ExcelJS",
       liveUrl: "https://charityngoweb.vercel.app",
       liveDomain: "charityngoweb.vercel.app"
@@ -195,9 +195,9 @@ const PROJECT_CASE_STUDIES = {
     title: "CRM & Warehouse ERP — Commercial Retail & Stock Management",
     pill: "RETAIL ERP & INVENTORY MANAGEMENT",
     meta: {
-      client: "Bedding & Furniture Commercial Retailers",
+      client: "Bed Art Group & Commercial Retailers",
       role: "Lead Systems Architect & Full Stack Engineer",
-      duration: "2024 – 2026",
+      duration: "2021 – 2023",
       stack: "Next.js 15, React 19, TypeScript, Tailwind RTL, Recharts, SheetJS",
       liveUrl: "https://crmwebapp-xi.vercel.app",
       liveDomain: "crmwebapp-xi.vercel.app"
@@ -218,9 +218,9 @@ const PROJECT_CASE_STUDIES = {
     title: "Habakam (حەبەکەم) — Android Medication Reminder APK",
     pill: "NATIVE ANDROID HEALTHCARE APK",
     meta: {
-      client: "Healthcare & Chronic Care Patients",
+      client: "Healthcare Adherence & Kurdish Community",
       role: "Lead Android Architect",
-      duration: "2023 – 2026",
+      duration: "2023 – 2024",
       stack: "Kotlin, Jetpack Compose, Room DB, AlarmManager, Hilt, Material 3",
       liveUrl: null,
       liveDomain: "Android APK (Native Mobile)"
@@ -1093,104 +1093,156 @@ class TimelineJourneyScrubber {
 
 class SpatialProjectCarousel {
   constructor() {
+    this.container = document.querySelector('.carousel-stage-container');
     this.rotator = document.querySelector('.carousel-rotator');
-    this.cards = document.querySelectorAll('.carousel-project-card');
+    this.cards = Array.from(document.querySelectorAll('.carousel-project-card'));
     this.prevBtn = document.querySelector('#carousel-prev') || document.querySelector('.carousel-nav-btn.prev');
     this.nextBtn = document.querySelector('#carousel-next') || document.querySelector('.carousel-nav-btn.next');
-    this.dots = document.querySelectorAll('.carousel-dot');
+    this.dots = Array.from(document.querySelectorAll('.carousel-dot'));
+    this.tabs = Array.from(document.querySelectorAll('.project-tab-btn'));
+    this.counterEl = document.querySelector('.carousel-counter-current');
 
     this.cardCount = this.cards.length;
-    this.theta = 360 / Math.max(this.cardCount, 1);
-    this.radius = 320;
-    this.currentRotation = 0;
+    this.currentIndex = 0;
 
     this.setupCards();
     this.bindEvents();
-    this.updateCardDepths();
+    this.updateLayout();
   }
 
   setupCards() {
-    this.cards.forEach((card, i) => {
-      const angle = i * this.theta;
-      card.style.transform = `rotateY(${angle}deg) translateZ(${this.radius}px)`;
+    this.cards.forEach((card, index) => {
       card.addEventListener('click', (e) => {
-        const projectId = card.dataset.project;
-        if (projectId && window.openProjectDrawer) {
-          window.openProjectDrawer(projectId);
+        // If clicking on direct live url link, allow normal navigation
+        if (e.target.closest('a')) return;
+
+        // If clicking on active center card, open case study drawer
+        if (index === this.currentIndex) {
+          const projectId = card.dataset.project;
+          if (projectId && window.openProjectDrawer) {
+            window.openProjectDrawer(projectId);
+          }
+        } else {
+          // If clicking on side card, navigate directly to it!
+          this.goTo(index);
         }
       });
     });
   }
 
-  updateCardDepths() {
-    const normalizedRot = ((-this.currentRotation % 360) + 360) % 360;
-    const activeIndex = Math.round(normalizedRot / this.theta) % this.cardCount;
+  updateLayout() {
+    const isMobile = window.innerWidth < 768;
+    const isTablet = window.innerWidth < 1024;
+    const spreadX = isMobile ? Math.min(window.innerWidth * 0.72, 270) : isTablet ? 320 : 380;
+    const depthZ = isMobile ? -80 : -110;
+    const rotateYDeg = isMobile ? 12 : 20;
 
     this.cards.forEach((card, i) => {
-      const diff = Math.min(Math.abs(i - activeIndex), this.cardCount - Math.abs(i - activeIndex));
-      if (diff === 0) {
+      let offset = (i - this.currentIndex) % this.cardCount;
+      if (offset > this.cardCount / 2) offset -= this.cardCount;
+      if (offset < -this.cardCount / 2) offset += this.cardCount;
+
+      card.classList.remove('is-active', 'is-prev', 'is-next', 'is-back');
+
+      if (offset === 0) {
+        // Active Center Card
+        card.classList.add('is-active');
+        card.style.transform = `translateX(0px) translateZ(0px) rotateY(0deg) scale(1)`;
         card.style.opacity = '1';
+        card.style.filter = 'brightness(1)';
+        card.style.zIndex = '35';
         card.style.pointerEvents = 'auto';
-        card.style.zIndex = '30';
-      } else if (diff === 1) {
-        card.style.opacity = '0.6';
+      } else if (offset === 1) {
+        // Next Card (Right)
+        card.classList.add('is-next');
+        card.style.transform = `translateX(${spreadX}px) translateZ(${depthZ}px) rotateY(-${rotateYDeg}deg) scale(0.86)`;
+        card.style.opacity = isMobile ? '0.35' : '0.65';
+        card.style.filter = 'brightness(0.65)';
+        card.style.zIndex = '25';
         card.style.pointerEvents = 'auto';
-        card.style.zIndex = '20';
+      } else if (offset === -1) {
+        // Prev Card (Left)
+        card.classList.add('is-prev');
+        card.style.transform = `translateX(-${spreadX}px) translateZ(${depthZ}px) rotateY(${rotateYDeg}deg) scale(0.86)`;
+        card.style.opacity = isMobile ? '0.35' : '0.65';
+        card.style.filter = 'brightness(0.65)';
+        card.style.zIndex = '25';
+        card.style.pointerEvents = 'auto';
       } else {
-        card.style.opacity = '0.2';
-        card.style.pointerEvents = 'none';
+        // Opposite / Back Card
+        card.classList.add('is-back');
+        card.style.transform = `translateX(0px) translateZ(-260px) scale(0.72)`;
+        card.style.opacity = '0';
+        card.style.filter = 'brightness(0.3)';
         card.style.zIndex = '10';
+        card.style.pointerEvents = 'none';
       }
     });
 
-    // Update dot indicators
-    this.dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === activeIndex);
+    // Update Counter
+    if (this.counterEl) {
+      this.counterEl.textContent = String(this.currentIndex + 1).padStart(2, '0');
+    }
+
+    // Update Dots
+    this.dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === this.currentIndex);
     });
+
+    // Update Tabs
+    this.tabs.forEach((tab, idx) => {
+      tab.classList.toggle('active', idx === this.currentIndex);
+    });
+  }
+
+  goTo(index) {
+    const target = ((index % this.cardCount) + this.cardCount) % this.cardCount;
+    if (target === this.currentIndex) return;
+    SoundSystem.playBlip(720);
+    this.currentIndex = target;
+    this.updateLayout();
+  }
+
+  prev() {
+    this.goTo(this.currentIndex - 1);
+  }
+
+  next() {
+    this.goTo(this.currentIndex + 1);
   }
 
   bindEvents() {
-    const handlePrev = (e) => {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      this.rotate(1);
-    };
-
-    const handleNext = (e) => {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      this.rotate(-1);
-    };
-
     if (this.prevBtn) {
-      this.prevBtn.addEventListener('click', handlePrev);
-    }
-    if (this.nextBtn) {
-      this.nextBtn.addEventListener('click', handleNext);
+      this.prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.prev();
+      });
     }
 
-    // Dot click navigation
-    this.dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        const normalizedRot = ((-this.currentRotation % 360) + 360) % 360;
-        const currentIndex = Math.round(normalizedRot / this.theta) % this.cardCount;
-        let steps = i - currentIndex;
-        if (steps > this.cardCount / 2) steps -= this.cardCount;
-        if (steps < -this.cardCount / 2) steps += this.cardCount;
-        if (steps !== 0) {
-          SoundSystem.playBlip(720);
-          this.currentRotation -= steps * this.theta;
-          if (this.rotator) {
-            this.rotator.style.transform = `rotateY(${this.currentRotation}deg)`;
-          }
-          this.updateCardDepths();
-        }
+    if (this.nextBtn) {
+      this.nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.next();
+      });
+    }
+
+    this.dots.forEach((dot, idx) => {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.goTo(idx);
       });
     });
+
+    this.tabs.forEach((tab, idx) => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.goTo(idx);
+      });
+    });
+
+    window.addEventListener('resize', () => this.updateLayout());
 
     // Keyboard navigation when user is on the section
     window.addEventListener('keydown', (e) => {
@@ -1198,8 +1250,8 @@ class SpatialProjectCarousel {
       if (projSec) {
         const rect = projSec.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
-          if (e.key === 'ArrowLeft') handlePrev(e);
-          if (e.key === 'ArrowRight') handleNext(e);
+          if (e.key === 'ArrowLeft') this.prev();
+          if (e.key === 'ArrowRight') this.next();
         }
       }
     });
@@ -1208,9 +1260,9 @@ class SpatialProjectCarousel {
     let isDragging = false;
     let startX = 0;
 
-    const container = document.querySelector('.carousel-stage-container');
-    if (container) {
-      container.addEventListener('mousedown', (e) => {
+    if (this.container) {
+      this.container.addEventListener('mousedown', (e) => {
+        if (e.target.closest('a, button')) return;
         isDragging = true;
         startX = e.clientX;
       });
@@ -1222,39 +1274,32 @@ class SpatialProjectCarousel {
       window.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         const dx = e.clientX - startX;
-        if (Math.abs(dx) > 35) {
-          this.rotate(dx > 0 ? 1 : -1);
+        if (Math.abs(dx) > 40) {
+          if (dx > 0) this.prev();
+          else this.next();
           isDragging = false;
         }
       });
 
       // Touch swipe support
-      container.addEventListener('touchstart', (e) => {
+      this.container.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
           startX = e.touches[0].clientX;
           isDragging = true;
         }
       }, { passive: true });
 
-      container.addEventListener('touchend', (e) => {
+      this.container.addEventListener('touchend', (e) => {
         if (!isDragging) return;
         const endX = e.changedTouches[0].clientX;
         const dx = endX - startX;
         if (Math.abs(dx) > 30) {
-          this.rotate(dx > 0 ? 1 : -1);
+          if (dx > 0) this.prev();
+          else this.next();
         }
         isDragging = false;
       });
     }
-  }
-
-  rotate(dir) {
-    SoundSystem.playBlip(720);
-    this.currentRotation += dir * this.theta;
-    if (this.rotator) {
-      this.rotator.style.transform = `rotateY(${this.currentRotation}deg)`;
-    }
-    this.updateCardDepths();
   }
 }
 
