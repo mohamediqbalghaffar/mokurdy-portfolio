@@ -2106,16 +2106,18 @@ img, video {
 }
 
 .carousel-nav-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  padding: 0.7rem 1.4rem;
+  border-radius: 9999px;
   border: 1px solid var(--border-medium);
-  background: rgba(10, 10, 10, 0.75);
+  background: rgba(10, 10, 10, 0.85);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   cursor: pointer !important;
   pointer-events: auto !important;
   z-index: 151;
@@ -2127,7 +2129,35 @@ img, video {
   background: #ffffff;
   color: #000000;
   border-color: #ffffff;
-  transform: scale(1.1);
+  transform: scale(1.06);
+}
+
+/* Dot indicators */
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.carousel-dot.active {
+  background: #ffffff;
+  border-color: #ffffff;
+  transform: scale(1.3);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 /* ==========================================================================

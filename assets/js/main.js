@@ -236,53 +236,6 @@ const PROJECT_CASE_STUDIES = {
       "assets/images/projects/habakam_app_screen.png",
       "assets/images/habakam_icon.png"
     ]
-  },
-  "bedart-management": {
-    title: "BedArt Group Enterprise — POS & Multi-Branch Operations",
-    pill: "ENTERPRISE POINT-OF-SALE & SUPPLY CHAIN",
-    meta: {
-      client: "BedArt Group Commercial Enterprises",
-      role: "Enterprise Solutions Architect",
-      duration: "2024 – 2026",
-      stack: "Next.js, React, Tailwind CSS, LocalStorage Sync, ESC/POS Printing",
-      liveUrl: "https://bedartg.vercel.app",
-      liveDomain: "bedartg.vercel.app"
-    },
-    narrative: `
-      <p>Production point-of-sale and multi-branch management deployment engineered for BedArt Group's retail operations, handling high-throughput showroom checkout and warehouse logistics.</p>
-      <h3>Showroom to Warehouse Allocation</h3>
-      <p>Enables instant product lookup, real-time stock availability verification between central warehouse and retail branches, and rapid transaction checkout with sub-second response times.</p>
-      <h3>Multi-Currency Financial Reconciliation</h3>
-      <p>Handles seamless conversions between Iraqi Dinar (IQD) and US Dollar (USD), generating itemized invoices and tracking customer balances with robust local caching.</p>
-    `,
-    gallery: [
-      "assets/images/projects/bedart_pos.png",
-      "assets/images/projects/crm_dashboard.png"
-    ]
-  },
-  "hts-ai-academy": {
-    title: "HTS AI Academy & Enterprise RAG Platform",
-    pill: "ENTERPRISE RETRIEVAL-AUGMENTED GENERATION",
-    meta: {
-      client: "HTS-HQ & Enterprise AI Training",
-      role: "AI Solutions Lead & Systems Architect",
-      duration: "2024 – 2026",
-      stack: "Next.js, Python, Vector Embeddings, LangChain, Qdrant, React",
-      liveUrl: "https://hts-ai-academy.vercel.app",
-      liveDomain: "hts-ai-academy.vercel.app"
-    },
-    narrative: `
-      <p>The HTS AI Academy platform pairs a comprehensive enterprise training portal with a production-grade Retrieval-Augmented Generation (RAG) architecture developed for corporate engineering leadership.</p>
-      <h3>Hierarchical Vector Indices & Guardrails</h3>
-      <p>Implements dense semantic vector embeddings combined with sparse BM25 retrieval across thousands of pages of technical and operational documentation, backed by multi-agent verification loops to eliminate hallucinations.</p>
-      <h3>Curriculum Delivery for Modern AI Workflows</h3>
-      <p>Houses advanced coursework in Applied Prompt Engineering, Multi-Agent Orchestration, and Deep Neural Network architectures, structured to transition enterprise teams to autonomous systems delivery.</p>
-    `,
-    gallery: [
-      "assets/images/projects/hts_ai_academy.png",
-      "assets/images/project_rag_architecture.png",
-      "assets/images/project_rag_flow.png"
-    ]
   }
 };
 
@@ -1144,10 +1097,11 @@ class SpatialProjectCarousel {
     this.cards = document.querySelectorAll('.carousel-project-card');
     this.prevBtn = document.querySelector('#carousel-prev') || document.querySelector('.carousel-nav-btn.prev');
     this.nextBtn = document.querySelector('#carousel-next') || document.querySelector('.carousel-nav-btn.next');
+    this.dots = document.querySelectorAll('.carousel-dot');
 
     this.cardCount = this.cards.length;
     this.theta = 360 / Math.max(this.cardCount, 1);
-    this.radius = 400;
+    this.radius = 320;
     this.currentRotation = 0;
 
     this.setupCards();
@@ -1179,14 +1133,19 @@ class SpatialProjectCarousel {
         card.style.pointerEvents = 'auto';
         card.style.zIndex = '30';
       } else if (diff === 1) {
-        card.style.opacity = '0.75';
+        card.style.opacity = '0.6';
         card.style.pointerEvents = 'auto';
         card.style.zIndex = '20';
       } else {
-        card.style.opacity = '0.35';
+        card.style.opacity = '0.2';
         card.style.pointerEvents = 'none';
         card.style.zIndex = '10';
       }
+    });
+
+    // Update dot indicators
+    this.dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === activeIndex);
     });
   }
 
@@ -1213,6 +1172,25 @@ class SpatialProjectCarousel {
     if (this.nextBtn) {
       this.nextBtn.addEventListener('click', handleNext);
     }
+
+    // Dot click navigation
+    this.dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        const normalizedRot = ((-this.currentRotation % 360) + 360) % 360;
+        const currentIndex = Math.round(normalizedRot / this.theta) % this.cardCount;
+        let steps = i - currentIndex;
+        if (steps > this.cardCount / 2) steps -= this.cardCount;
+        if (steps < -this.cardCount / 2) steps += this.cardCount;
+        if (steps !== 0) {
+          SoundSystem.playBlip(720);
+          this.currentRotation -= steps * this.theta;
+          if (this.rotator) {
+            this.rotator.style.transform = `rotateY(${this.currentRotation}deg)`;
+          }
+          this.updateCardDepths();
+        }
+      });
+    });
 
     // Keyboard navigation when user is on the section
     window.addEventListener('keydown', (e) => {
