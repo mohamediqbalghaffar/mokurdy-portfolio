@@ -74,11 +74,23 @@ const TIMELINE_MILESTONES = {
     role: "Foundations & Competition Honors",
     company: "AKSF Kangaroo Math & Edexcel Excellence",
     category: "Academic Excellence",
-    desc: "Achieved top international honors in mathematics problem solving (AKSF) and Turkish language fluency (Edexcel B1). Laid mathematical foundations for algorithm design and systems architecture.",
+    desc: "Achieved top international honors in mathematics problem solving (AKSF) and Turkish language fluency (Edexcel B1). Laid rigorous analytical and mathematical foundations for systems architecture and operational problem-solving.",
     highlights: [
       "Awarded AKSF Kangaroo Math Competition Certificate of Honor",
       "Achieved Edexcel & TÖMER Turkish Language Fluency (B1 Certification)",
       "High School Academic Excellence Honor Roll (98.2% GPA)"
+    ]
+  },
+  "2018": {
+    year: "2018",
+    role: "Arabic Localization Specialist & Trilingual Liaison",
+    company: "Halabja Glory Organization (NGO) | Halabja, Iraq",
+    category: "Localization & Stakeholder Alignment",
+    desc: "Directed trilingual localization across Arabic, English, Kurdish (Hawrami/Sorani), and Turkish for legal, administrative, and stakeholder document suites. Facilitated consecutive interpretation and cross-functional alignment during high-stakes donor conferences.",
+    highlights: [
+      "Directed Arabic-first trilingual localization across official legal, administrative, and donor suites",
+      "Facilitated consecutive interpretation during international donor conferences and partner assemblies",
+      "Ensured 100% regional cultural nuance and terminology accuracy across NGO programs"
     ]
   },
   "2019": {
@@ -86,59 +98,73 @@ const TIMELINE_MILESTONES = {
     role: "Social Entrepreneurship & Venture Lead",
     company: "Five One Labs & UNICEF",
     category: "Incubation & Leadership",
-    desc: "Graduated from intensive social innovation incubation by UNICEF and Five One Labs. Pitched scalable technology business models to international angel investors and regional leaders.",
+    desc: "Graduated from intensive social innovation incubation by UNICEF and Five One Labs. Pitched scalable technology business models to international angel investors and regional leaders, translating user discovery into product initiatives.",
     highlights: [
-      "Designed sustainable social enterprise business models",
-      "Conducted 100+ user discovery interviews across regional markets",
+      "Designed sustainable social enterprise business models and monetization strategies",
+      "Conducted 100+ user discovery interviews across regional community markets",
       "Certified in Social Entrepreneurship by Five One Labs & UNICEF"
     ]
   },
   "2021": {
     year: "2021",
-    role: "Enterprise Systems Architect",
-    company: "Suli Tech & Autonomous Projects",
-    category: "Full Stack & Cloud",
-    desc: "Architected high-reliability web applications, point-of-sale systems, and automated data pipelines. Standardized microservices with Docker, Node.js, and PostgreSQL.",
+    role: "Commerce Operations & Inventory Specialist",
+    company: "Bed Art Group (Retail & Multi-Channel Commerce) | Sulaimaniyah, Iraq",
+    category: "Commerce & ERP Operations",
+    desc: "Discovered merchant and retail friction points across multi-channel points of sale (POS) and central warehouse inventory. Formulated structured workflow specifications and data integrity protocols bridging sales registers and warehouse databases.",
     highlights: [
-      "Shipped 15+ bespoke business management systems",
-      "Implemented automated CI/CD deployment pipelines on AWS & VPS",
-      "Achieved 99.9% uptime SLA across client production databases"
+      "Discovered merchant and retail friction points across multi-channel POS and central warehouse",
+      "Defined standardized data validation protocols and inventory reconciliation routines",
+      "Collaborated with cross-functional supply chain, sales, and finance teams to streamline operations"
     ]
   },
   "2023": {
     year: "2023",
-    role: "Deputy Administrative Manager & Product Lead",
-    company: "HTS-HQ (Sulaimaniyah, Iraq)",
-    category: "Enterprise ERP & Operations",
-    desc: "Led operational workflows, inter-departmental logistics, and digital transformation for headquarters. Managed cross-functional squads and architected Odoo ERP automation.",
+    role: "Commerce Operations & Inventory Specialist",
+    company: "Bed Art Group (Retail & Multi-Channel Commerce)",
+    category: "Process Optimization & Data Integrity",
+    desc: "Scaled multi-channel retail operations and inventory reconciliation across Bed Art Group. Eliminated data entry discrepancies and slashed monthly accounting closing cycles by 35% through standardized validation protocols.",
     highlights: [
-      "Spearheaded enterprise-wide Odoo ERP integration replacing legacy paperwork",
-      "Engineered automated accounting, inventory, and supply chain tracking",
-      "Built Habakam medication logistics Android application with live rider dispatch"
+      "Cut monthly accounting closing cycles by 35% by eliminating data entry discrepancies",
+      "Enforced inventory reconciliation routines across multi-branch POS networks",
+      "Streamlined merchant database management and supplier order auditing"
+    ]
+  },
+  "2024": {
+    year: "2024",
+    role: "User Discovery Lead & HTS-HQ Product Lead",
+    company: "Islamic Relief Worldwide & HTS-HQ | Sulaimaniyah / Halabja, Iraq",
+    category: "Field Discovery & Digital Transition",
+    desc: "Executed field discovery and demographic data gathering across 1,000+ community beneficiaries with Islamic Relief Worldwide (100% data integrity). Appointed Product Lead / Deputy Admin Manager at HTS-HQ in November 2024 to lead enterprise digital transformation.",
+    highlights: [
+      "Executed field discovery across 1,000+ beneficiaries with 100% data integrity adhering to international NGO standards",
+      "Translated qualitative field research into structured data specifications and actionable product insights",
+      "Appointed Product Lead & Deputy Admin Manager at HTS-HQ in November 2024 to own digital roadmaps"
     ]
   },
   "2025": {
     year: "2025",
-    role: "AI Integration & Workflow Engineer",
-    company: "Autonomous AI Research & Deployments",
-    category: "Agentic Systems & LLMs",
-    desc: "Specialized in production-grade Agentic AI workflows (Plan · Execute · Verify). Implemented multi-agent RAG, truth-enforcing CV tailoring engines, and autonomous job application scrapers.",
+    role: "Product Lead / Deputy Admin Manager (AI & Digital)",
+    company: "HTS-HQ (Halabja Telecom Services & Renewable Energy)",
+    category: "Hands-on AI & Rapid Prototyping",
+    desc: "Spearheaded internal SaaS and digital platforms at HTS-HQ. Leveraged Google Antigravity, Firebase Studio, and LLM prompt engineering to author PRDs and ship functional web and Android APKs for leave approvals, asset management, and workflow dispatch.",
     highlights: [
-      "Certified by Google Antigravity in Agentic AI Workflows",
-      "Completed DeepLearning.AI Applied Machine Learning Supervised Learning",
-      "Engineered autonomous job hunter platform with real-time web scrapers and WebSockets"
+      "Shipped Arabic Merchant & Staff Portal: Zero-code web & Android APK automating approvals",
+      "Deployed dynamic Commerce & Request Engine slashing turnaround cycles by 50%+",
+      "Engineered Asset & Inventory Module: Real-time hardware tracking, audit trails, and Odoo ERP sync",
+      "Completed Google Antigravity Agentic Workflows & DeepLearning.AI Applied ML certifications"
     ]
   },
   "2026": {
     year: "2026",
-    role: "AI Deployment Lead & Solutions Architect",
-    company: "Enterprise & Global Deployments (Riyadh / Global)",
-    category: "Executive AI Delivery",
-    desc: "Bridging business requirements with state-of-the-art AI models. Leading multi-million SAR customer deployments, technical trade-offs, and mission-critical SLAs across Saudi Arabia and the Gulf.",
+    role: "Product Lead / Deputy Admin Manager (AI & Digital)",
+    company: "HTS-HQ (Halabja Group of Companies) · Currently Working",
+    category: "Enterprise Product Leadership (Current)",
+    desc: "Currently leading end-to-end product vision, enterprise Odoo ERP administration, and digital platform adoption across HTS-HQ. Partnering with cross-functional engineering teams to achieve 100% user adoption across 5+ business units with strict acceptance criteria.",
     highlights: [
-      "Translating executive requirements into hardened technical specifications",
-      "Governing enterprise LLM reliability, guardrails, and latency optimization",
-      "Driving customer-centric AI adoption across enterprise stakeholders"
+      "Currently working at HTS-HQ leading ongoing digital solutions, AI workflows, and operational roadmap",
+      "Achieved 100% user and merchant adoption across 5+ business units with strict acceptance criteria",
+      "Administering enterprise Odoo ERP modules, optimizing workflows, and ensuring audit compliance",
+      "Engineering dynamic HTML analytics dashboards and quantitative models for leadership KPI tracking"
     ]
   }
 };
@@ -1097,7 +1123,9 @@ class TimelineJourneyScrubber {
 
     // Update progress line width
     if (this.progressLine) {
-      const pct = (index / (this.buttons.length - 1)) * 100;
+      const btnIndex = activeBtn ? Array.from(this.buttons).indexOf(activeBtn) : index;
+      const safeIndex = btnIndex >= 0 ? btnIndex : index;
+      const pct = (safeIndex / (this.buttons.length - 1)) * 100;
       this.progressLine.style.width = `${pct}%`;
     }
 
