@@ -71,6 +71,7 @@ const CRT_CHANNELS = [
 const TIMELINE_MILESTONES = {
   "2016": {
     year: "2016",
+    displayYear: "2016",
     role: "Foundations & Competition Honors",
     company: "AKSF Kangaroo Math & Edexcel Excellence",
     category: "Academic Excellence",
@@ -83,6 +84,7 @@ const TIMELINE_MILESTONES = {
   },
   "2018": {
     year: "2018",
+    displayYear: "2018",
     role: "Arabic Localization Specialist & Trilingual Liaison",
     company: "Halabja Glory Organization (NGO) | Halabja, Iraq",
     category: "Localization & Stakeholder Alignment",
@@ -95,6 +97,7 @@ const TIMELINE_MILESTONES = {
   },
   "2019": {
     year: "2019",
+    displayYear: "2019",
     role: "Social Entrepreneurship & Venture Lead",
     company: "Five One Labs & UNICEF",
     category: "Incubation & Leadership",
@@ -105,8 +108,9 @@ const TIMELINE_MILESTONES = {
       "Certified in Social Entrepreneurship by Five One Labs & UNICEF"
     ]
   },
-  "2021": {
-    year: "2021",
+  "2021-2023": {
+    year: "2021-2023",
+    displayYear: "2021 – 2023",
     role: "Commerce Operations & Inventory Specialist",
     company: "Bed Art Group (Retail & Multi-Channel Commerce) | Sulaimaniyah, Iraq",
     category: "Commerce & ERP Operations",
@@ -117,57 +121,28 @@ const TIMELINE_MILESTONES = {
       "Collaborated with cross-functional supply chain, sales, and finance teams to streamline operations"
     ]
   },
-  "2023": {
-    year: "2023",
-    role: "Commerce Operations & Inventory Specialist",
-    company: "Bed Art Group (Retail & Multi-Channel Commerce)",
-    category: "Process Optimization & Data Integrity",
-    desc: "Scaled multi-channel retail operations and inventory reconciliation across Bed Art Group. Eliminated data entry discrepancies and slashed monthly accounting closing cycles by 35% through standardized validation protocols.",
+  "2024/current": {
+    year: "2024/current",
+    displayYear: "2024 / CURRENT",
+    role: "HTS-HQ Deputy Administrative manager",
+    company: "HTS-HQ | Sulaimaniyah , Iraq",
+    category: "Administration & Digital Transition",
+    desc: "Deputy Admin Manager at HTS-HQ since November 2024 to lead The Business administration of the #1 biggest company inside Halabja Group Of Companies, enterprise digital transformation of the Tasks and Daily routine works.",
     highlights: [
-      "Cut monthly accounting closing cycles by 35% by eliminating data entry discrepancies",
-      "Enforced inventory reconciliation routines across multi-branch POS networks",
-      "Streamlined merchant database management and supplier order auditing"
-    ]
-  },
-  "2024": {
-    year: "2024",
-    role: "User Discovery Lead & HTS-HQ Product Lead",
-    company: "Islamic Relief Worldwide & HTS-HQ | Sulaimaniyah / Halabja, Iraq",
-    category: "Field Discovery & Digital Transition",
-    desc: "Executed field discovery and demographic data gathering across 1,000+ community beneficiaries with Islamic Relief Worldwide (100% data integrity). Appointed Product Lead / Deputy Admin Manager at HTS-HQ in November 2024 to lead enterprise digital transformation.",
-    highlights: [
-      "Executed field discovery across 1,000+ beneficiaries with 100% data integrity adhering to international NGO standards",
-      "Translated qualitative field research into structured data specifications and actionable product insights",
-      "Appointed Product Lead & Deputy Admin Manager at HTS-HQ in November 2024 to own digital roadmaps"
-    ]
-  },
-  "2025": {
-    year: "2025",
-    role: "Product Lead / Deputy Admin Manager (AI & Digital)",
-    company: "HTS-HQ (Halabja Telecom Services & Renewable Energy)",
-    category: "Hands-on AI & Rapid Prototyping",
-    desc: "Spearheaded internal SaaS and digital platforms at HTS-HQ. Leveraged Google Antigravity, Firebase Studio, and LLM prompt engineering to author PRDs and ship functional web and Android APKs for leave approvals, asset management, and workflow dispatch.",
-    highlights: [
-      "Shipped Arabic Merchant & Staff Portal: Zero-code web & Android APK automating approvals",
-      "Deployed dynamic Commerce & Request Engine slashing turnaround cycles by 50%+",
-      "Engineered Asset & Inventory Module: Real-time hardware tracking, audit trails, and Odoo ERP sync",
-      "Completed Google Antigravity Agentic Workflows & DeepLearning.AI Applied ML certifications"
-    ]
-  },
-  "2026": {
-    year: "2026",
-    role: "Product Lead / Deputy Admin Manager (AI & Digital)",
-    company: "HTS-HQ (Halabja Group of Companies) · Currently Working",
-    category: "Enterprise Product Leadership (Current)",
-    desc: "Currently leading end-to-end product vision, enterprise Odoo ERP administration, and digital platform adoption across HTS-HQ. Partnering with cross-functional engineering teams to achieve 100% user adoption across 5+ business units with strict acceptance criteria.",
-    highlights: [
-      "Currently working at HTS-HQ leading ongoing digital solutions, AI workflows, and operational roadmap",
-      "Achieved 100% user and merchant adoption across 5+ business units with strict acceptance criteria",
-      "Administering enterprise Odoo ERP modules, optimizing workflows, and ensuring audit compliance",
-      "Engineering dynamic HTML analytics dashboards and quantitative models for leadership KPI tracking"
+      "Leading business administration for the #1 biggest enterprise inside Halabja Group of Companies",
+      "Directing enterprise digital transformation of administrative tasks and daily routine operations",
+      "Managing headquarters administration, digital workflows, and cross-departmental execution"
     ]
   }
 };
+
+// Backward compatibility aliases
+TIMELINE_MILESTONES["2021"] = TIMELINE_MILESTONES["2021-2023"];
+TIMELINE_MILESTONES["2023"] = TIMELINE_MILESTONES["2021-2023"];
+TIMELINE_MILESTONES["2024"] = TIMELINE_MILESTONES["2024/current"];
+TIMELINE_MILESTONES["2025"] = TIMELINE_MILESTONES["2024/current"];
+TIMELINE_MILESTONES["2026"] = TIMELINE_MILESTONES["2024/current"];
+TIMELINE_MILESTONES["current"] = TIMELINE_MILESTONES["2024/current"];
 
 const PROJECT_CASE_STUDIES = {
   "tracking-approvals": {
@@ -1097,7 +1072,7 @@ class TimelineJourneyScrubber {
     this.progressLine = document.querySelector('.timeline-progress-line');
 
     this.bindEvents();
-    this.selectYear('2026', false);
+    this.selectYear('2024/current', false);
   }
 
   bindEvents() {
@@ -1134,7 +1109,7 @@ class TimelineJourneyScrubber {
       this.yearDisplay.style.transform = 'scale(0.85)';
       this.yearDisplay.style.opacity = '0.4';
       setTimeout(() => {
-        this.yearDisplay.textContent = year;
+        this.yearDisplay.textContent = data.displayYear || year;
         this.yearDisplay.style.transform = 'scale(1)';
         this.yearDisplay.style.opacity = '1';
       }, 150);
@@ -1147,7 +1122,13 @@ class TimelineJourneyScrubber {
     if (this.descEl) this.descEl.textContent = data.desc;
 
     if (this.highlightsEl) {
-      this.highlightsEl.innerHTML = data.highlights.map(h => `<li>${h}</li>`).join('');
+      if (data.highlights && data.highlights.length > 0) {
+        this.highlightsEl.style.display = 'flex';
+        this.highlightsEl.innerHTML = data.highlights.map(h => `<li>${h}</li>`).join('');
+      } else {
+        this.highlightsEl.style.display = 'none';
+        this.highlightsEl.innerHTML = '';
+      }
     }
   }
 }
