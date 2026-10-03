@@ -345,7 +345,106 @@ class AudioSynthEngine {
       oscGain.connect(this.ctx.destination);
       osc.start();
       osc.stop(this.ctx.currentTime + 0.09);
+
+      // 3. Mechanical detent tick (short, bright click)
+      const tick = this.ctx.createOscillator();
+      const tickGain = this.ctx.createGain();
+      tick.type = 'square';
+      tick.frequency.setValueAtTime(1850, this.ctx.currentTime);
+      tickGain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+      tickGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.018);
+      tick.connect(tickGain);
+      tickGain.connect(this.ctx.destination);
+      tick.start();
+      tick.stop(this.ctx.currentTime + 0.02);
     } catch (e) {}
+  }
+
+  // CRT Tube Power On (thump + rising fizz) / Off (collapsing sine)
+  playCrtPower(on = true) {
+    if (!this.enabled || !this.ctx) return;
+    try {
+      this.init();
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      if (on) {
+        osc.frequency.setValueAtTime(60, now);
+        osc.frequency.exponentialRampToValueAtTime(180, now + 0.12);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      } else {
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(35, now + 0.4);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+      }
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.5);
+
+      if (on) {
+        // Short high-pass static fizz as the tube warms up
+        const len = Math.floor(this.ctx.sampleRate * 0.18);
+        const buffer = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * 0.2;
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+        const hp = this.ctx.createBiquadFilter();
+        hp.type = 'highpass';
+        hp.frequency.value = 3000;
+        const nGain = this.ctx.createGain();
+        nGain.gain.setValueAtTime(0.0001, now);
+        nGain.gain.linearRampToValueAtTime(0.12, now + 0.06);
+        nGain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+        noise.connect(hp);
+        hp.connect(nGain);
+        nGain.connect(this.ctx.destination);
+        noise.start(now);
+      }
+    } catch (e) {}
+  }
+
+  // Short ambient synth phrase for the "Now Playing" card.
+  // Explicitly requested by the user via click, so it plays even when UI sounds are muted.
+  playSynthMelody() {
+    this.init();
+    if (!this.ctx) return 0;
+    try {
+      const now = this.ctx.currentTime + 0.02;
+      const notes = [261.63, 329.63, 392.0, 523.25, 392.0, 440.0, 587.33, 523.25];
+      const step = 0.22;
+      notes.forEach((freq, idx) => {
+        const t = now + idx * step;
+        const osc = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+        osc.type = 'triangle';
+        osc2.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t);
+        osc2.frequency.setValueAtTime(freq * 2.005, t);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2400, t);
+        gain.gain.setValueAtTime(0.0001, t);
+        gain.gain.linearRampToValueAtTime(0.1, t + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+        osc.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t);
+        osc2.start(t);
+        osc.stop(t + 0.52);
+        osc2.stop(t + 0.52);
+      });
+      return notes.length * step + 0.5; // total duration in seconds
+    } catch (e) {
+      return 0;
+    }
   }
 
   // Hyperspace Warp Whoosh
@@ -475,6 +574,95 @@ class ScreenRatioManager {
 
 
 // ==========================================
+// 2.6 VISIBILITY-AWARE RENDER LOOP (PERFORMANCE)
+// ==========================================
+
+/**
+ * Runs a requestAnimationFrame loop only while `target` is inside (or near) the viewport.
+ * Off-screen WebGL scenes are fully paused, saving GPU/CPU and battery.
+ * Falls back to an always-on loop when IntersectionObserver is unavailable.
+ */
+class VisibilityRenderLoop {
+  constructor(target, frameFn, rootMargin = '150px 0px') {
+    this.target = target;
+    this.frameFn = frameFn;
+    this.rafId = null;
+    this.inView = true;
+    this.contextLost = false;
+    this.tick = this.tick.bind(this);
+
+    if (target && 'IntersectionObserver' in window) {
+      this.inView = false;
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          this.inView = entry.isIntersecting;
+          if (this.inView) this.start();
+          else this.stop();
+        });
+      }, { rootMargin, threshold: 0 });
+      this.observer.observe(target);
+    } else {
+      this.start();
+    }
+  }
+
+  start() {
+    if (this.rafId === null && this.inView && !this.contextLost) {
+      this.rafId = requestAnimationFrame(this.tick);
+    }
+  }
+
+  stop() {
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
+
+  tick() {
+    this.rafId = requestAnimationFrame(this.tick);
+    try {
+      this.frameFn();
+    } catch (e) {
+      console.warn('Render loop halted:', e);
+      this.stop();
+    }
+  }
+
+  setContextLost(lost) {
+    this.contextLost = lost;
+    if (lost) this.stop();
+    else this.start();
+  }
+}
+
+// Gracefully pause rendering if the GPU drops the WebGL context (and resume on restore)
+function bindWebGLContextGuards(canvas, loop) {
+  if (!canvas || !loop) return;
+  canvas.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    loop.setContextLost(true);
+  }, false);
+  canvas.addEventListener('webglcontextrestored', () => {
+    loop.setContextLost(false);
+  }, false);
+}
+
+// Cap device pixel ratio lower on small screens to keep fill-rate cost in check
+function getRenderPixelRatio() {
+  const cap = window.innerWidth < 768 ? 1.5 : 2;
+  return Math.min(window.devicePixelRatio || 1, cap);
+}
+
+// Starts a scene's render loop bound to the visibility of its parent section
+function startSceneLoop(scene) {
+  const target = scene.canvas.closest('section') || scene.canvas;
+  scene.loop = new VisibilityRenderLoop(target, () => scene.animate());
+  bindWebGLContextGuards(scene.canvas, scene.loop);
+}
+
+
+// ==========================================
 // 3. THREE.JS 3D SCENES & SHADERS
 // ==========================================
 
@@ -490,15 +678,16 @@ class WarpTunnelExperience {
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(getRenderPixelRatio());
 
-    this.starCount = 2400;
+    // Fewer particles on small screens: same visual density, lighter CPU cost
+    this.starCount = window.innerWidth < 768 ? 1400 : 2400;
     this.speed = 1.5;
     this.targetSpeed = 1.5;
 
     this.initStars();
     this.bindEvents();
-    this.animate();
+    startSceneLoop(this);
   }
 
   initStars() {
@@ -551,8 +740,6 @@ class WarpTunnelExperience {
   }
 
   animate() {
-    requestAnimationFrame(() => this.animate());
-
     // Lerp speed
     this.speed += (this.targetSpeed - this.speed) * 0.08;
 
@@ -588,7 +775,7 @@ class MoltenSculpture {
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true });
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(getRenderPixelRatio());
 
     // Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
@@ -623,10 +810,10 @@ class MoltenSculpture {
     window.addEventListener('mousemove', (e) => {
       this.mouseX = (e.clientX / window.innerWidth) * 2 - 1;
       this.mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-    });
+    }, { passive: true });
 
     this.bindEvents();
-    this.animate();
+    startSceneLoop(this);
   }
 
   bindEvents() {
@@ -659,8 +846,6 @@ class MoltenSculpture {
   }
 
   animate() {
-    requestAnimationFrame(() => this.animate());
-
     const t = this.clock.getElapsedTime();
     const pos = this.mesh.geometry.attributes.position;
     const orig = this.originalPos.array;
@@ -694,7 +879,7 @@ class MorphingSphere {
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true });
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(getRenderPixelRatio());
 
     const ambLight = new THREE.AmbientLight(0xffffff, 0.3);
     this.scene.add(ambLight);
@@ -722,7 +907,7 @@ class MorphingSphere {
 
     this.clock = new THREE.Clock();
     this.bindEvents();
-    this.animate();
+    startSceneLoop(this);
   }
 
   bindEvents() {
@@ -754,8 +939,6 @@ class MorphingSphere {
   }
 
   animate() {
-    requestAnimationFrame(() => this.animate());
-
     const t = this.clock.getElapsedTime();
     const pos = this.mesh.geometry.attributes.position;
     const orig = this.originalPos.array;
@@ -792,7 +975,7 @@ class DuneTerrainHorizon {
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true });
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(getRenderPixelRatio());
 
     const ambLight = new THREE.AmbientLight(0xffffff, 0.4);
     this.scene.add(ambLight);
@@ -817,7 +1000,7 @@ class DuneTerrainHorizon {
 
     this.clock = new THREE.Clock();
     this.bindEvents();
-    this.animate();
+    startSceneLoop(this);
   }
 
   bindEvents() {
@@ -838,8 +1021,6 @@ class DuneTerrainHorizon {
   }
 
   animate() {
-    requestAnimationFrame(() => this.animate());
-
     const t = this.clock.getElapsedTime() * 0.8;
     const pos = this.mesh.geometry.attributes.position;
     const orig = this.originalPos.array;
@@ -887,23 +1068,54 @@ class RetroCrtController {
       this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
     }
 
+    // Track hero visibility so autoplay never runs (or makes noise) off-screen
+    this.heroVisible = true;
+    if (this.heroScene && 'IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => { this.heroVisible = entry.isIntersecting; });
+      }, { threshold: 0.15 }).observe(this.heroScene);
+    }
+
     this.bindEvents();
     this.renderChannel(true); // Prepare CH 01 content inside screen
     this.setGuideStep(1); // Step 1: Guide 1 tells user to turn on TV
+    this.syncAriaState();
+  }
+
+  syncAriaState() {
+    if (this.powerBtn) {
+      this.powerBtn.setAttribute('aria-pressed', String(this.poweredOn));
+      this.powerBtn.setAttribute('aria-label', 'CRT TV power');
+    }
+    const knobSection = document.querySelector('.knob-section');
+    if (knobSection) {
+      knobSection.setAttribute('aria-disabled', String(!this.poweredOn));
+      const ch = CRT_CHANNELS[this.currentIndex];
+      knobSection.setAttribute('aria-label', this.poweredOn && ch
+        ? `UHF channel dial: now on ${ch.channel}, ${ch.title}. Activate to switch channel`
+        : 'UHF channel dial (turn the TV on first)');
+    }
   }
 
   bindEvents() {
+    // Keyboard activation helper (Enter / Space) for non-native button controls
+    const onActivateKey = (el, handler) => {
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          handler();
+        }
+      });
+    };
+
     const knobSection = document.querySelector('.knob-section');
-    if (knobSection) {
-      knobSection.addEventListener('click', (e) => {
+    const knobTarget = knobSection || this.knobEl;
+    if (knobTarget) {
+      knobTarget.addEventListener('click', (e) => {
         e.preventDefault();
         this.nextChannel(false);
       });
-    } else if (this.knobEl) {
-      this.knobEl.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.nextChannel(false);
-      });
+      onActivateKey(knobTarget, () => this.nextChannel(false));
     }
 
     if (this.powerBtn) {
@@ -911,6 +1123,7 @@ class RetroCrtController {
         e.preventDefault();
         this.togglePower();
       });
+      onActivateKey(this.powerBtn, () => this.togglePower());
     }
 
     if (this.guide1El) {
@@ -940,17 +1153,23 @@ class RetroCrtController {
     if (this.wrapperEl) {
       this.wrapperEl.addEventListener('mouseenter', () => this.pauseAutoPlay());
       this.wrapperEl.addEventListener('mouseleave', () => this.resumeAutoPlay());
+      // Touch devices have no hover: restart the countdown on every touch so
+      // the channel never flips while the user is reading or about to tap.
+      this.wrapperEl.addEventListener('touchstart', () => {
+        if (this.autoPlayTimer) this.startAutoPlay();
+      }, { passive: true });
+      // Keyboard users: pause while focus is inside the console
+      this.wrapperEl.addEventListener('focusin', () => this.pauseAutoPlay());
+      this.wrapperEl.addEventListener('focusout', (e) => {
+        if (!this.wrapperEl.contains(e.relatedTarget)) this.resumeAutoPlay();
+      });
     }
 
     window.addEventListener('scroll', () => {
       if (this.guideStep === 3 && this.guide3El) {
-        if (window.scrollY > 160) {
-          this.guide3El.classList.add('scrolled-hidden');
-        } else {
-          this.guide3El.classList.remove('scrolled-hidden');
-        }
+        this.guide3El.classList.toggle('scrolled-hidden', window.scrollY > 160);
       }
-    });
+    }, { passive: true });
   }
 
   setGuideStep(step) {
@@ -981,7 +1200,8 @@ class RetroCrtController {
   startAutoPlay() {
     this.stopAutoPlay();
     this.autoPlayTimer = setInterval(() => {
-      if (this.poweredOn) {
+      // Only flip channels while the TV is actually visible to the user
+      if (this.poweredOn && this.heroVisible !== false && !document.hidden) {
         this.nextChannel(true);
       }
     }, this.autoPlayInterval);
@@ -995,7 +1215,8 @@ class RetroCrtController {
   }
 
   resumeAutoPlay() {
-    if (!this.autoPlayTimer && this.poweredOn) {
+    // CH 00 (showreel profile) is a deliberate resting state: never auto-advance past it
+    if (!this.autoPlayTimer && this.poweredOn && this.currentIndex !== 0) {
       this.startAutoPlay();
     }
   }
@@ -1130,11 +1351,26 @@ class RetroCrtController {
         }
       });
     }
+
+    if (!isInitial) this.syncAriaState();
+  }
+
+  // Phosphor beam animation: 'powering-on' (dot -> line -> picture) or 'powering-off' (picture -> line -> dot)
+  playPowerBeam(on) {
+    if (!this.tubeEl) return;
+    clearTimeout(this.beamTimer);
+    this.tubeEl.classList.remove('powering-on', 'powering-off');
+    void this.tubeEl.offsetWidth; // restart CSS animation if toggled rapidly
+    const cls = on ? 'powering-on' : 'powering-off';
+    this.tubeEl.classList.add(cls);
+    this.beamTimer = setTimeout(() => {
+      if (this.tubeEl) this.tubeEl.classList.remove(cls);
+    }, 800);
   }
 
   togglePower() {
     this.poweredOn = !this.poweredOn;
-    SoundSystem.playBlip(this.poweredOn ? 520 : 180);
+    SoundSystem.playCrtPower(this.poweredOn);
 
     if (this.powerLed) {
       this.powerLed.classList.toggle('off', !this.poweredOn);
@@ -1143,10 +1379,17 @@ class RetroCrtController {
     if (this.tubeEl) {
       this.tubeEl.classList.toggle('power-off', !this.poweredOn);
     }
+    this.playPowerBeam(this.poweredOn);
+
+    // While the tube is dark its content must not be reachable by keyboard / screen readers
+    if (this.contentEl) {
+      this.contentEl.inert = !this.poweredOn;
+      this.contentEl.setAttribute('aria-hidden', String(!this.poweredOn));
+    }
 
     if (this.poweredOn) {
       // 2. When turned on, TV displays CH 01 first, and Guide 2 tells user to change channels
-      this.currentIndex = 1; // CH 01 (Habakam APK)
+      this.currentIndex = 1; // CH 01 (Tracking Approvals)
       this.turnCount = 0;
       const stepAngle = 360 / CRT_CHANNELS.length;
       this.knobAngle = Math.round(this.currentIndex * stepAngle);
@@ -1154,7 +1397,7 @@ class RetroCrtController {
         this.knobEl.style.transform = `rotate(${this.knobAngle}deg)`;
       }
       this.setGuideStep(2);
-      this.renderChannel(false);
+      this.renderChannel(true); // power sound already played; skip channel-switch noise
       this.startAutoPlay();
     } else {
       this.stopAutoPlay();
@@ -1165,6 +1408,7 @@ class RetroCrtController {
       }
       this.setGuideStep(1); // Reset cleanly to Step 1 (Turn on TV)
     }
+    this.syncAriaState();
   }
 }
 
@@ -1173,10 +1417,23 @@ class RetroCrtController {
 // 5. TIMELINE SCRUBBER & WARP EXP
 // ==========================================
 
+// Horizontally centers `child` inside a scrollable `container` WITHOUT scrolling the page.
+// (Element.scrollIntoView would also scroll the window vertically, causing page jumps.)
+function scrollChildIntoCenter(container, child, smooth = true) {
+  if (!container || !child) return;
+  if (container.scrollWidth <= container.clientWidth + 1) return; // not scrollable
+  const cRect = container.getBoundingClientRect();
+  const chRect = child.getBoundingClientRect();
+  const delta = (chRect.left + chRect.width / 2) - (cRect.left + cRect.width / 2);
+  container.scrollTo({ left: container.scrollLeft + delta, behavior: smooth ? 'smooth' : 'auto' });
+}
+
 class TimelineJourneyScrubber {
   constructor(warpExp) {
     this.warpExp = warpExp;
-    this.buttons = document.querySelectorAll('.year-node-btn');
+    this.buttons = Array.from(document.querySelectorAll('.year-node-btn'));
+    this.scrubberBar = document.querySelector('.timeline-scrubber-bar');
+    this.cardEl = document.querySelector('.milestone-3d-card');
     this.yearDisplay = document.querySelector('.monumental-year-display');
     this.roleEl = document.querySelector('.milestone-role-title');
     this.companyEl = document.querySelector('.milestone-company-tag');
@@ -1184,75 +1441,158 @@ class TimelineJourneyScrubber {
     this.descEl = document.querySelector('.milestone-desc');
     this.highlightsEl = document.querySelector('.milestone-highlights-list');
     this.progressLine = document.querySelector('.timeline-progress-line');
+    this.currentIndex = Math.max(0, this.buttons.findIndex(b => b.dataset.year === '2024/current'));
 
     this.bindEvents();
-    this.selectYear('2024/current', false);
+    this.selectYear('2024/current', false, this.currentIndex, true);
     setTimeout(() => {
-      const activeBtn = document.querySelector('.year-node-btn[data-year="2024/current"]');
-      if (activeBtn) {
-        activeBtn.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
-      }
+      scrollChildIntoCenter(this.scrubberBar, this.buttons[this.currentIndex], false);
+      this.updateProgressLine();
     }, 150);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => this.updateProgressLine()).catch(() => {});
+    }
   }
 
   bindEvents() {
     this.buttons.forEach((btn, index) => {
       btn.addEventListener('click', () => {
-        const year = btn.dataset.year;
-        this.selectYear(year, true, index);
+        this.selectYear(btn.dataset.year, true, index);
+      });
+
+      // Arrow-key navigation between years (roving focus)
+      btn.addEventListener('keydown', (e) => {
+        let target = null;
+        if (e.key === 'ArrowRight') target = Math.min(index + 1, this.buttons.length - 1);
+        if (e.key === 'ArrowLeft') target = Math.max(index - 1, 0);
+        if (e.key === 'Home') target = 0;
+        if (e.key === 'End') target = this.buttons.length - 1;
+        if (target !== null && target !== index) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.buttons[target].focus();
+          this.goTo(target);
+        }
       });
     });
+
+    // Horizontal swipe on the milestone card jumps between years (touch devices)
+    if (this.cardEl) {
+      let startX = 0;
+      let startY = 0;
+      let tracking = false;
+      this.cardEl.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        tracking = true;
+      }, { passive: true });
+      this.cardEl.addEventListener('touchend', (e) => {
+        if (!tracking) return;
+        tracking = false;
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        // Require a clearly horizontal gesture so vertical page scrolling is never hijacked
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+          this.goTo(this.currentIndex + (dx < 0 ? 1 : -1));
+        }
+      }, { passive: true });
+    }
+
+    window.addEventListener('resize', () => this.updateProgressLine(), { passive: true });
+    window.addEventListener('screenratiochange', () => this.updateProgressLine(), { passive: true });
   }
 
-  selectYear(year, triggerSound = true, index = 0) {
+  goTo(index) {
+    const target = Math.max(0, Math.min(index, this.buttons.length - 1));
+    if (target === this.currentIndex) return;
+    const btn = this.buttons[target];
+    if (btn) this.selectYear(btn.dataset.year, true, target);
+  }
+
+  // Progress line ends exactly at the center of the active year button
+  updateProgressLine() {
+    if (!this.progressLine || !this.scrubberBar) return;
+    const btn = this.buttons[this.currentIndex];
+    if (!btn) return;
+    const barRect = this.scrubberBar.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    if (barRect.width === 0) {
+      const pct = (this.currentIndex / Math.max(this.buttons.length - 1, 1)) * 100;
+      this.progressLine.style.width = `${pct}%`;
+      return;
+    }
+    const center = (btnRect.left + btnRect.width / 2) - barRect.left + this.scrubberBar.scrollLeft;
+    this.progressLine.style.width = `${Math.max(0, center)}px`;
+  }
+
+  selectYear(year, triggerSound = true, index = 0, isInitial = false) {
     const data = TIMELINE_MILESTONES[year];
     if (!data) return;
 
-    if (triggerSound && this.warpExp) {
+    if (triggerSound && this.warpExp && this.warpExp.renderer) {
       this.warpExp.accelerateWarp();
     }
 
-    this.buttons.forEach(b => b.classList.remove('active'));
-    const activeBtn = document.querySelector(`.year-node-btn[data-year="${year}"]`);
-    if (activeBtn) {
-      activeBtn.classList.add('active');
-      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    const activeBtn = this.buttons.find(b => b.dataset.year === year);
+    const btnIndex = activeBtn ? this.buttons.indexOf(activeBtn) : index;
+    this.currentIndex = btnIndex >= 0 ? btnIndex : index;
+
+    this.buttons.forEach(b => {
+      const isActive = b === activeBtn;
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-pressed', String(isActive));
+    });
+    if (activeBtn && !isInitial) {
+      scrollChildIntoCenter(this.scrubberBar, activeBtn, true);
     }
 
-    // Update progress line width
-    if (this.progressLine) {
-      const btnIndex = activeBtn ? Array.from(this.buttons).indexOf(activeBtn) : index;
-      const safeIndex = btnIndex >= 0 ? btnIndex : index;
-      const pct = (safeIndex / (this.buttons.length - 1)) * 100;
-      this.progressLine.style.width = `${pct}%`;
-    }
+    this.updateProgressLine();
 
     // Animate year change
     if (this.yearDisplay) {
+      clearTimeout(this.yearTimer);
       this.yearDisplay.style.transform = 'scale(0.85)';
       this.yearDisplay.style.opacity = '0.4';
-      setTimeout(() => {
+      this.yearTimer = setTimeout(() => {
         this.yearDisplay.textContent = data.displayYear || year;
         this.yearDisplay.style.transform = 'scale(1)';
         this.yearDisplay.style.opacity = '1';
       }, 150);
     }
 
-    // Update milestone card
-    if (this.roleEl) this.roleEl.textContent = data.role;
-    if (this.companyEl) this.companyEl.textContent = data.company;
-    if (this.categoryEl) this.categoryEl.textContent = data.category;
-    if (this.descEl) this.descEl.textContent = data.desc;
+    // Update milestone card (soft cross-fade, instant on first paint)
+    const applyContent = () => {
+      if (this.roleEl) this.roleEl.textContent = data.role;
+      if (this.companyEl) this.companyEl.textContent = data.company;
+      if (this.categoryEl) this.categoryEl.textContent = data.category;
+      if (this.descEl) this.descEl.textContent = data.desc;
 
-    if (this.highlightsEl) {
-      if (data.highlights && data.highlights.length > 0) {
-        this.highlightsEl.style.display = 'flex';
-        this.highlightsEl.innerHTML = data.highlights.map(h => `<li>${h}</li>`).join('');
-      } else {
-        this.highlightsEl.style.display = 'none';
+      if (this.highlightsEl) {
         this.highlightsEl.innerHTML = '';
+        if (data.highlights && data.highlights.length > 0) {
+          this.highlightsEl.style.display = 'flex';
+          data.highlights.forEach((h) => {
+            const li = document.createElement('li');
+            li.textContent = h;
+            this.highlightsEl.appendChild(li);
+          });
+        } else {
+          this.highlightsEl.style.display = 'none';
+        }
       }
+    };
+
+    if (isInitial || !this.cardEl) {
+      applyContent();
+      return;
     }
+    clearTimeout(this.cardTimer);
+    this.cardEl.classList.add('is-updating');
+    this.cardTimer = setTimeout(() => {
+      applyContent();
+      this.cardEl.classList.remove('is-updating');
+    }, 170);
   }
 }
 
@@ -1282,6 +1622,7 @@ class SpatialProjectCarousel {
 
   setupCards() {
     this.cards.forEach((card, index) => {
+      // Click interaction
       card.addEventListener('click', (e) => {
         if (Date.now() - (this.lastSwipeTime || 0) < 350) return;
         // If clicking on direct live url link, allow normal navigation
@@ -1296,6 +1637,22 @@ class SpatialProjectCarousel {
         } else {
           // If clicking on side card, navigate directly to it!
           this.goTo(index);
+        }
+      });
+
+      // Keyboard activation (Enter / Space) on active card
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          if (e.target.closest('a')) return;
+          e.preventDefault();
+          if (index === this.currentIndex) {
+            const projectId = card.dataset.project;
+            if (projectId && window.openProjectDrawer) {
+              window.openProjectDrawer(projectId);
+            }
+          } else {
+            this.goTo(index);
+          }
         }
       });
     });
@@ -1341,6 +1698,8 @@ class SpatialProjectCarousel {
         card.style.filter = 'brightness(1)';
         card.style.zIndex = '35';
         card.style.pointerEvents = 'auto';
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-hidden', 'false');
       } else if (offset === 1) {
         // Next Card (Right)
         card.classList.add('is-next');
@@ -1349,6 +1708,8 @@ class SpatialProjectCarousel {
         card.style.filter = 'brightness(0.65)';
         card.style.zIndex = '25';
         card.style.pointerEvents = 'auto';
+        card.setAttribute('tabindex', '-1');
+        card.setAttribute('aria-hidden', 'true');
       } else if (offset === -1) {
         // Prev Card (Left)
         card.classList.add('is-prev');
@@ -1357,6 +1718,8 @@ class SpatialProjectCarousel {
         card.style.filter = 'brightness(0.65)';
         card.style.zIndex = '25';
         card.style.pointerEvents = 'auto';
+        card.setAttribute('tabindex', '-1');
+        card.setAttribute('aria-hidden', 'true');
       } else {
         // Opposite / Back Card
         card.classList.add('is-back');
@@ -1365,6 +1728,8 @@ class SpatialProjectCarousel {
         card.style.filter = 'brightness(0.3)';
         card.style.zIndex = '10';
         card.style.pointerEvents = 'none';
+        card.setAttribute('tabindex', '-1');
+        card.setAttribute('aria-hidden', 'true');
       }
     });
 
@@ -1375,13 +1740,17 @@ class SpatialProjectCarousel {
 
     // Update Dots
     this.dots.forEach((dot, idx) => {
-      dot.classList.toggle('active', idx === this.currentIndex);
+      const isActive = idx === this.currentIndex;
+      dot.classList.toggle('active', isActive);
+      dot.setAttribute('aria-current', isActive ? 'true' : 'false');
     });
 
     // Update Tabs
     this.tabs.forEach((tab, idx) => {
       const isActive = idx === this.currentIndex;
       tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      tab.setAttribute('tabindex', isActive ? '0' : '-1');
       if (isActive && window.innerWidth < 768) {
         tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
@@ -1426,12 +1795,32 @@ class SpatialProjectCarousel {
         e.preventDefault();
         this.goTo(idx);
       });
+      dot.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.goTo(idx);
+        }
+      });
     });
 
     this.tabs.forEach((tab, idx) => {
       tab.addEventListener('click', (e) => {
         e.preventDefault();
         this.goTo(idx);
+      });
+
+      // Roving focus keyboard navigation between tabs
+      tab.addEventListener('keydown', (e) => {
+        let target = null;
+        if (e.key === 'ArrowRight') target = (idx + 1) % this.tabs.length;
+        if (e.key === 'ArrowLeft') target = (idx - 1 + this.tabs.length) % this.tabs.length;
+        if (e.key === 'Home') target = 0;
+        if (e.key === 'End') target = this.tabs.length - 1;
+        if (target !== null && target !== idx) {
+          e.preventDefault();
+          this.tabs[target].focus();
+          this.goTo(target);
+        }
       });
     });
 
@@ -1445,6 +1834,8 @@ class SpatialProjectCarousel {
       if (projSec) {
         const rect = projSec.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
+          // If focus is already inside a specific interactive control, let it handle its own keys
+          if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
           if (e.key === 'ArrowLeft') this.prev();
           if (e.key === 'ArrowRight') this.next();
         }
@@ -1476,11 +1867,13 @@ class SpatialProjectCarousel {
         }
       });
 
-      // Touch swipe support
+      // Touch swipe support (distinguishes horizontal swipe from vertical page scroll)
       this.lastSwipeTime = 0;
+      let touchStartY = 0;
       this.container.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
           startX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
           isDragging = true;
         }
       }, { passive: true });
@@ -1488,14 +1881,17 @@ class SpatialProjectCarousel {
       this.container.addEventListener('touchend', (e) => {
         if (!isDragging) return;
         const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
         const dx = endX - startX;
-        if (Math.abs(dx) > 25) {
+        const dy = endY - touchStartY;
+        // Require horizontal intent so vertical scrolling remains fluid
+        if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy) * 1.3) {
           this.lastSwipeTime = Date.now();
           if (dx > 0) this.prev();
           else this.next();
         }
         isDragging = false;
-      });
+      }, { passive: true });
     }
   }
 }
@@ -1509,9 +1905,12 @@ window.openProjectDrawer = function(projectId) {
   const data = PROJECT_CASE_STUDIES[projectId];
   if (!data) return;
 
+  window.lastActiveProjectElement = document.activeElement;
   SoundSystem.playBlip(800);
 
   const drawer = document.querySelector('.case-study-drawer');
+  if (!drawer) return;
+
   const titleEl = drawer.querySelector('.case-study-title');
   const pillEl = drawer.querySelector('.case-pill-badge');
   const metaGrid = drawer.querySelector('.case-meta-grid');
@@ -1577,15 +1976,37 @@ window.openProjectDrawer = function(projectId) {
     `).join('');
   }
 
+  // Backdrop click dismissal
+  if (!drawer.__hasBackdropListener) {
+    drawer.__hasBackdropListener = true;
+    drawer.addEventListener('click', (e) => {
+      if (e.target === drawer) {
+        window.closeProjectDrawer();
+      }
+    });
+  }
+
   drawer.classList.add('open');
   document.body.style.overflow = 'hidden';
+
+  // Move focus to the back button inside the drawer for keyboard users
+  const backBtn = drawer.querySelector('.drawer-back-btn');
+  if (backBtn) {
+    setTimeout(() => backBtn.focus(), 100);
+  }
 };
 
 window.closeProjectDrawer = function() {
   const drawer = document.querySelector('.case-study-drawer');
-  if (drawer) drawer.classList.remove('open');
-  document.body.style.overflow = 'auto';
-  SoundSystem.playBlip(400);
+  if (drawer && drawer.classList.contains('open')) {
+    drawer.classList.remove('open');
+    document.body.style.overflow = '';
+    SoundSystem.playBlip(400);
+    if (window.lastActiveProjectElement) {
+      window.lastActiveProjectElement.focus();
+      window.lastActiveProjectElement = null;
+    }
+  }
 };
 
 
@@ -1600,12 +2021,23 @@ class CertificatesVault {
     this.modalImg = document.querySelector('.lightbox-img-wrap img');
     this.captionEl = document.querySelector('.lightbox-caption-text');
     this.closeBtn = document.querySelector('.lightbox-close-btn');
+    this.lastActiveElement = null;
+
+    window.closeCertificateLightbox = () => this.closeLightbox();
 
     this.bindEvents();
   }
 
   bindEvents() {
     this.cards.forEach(card => {
+      const highRes = card.dataset.highres;
+      const title = card.querySelector('.cert-name')?.textContent || '';
+
+      // Accessibility attributes
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `View verified certificate: ${title}`);
+
       // 3D Tilt interaction
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
@@ -1620,9 +2052,15 @@ class CertificatesVault {
 
       // Lightbox click
       card.addEventListener('click', () => {
-        const highRes = card.dataset.highres;
-        const title = card.querySelector('.cert-name')?.textContent || '';
         this.openLightbox(highRes, title);
+      });
+
+      // Keyboard activation
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.openLightbox(highRes, title);
+        }
       });
     });
 
@@ -1639,17 +2077,26 @@ class CertificatesVault {
 
   openLightbox(src, caption) {
     if (!this.modal || !this.modalImg) return;
+    this.lastActiveElement = document.activeElement;
     this.modalImg.src = src;
     if (this.captionEl) this.captionEl.textContent = caption;
     this.modal.classList.add('open');
     document.body.style.overflow = 'hidden';
     SoundSystem.playBlip(680);
+    if (this.closeBtn) {
+      setTimeout(() => this.closeBtn.focus(), 100);
+    }
   }
 
   closeLightbox() {
-    if (!this.modal) return;
+    if (!this.modal || !this.modal.classList.contains('open')) return;
     this.modal.classList.remove('open');
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = '';
+    SoundSystem.playBlip(400);
+    if (this.lastActiveElement) {
+      this.lastActiveElement.focus();
+      this.lastActiveElement = null;
+    }
   }
 }
 
@@ -1719,6 +2166,19 @@ class MagneticCursor {
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Silent audio context resumption on first user gesture
+  const resumeAudioOnFirstGesture = () => {
+    if (SoundSystem.enabled && SoundSystem.ctx && SoundSystem.ctx.state === 'suspended') {
+      SoundSystem.ctx.resume().catch(() => {});
+    }
+    window.removeEventListener('pointerdown', resumeAudioOnFirstGesture);
+    window.removeEventListener('keydown', resumeAudioOnFirstGesture);
+    window.removeEventListener('touchstart', resumeAudioOnFirstGesture);
+  };
+  window.addEventListener('pointerdown', resumeAudioOnFirstGesture, { passive: true });
+  window.addEventListener('keydown', resumeAudioOnFirstGesture, { passive: true });
+  window.addEventListener('touchstart', resumeAudioOnFirstGesture, { passive: true });
+
   // Sound system toggle
   const soundBtn = document.querySelector('.sound-toggle-btn');
   if (soundBtn) {
@@ -1726,18 +2186,45 @@ document.addEventListener('DOMContentLoaded', () => {
       soundBtn.classList.add('active');
       const lbl = soundBtn.querySelector('.sound-label');
       if (lbl) lbl.textContent = 'SOUND ON';
+      soundBtn.setAttribute('aria-pressed', 'true');
       SoundSystem.enabled = true;
+    } else {
+      soundBtn.setAttribute('aria-pressed', 'false');
     }
 
     const handleSoundToggle = (e) => {
       if (e) { e.preventDefault(); e.stopPropagation(); }
       const active = SoundSystem.toggle();
       soundBtn.classList.toggle('active', active);
+      soundBtn.setAttribute('aria-pressed', String(active));
       const lbl = soundBtn.querySelector('.sound-label');
       if (lbl) lbl.textContent = active ? 'SOUND ON' : 'SOUND OFF';
     };
 
     soundBtn.addEventListener('click', handleSoundToggle);
+  }
+
+  // Floating Audio Player Card (Spatial Synth melody on click)
+  const floatingPlayer = document.querySelector('.floating-player-card');
+  if (floatingPlayer) {
+    floatingPlayer.setAttribute('role', 'button');
+    floatingPlayer.setAttribute('tabindex', '0');
+    floatingPlayer.setAttribute('aria-label', 'Play spatial synth melody preview');
+    const handlePlayMelody = (e) => {
+      if (e) e.preventDefault();
+      const duration = SoundSystem.playSynthMelody();
+      floatingPlayer.classList.add('playing');
+      setTimeout(() => {
+        floatingPlayer.classList.remove('playing');
+      }, (duration || 2.5) * 1000);
+    };
+    floatingPlayer.addEventListener('click', handlePlayMelody);
+    floatingPlayer.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handlePlayMelody(e);
+      }
+    });
   }
 
   // Fullscreen Navigation Drawer
@@ -1748,18 +2235,26 @@ document.addEventListener('DOMContentLoaded', () => {
   function openDrawer(e) {
     if (e) { e.preventDefault(); e.stopPropagation(); }
     if (drawer) {
+      window.lastActiveMenuElement = document.activeElement;
       drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       SoundSystem.playBlip(750);
+      if (drawerCloseBtn) setTimeout(() => drawerCloseBtn.focus(), 100);
     }
   }
 
   function closeDrawer(e) {
     if (e) { e.preventDefault(); e.stopPropagation(); }
-    if (drawer) {
+    if (drawer && drawer.classList.contains('open')) {
       drawer.classList.remove('open');
-      document.body.style.overflow = 'auto';
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
       SoundSystem.playBlip(400);
+      if (window.lastActiveMenuElement) {
+        window.lastActiveMenuElement.focus();
+        window.lastActiveMenuElement = null;
+      }
     }
   }
 
@@ -1777,10 +2272,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Global Escape key handler for all overlays & drawers
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      if (drawer && drawer.classList.contains('open')) closeDrawer();
-      if (window.closeProjectDrawer) window.closeProjectDrawer();
+      if (drawer && drawer.classList.contains('open')) {
+        closeDrawer();
+        return;
+      }
+      const caseDrawer = document.querySelector('.case-study-drawer');
+      if (caseDrawer && caseDrawer.classList.contains('open')) {
+        if (window.closeProjectDrawer) window.closeProjectDrawer();
+        return;
+      }
+      const lightboxModal = document.querySelector('.lightbox-modal');
+      if (lightboxModal && lightboxModal.classList.contains('open')) {
+        if (window.closeCertificateLightbox) window.closeCertificateLightbox();
+        return;
+      }
     }
   });
 

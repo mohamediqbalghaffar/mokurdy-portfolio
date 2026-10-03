@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/style.css?v=3.5">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
   
   <!-- Three.js & GSAP CDNs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -30,7 +30,7 @@
   <div class="cursor-follower"></div>
 
   <!-- Fixed 3-Point Floating Navigation Bar -->
-  <nav class="site-nav">
+  <nav class="site-nav" aria-label="Main Navigation">
     <div class="nav-left">
       <a href="#contact" class="contact-btn">
         <span>Contact Me</span>
@@ -46,12 +46,12 @@
     </div>
 
     <div class="nav-right">
-      <button class="sound-toggle-btn" aria-label="Toggle Sound Effects">
+      <button class="sound-toggle-btn" aria-label="Toggle Sound Effects" aria-pressed="false">
         <span class="sound-icon">🔊</span>
         <span class="sound-label">Sound Off</span>
       </button>
 
-      <button class="menu-toggle-btn" aria-label="Open Navigation Menu">
+      <button class="menu-toggle-btn" aria-label="Open Navigation Menu" aria-haspopup="dialog" aria-expanded="false">
         <span>Menu</span>
         <div class="menu-bars">
           <div class="menu-bar"></div>
@@ -62,7 +62,7 @@
   </nav>
 
   <!-- Fullscreen Brutalist Navigation Drawer -->
-  <div class="fullscreen-nav-drawer" id="nav-drawer">
+  <div class="fullscreen-nav-drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-label="Site Navigation Menu" aria-hidden="true">
     <div class="drawer-header">
       <div class="brand-logo">
         <span class="brand-dot"></span>
@@ -142,7 +142,7 @@
     </svg>
 
     <!-- Floating Audio Card with Heart & 4:20 Duration -->
-    <div class="floating-player-card" title="Click to play synthesized audio">
+    <div class="floating-player-card" role="button" tabindex="0" aria-label="Play spatial synth melody preview" title="Click to play synthesized audio">
       <div class="player-label">NOW PLAYING</div>
       <svg class="player-heart-icon" viewBox="0 0 24 24" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       <div class="player-time-tag">4:20</div>
@@ -150,7 +150,7 @@
     </div>
 
     <!-- Centerpiece Retro CRT Television Console -->
-    <div class="crt-console-wrapper">
+    <div class="crt-console-wrapper" role="region" aria-label="Retro CRT Television Showreel Console">
       
       <!-- Dedicated Guides Overlay (Positioned Absolute: zero flex layout interference) -->
       <div class="crt-guides-overlay">
@@ -185,7 +185,7 @@
         <div class="crt-glare"></div>
         <div class="crt-vignette"></div>
 
-        <div class="crt-screen-content" id="crt-content">
+        <div class="crt-screen-content" id="crt-content" inert aria-hidden="true">
           <!-- Initially prepared with Channel 01 (Tracking Approvals) when powered on -->
           <div class="crt-project-slide">
             <div class="crt-channel-badge"><span class="crt-live-dot"></span>CH 01</div>
@@ -209,7 +209,7 @@
       <!-- CRT Side Physical Panel with Rotary Knobs & Speaker -->
       <div class="crt-side-panel">
         
-        <div class="knob-section">
+        <div class="knob-section" role="button" tabindex="0" aria-disabled="true" aria-label="UHF channel dial (turn the TV on first)">
           <div class="knob-label">UHF CHANNEL</div>
           <div class="rotary-knob" title="Click to rotate knob & switch channel">
             <div class="knob-marker"></div>
@@ -223,7 +223,7 @@
           <div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div><div class="speaker-hole"></div>
         </div>
 
-        <div class="power-toggle-btn guide-pulse" title="Toggle CRT Power">
+        <div class="power-toggle-btn guide-pulse" role="button" tabindex="0" aria-pressed="false" aria-label="CRT TV power" title="Toggle CRT Power">
           <div class="power-switch-led off"></div>
           <div class="knob-label">POWER</div>
         </div>
@@ -317,13 +317,13 @@
       </div>
 
       <!-- Timeline Year Scrubber Bar -->
-      <div class="timeline-scrubber-bar">
+      <div class="timeline-scrubber-bar" role="tablist" aria-label="Career Milestones Timeline">
         <div class="timeline-progress-line"></div>
-        <button class="year-node-btn" data-year="2016">2016</button>
-        <button class="year-node-btn" data-year="2018">2018</button>
-        <button class="year-node-btn" data-year="2019">2019</button>
-        <button class="year-node-btn" data-year="2021-2023">2021 – 2023</button>
-        <button class="year-node-btn active" data-year="2024/current">2024 / CURRENT</button>
+        <button class="year-node-btn" role="tab" aria-selected="false" aria-pressed="false" data-year="2016">2016</button>
+        <button class="year-node-btn" role="tab" aria-selected="false" aria-pressed="false" data-year="2018">2018</button>
+        <button class="year-node-btn" role="tab" aria-selected="false" aria-pressed="false" data-year="2019">2019</button>
+        <button class="year-node-btn" role="tab" aria-selected="false" aria-pressed="false" data-year="2021-2023">2021 – 2023</button>
+        <button class="year-node-btn active" role="tab" aria-selected="true" aria-pressed="true" data-year="2024/current">2024 / CURRENT</button>
       </div>
 
     </div>
@@ -423,20 +423,20 @@
       </p>
 
       <!-- Project Quick Selector Tabs -->
-      <div class="project-pill-nav">
-        <button class="project-tab-btn active" data-index="0">
+      <div class="project-pill-nav" role="tablist" aria-label="Special Projects Navigation">
+        <button class="project-tab-btn active" role="tab" aria-selected="true" data-index="0">
           <span class="tab-index">01</span>
           <span class="tab-title">Tracking Approvals</span>
         </button>
-        <button class="project-tab-btn" data-index="1">
+        <button class="project-tab-btn" role="tab" aria-selected="false" data-index="1">
           <span class="tab-index">02</span>
           <span class="tab-title">Charity NGO Web</span>
         </button>
-        <button class="project-tab-btn" data-index="2">
+        <button class="project-tab-btn" role="tab" aria-selected="false" data-index="2">
           <span class="tab-index">03</span>
           <span class="tab-title">CRM & Warehouse ERP</span>
         </button>
-        <button class="project-tab-btn" data-index="3">
+        <button class="project-tab-btn" role="tab" aria-selected="false" data-index="3">
           <span class="tab-index">04</span>
           <span class="tab-title">Habakam Android APK</span>
         </button>
@@ -449,10 +449,10 @@
       <!-- Central Morphing Fluid Sphere Canvas -->
       <canvas id="sphere-canvas"></canvas>
 
-      <div class="carousel-rotator">
+      <div class="carousel-rotator" role="region" aria-roledescription="carousel" aria-label="Projects 3D Coverflow">
         
         <!-- Card 1: Tracking Approvals -->
-        <div class="carousel-project-card" data-project="tracking-approvals">
+        <div class="carousel-project-card" role="group" aria-roledescription="slide" aria-label="Project 1 of 4: Tracking Approvals" data-project="tracking-approvals">
           <div class="card-image-wrap">
             <span class="card-pill-tag">SLA ANALYTICS</span>
             <img src="assets/images/projects/tracking_dashboard.png" alt="Tracking Approvals Platform">
@@ -473,7 +473,7 @@
         </div>
 
         <!-- Card 2: Charity NGO Web -->
-        <div class="carousel-project-card" data-project="charity-ngo">
+        <div class="carousel-project-card" role="group" aria-roledescription="slide" aria-label="Project 2 of 4: Charity NGO Web" data-project="charity-ngo">
           <div class="card-image-wrap">
             <span class="card-pill-tag">AID CRM & GIS</span>
             <img src="assets/images/projects/charity_dashboard.png" alt="Charity NGO Platform">
@@ -494,7 +494,7 @@
         </div>
 
         <!-- Card 3: CRM & Warehouse ERP -->
-        <div class="carousel-project-card" data-project="crm-erp">
+        <div class="carousel-project-card" role="group" aria-roledescription="slide" aria-label="Project 3 of 4: CRM & Warehouse ERP" data-project="crm-erp">
           <div class="card-image-wrap">
             <span class="card-pill-tag">COMMERCE ERP</span>
             <img src="assets/images/projects/crm_dashboard.png" alt="CRM & Warehouse ERP">
@@ -515,7 +515,7 @@
         </div>
 
         <!-- Card 4: Habakam Android APK -->
-        <div class="carousel-project-card" data-project="habakam">
+        <div class="carousel-project-card" role="group" aria-roledescription="slide" aria-label="Project 4 of 4: Habakam Android APK" data-project="habakam">
           <div class="card-image-wrap">
             <span class="card-pill-tag">ANDROID APK</span>
             <img src="assets/images/projects/habakam_app_screen.png" alt="Habakam Kurdish Medication Reminder APK" style="object-fit: cover; object-position: top center;">
@@ -551,11 +551,11 @@
         <span class="carousel-counter-total">04</span>
       </div>
 
-      <div class="carousel-dots">
-        <span class="carousel-dot active" data-index="0" title="Tracking Approvals"></span>
-        <span class="carousel-dot" data-index="1" title="Charity NGO Web"></span>
-        <span class="carousel-dot" data-index="2" title="CRM & Warehouse ERP"></span>
-        <span class="carousel-dot" data-index="3" title="Habakam Android APK"></span>
+      <div class="carousel-dots" role="tablist" aria-label="Project slide selector dots">
+        <span class="carousel-dot active" role="tab" tabindex="0" aria-label="Project 1: Tracking Approvals" data-index="0" title="Tracking Approvals"></span>
+        <span class="carousel-dot" role="tab" tabindex="0" aria-label="Project 2: Charity NGO Web" data-index="1" title="Charity NGO Web"></span>
+        <span class="carousel-dot" role="tab" tabindex="0" aria-label="Project 3: CRM & Warehouse ERP" data-index="2" title="CRM & Warehouse ERP"></span>
+        <span class="carousel-dot" role="tab" tabindex="0" aria-label="Project 4: Habakam Android APK" data-index="3" title="Habakam Android APK"></span>
       </div>
 
       <button class="carousel-nav-btn next" id="carousel-next" aria-label="Next Project">
@@ -570,10 +570,10 @@
   <!-- ==========================================================================
        SCENE 5: EDITORIAL CASE STUDY DRAWER (FULLSCREEN MODAL)
        ========================================================================== -->
-  <div class="case-study-drawer" id="case-drawer">
+  <div class="case-study-drawer" id="case-drawer" role="dialog" aria-modal="true" aria-label="Project Case Study Details">
     <div class="case-drawer-container">
       
-      <button class="drawer-back-btn" onclick="window.closeProjectDrawer()">
+      <button class="drawer-back-btn" onclick="window.closeProjectDrawer()" aria-label="Close case study and return to projects">
         ← Back to Projects
       </button>
 
@@ -645,9 +645,9 @@
     <div class="cert-grid-layout">
       
       <!-- Cert 1: Google Antigravity Agentic AI -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_07_google_antigravity_agentic_workflows.png">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View Google Antigravity Agentic Workflow Certificate" data-highres="assets/certificates/cert_07_google_antigravity_agentic_workflows.png">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_07_google_antigravity_agentic_workflows.png" alt="Google Antigravity Agentic AI" loading="lazy">
+          <img src="assets/certificates/cert_07_google_antigravity_agentic_workflows.png" alt="Google Antigravity Agentic AI Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -658,9 +658,9 @@
       </div>
 
       <!-- Cert 2: Building Agentic AI Systems -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_06_building_agentic_ai_systems.png">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View Building Agentic AI Systems Certificate" data-highres="assets/certificates/cert_06_building_agentic_ai_systems.png">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_06_building_agentic_ai_systems.png" alt="Building Agentic AI Systems" loading="lazy">
+          <img src="assets/certificates/cert_06_building_agentic_ai_systems.png" alt="Building Agentic AI Systems Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -671,9 +671,9 @@
       </div>
 
       <!-- Cert 3: Applied Machine Learning -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_08_applied_machine_learning.png">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View Applied Machine Learning Certificate" data-highres="assets/certificates/cert_08_applied_machine_learning.png">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_08_applied_machine_learning.png" alt="Applied Machine Learning" loading="lazy">
+          <img src="assets/certificates/cert_08_applied_machine_learning.png" alt="Applied Machine Learning Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -684,9 +684,9 @@
       </div>
 
       <!-- Cert 4: AI-Powered People Manager -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_09_ai_powered_people_manager.png">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View Become an AI-Powered People & Engineering Manager Certificate" data-highres="assets/certificates/cert_09_ai_powered_people_manager.png">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_09_ai_powered_people_manager.png" alt="AI-Powered People Manager" loading="lazy">
+          <img src="assets/certificates/cert_09_ai_powered_people_manager.png" alt="AI-Powered People Manager Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -697,9 +697,9 @@
       </div>
 
       <!-- Cert 5: PMI Productivity AI -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_10_productivity_ai_tools_pmi.png">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View Boost Productivity with Generative AI Tools for Projects Certificate" data-highres="assets/certificates/cert_10_productivity_ai_tools_pmi.png">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_10_productivity_ai_tools_pmi.png" alt="PMI AI Productivity" loading="lazy">
+          <img src="assets/certificates/cert_10_productivity_ai_tools_pmi.png" alt="PMI AI Productivity Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -710,9 +710,9 @@
       </div>
 
       <!-- Cert 6: Five One Labs & UNICEF -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_01_entrepreneurship_51labs_unicef.jpg">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View Social Entrepreneurship Business Incubation Fellowship Certificate" data-highres="assets/certificates/cert_01_entrepreneurship_51labs_unicef.jpg">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_01_entrepreneurship_51labs_unicef.jpg" alt="Social Entrepreneurship" loading="lazy">
+          <img src="assets/certificates/cert_01_entrepreneurship_51labs_unicef.jpg" alt="Social Entrepreneurship Fellowship Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -723,9 +723,9 @@
       </div>
 
       <!-- Cert 7: Kangaroo Math Competition -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_05_math_contest_aksf.jpg">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View International Kangaroo Math Competition Honor Award" data-highres="assets/certificates/cert_05_math_contest_aksf.jpg">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_05_math_contest_aksf.jpg" alt="Math Contest" loading="lazy">
+          <img src="assets/certificates/cert_05_math_contest_aksf.jpg" alt="Math Contest Honor Award Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -736,9 +736,9 @@
       </div>
 
       <!-- Cert 8: Turkish Language Fluency -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_03_turkish_language_b1_edexcel.jpg">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View Turkish Language Fluency Certification" data-highres="assets/certificates/cert_03_turkish_language_b1_edexcel.jpg">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_03_turkish_language_b1_edexcel.jpg" alt="Turkish Language" loading="lazy">
+          <img src="assets/certificates/cert_03_turkish_language_b1_edexcel.jpg" alt="Turkish Language Fluency Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -749,9 +749,9 @@
       </div>
 
       <!-- Cert 9: English Contest Silver Medal -->
-      <div class="cert-token-card" data-highres="assets/certificates/cert_02_english_contest_silver_medal.jpg">
+      <div class="cert-token-card" role="button" tabindex="0" aria-label="View English Language Proficiency Contest Silver Medal Award" data-highres="assets/certificates/cert_02_english_contest_silver_medal.jpg">
         <div class="cert-thumbnail-box">
-          <img src="assets/certificates/cert_02_english_contest_silver_medal.jpg" alt="English Medal" loading="lazy">
+          <img src="assets/certificates/cert_02_english_contest_silver_medal.jpg" alt="English Medal Award Certificate" loading="lazy">
           <span class="cert-zoom-pill">Zoom ⊕</span>
         </div>
         <div class="cert-body-box">
@@ -766,9 +766,9 @@
   </section>
 
   <!-- Lightbox Zoom Modal -->
-  <div class="lightbox-modal">
+  <div class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Certificate Image Zoom Modal">
     <div class="lightbox-dialog">
-      <button class="lightbox-close-btn">Close ✕</button>
+      <button class="lightbox-close-btn" aria-label="Close certificate preview">Close ✕</button>
       <div class="lightbox-img-wrap">
         <img src="" alt="Certificate Preview">
       </div>
@@ -832,7 +832,7 @@
   </section>
 
   <!-- Core Interactive Script -->
-  <script src="assets/js/main.js?v=3.5"></script>
+  <script src="assets/js/main.js?v=4.0"></script>
 
 </body>
 </html>
