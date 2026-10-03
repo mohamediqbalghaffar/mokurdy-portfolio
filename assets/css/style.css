@@ -379,7 +379,7 @@ img, video {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 4rem 6rem;
+  padding: clamp(2rem, 4.5vh, 4rem) clamp(2rem, 6vw, 6rem);
   opacity: 0;
   pointer-events: none;
   transform: translateY(-20px);
@@ -421,32 +421,41 @@ img, video {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: clamp(0.6rem, 1.6vh, 1.2rem);
+  margin: auto 0;
 }
 
 .drawer-link-item a {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.8vw, 3.2rem);
-  font-weight: 800;
+  font-family: var(--font-sans);
+  font-size: clamp(1.15rem, 2.3vw, 1.95rem);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
   color: var(--text-secondary);
   display: flex;
   align-items: baseline;
-  gap: 1.5rem;
-  transition: all 0.4s var(--ease-cinematic);
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  line-height: 1.25;
+  transition: color 0.3s ease, transform 0.3s var(--ease-cinematic);
 }
 
 .drawer-link-item a span.num {
   font-family: var(--font-mono);
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-size: clamp(0.82rem, 1vw, 0.95rem);
+  font-weight: 500;
   color: var(--text-muted);
+  min-width: 2.2ch;
 }
 
 .drawer-link-item a:hover {
   color: #ffffff;
-  transform: translateX(25px);
+  transform: translateX(18px);
+}
+
+.drawer-link-item a:focus-visible {
+  outline: 2px solid var(--accent-phosphor);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .drawer-footer {
@@ -3132,7 +3141,7 @@ img, video {
 
   /* --- 2. Fullscreen Brutalist Navigation Drawer --- */
   .fullscreen-nav-drawer {
-    padding: max(2rem, env(safe-area-inset-top)) 1.25rem 2rem;
+    padding: max(1.5rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom));
     overflow-y: auto;
   }
 
@@ -3143,19 +3152,20 @@ img, video {
   }
 
   .drawer-links-list {
-    gap: 0.75rem;
-    margin: 2rem 0;
+    gap: 0.65rem;
+    margin: 1.5rem 0;
   }
 
   .drawer-link-item a {
-    font-size: clamp(1.15rem, 5vw, 1.75rem);
+    font-size: clamp(1.05rem, 4.5vw, 1.4rem);
     gap: 0.75rem;
     white-space: normal;
     word-break: break-word;
+    line-height: 1.25;
   }
 
   .drawer-link-item a span.num {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
   }
 
   .drawer-footer {
@@ -3656,6 +3666,23 @@ img, video {
   .site-nav {
     height: 52px;
     padding: 0 1.5rem;
+  }
+
+  .fullscreen-nav-drawer {
+    padding: clamp(1.2rem, 3vh, 2rem) clamp(1.5rem, 5vw, 4rem);
+  }
+
+  .drawer-links-list {
+    gap: clamp(0.35rem, 1.2vh, 0.75rem);
+  }
+
+  .drawer-link-item a {
+    font-size: clamp(1rem, 2.8vh, 1.45rem);
+    gap: 0.9rem;
+  }
+
+  .drawer-link-item a span.num {
+    font-size: 0.8rem;
   }
 
   .hero-scene {
