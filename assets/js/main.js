@@ -1922,7 +1922,7 @@ window.openProjectDrawer = function(projectId) {
 
   if (metaGrid) {
     const liveItem = data.meta.liveUrl
-      ? `<div class="case-meta-item" style="border-color: rgba(0, 255, 102, 0.4); background: rgba(0, 255, 102, 0.06);">
+      ? `<div class="case-meta-item live-link-box">
           <div class="meta-heading" style="color: #00ff66;">Live Production URL</div>
           <div class="meta-val">
             <a href="${data.meta.liveUrl}" target="_blank" rel="noopener" style="color: #00ff66; text-decoration: underline; text-underline-offset: 4px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
