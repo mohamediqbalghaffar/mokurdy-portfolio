@@ -2317,10 +2317,167 @@ document.addEventListener('DOMContentLoaded', () => {
   new MorphingSphere('sphere-canvas');
   new DuneTerrainHorizon('terrain-canvas');
 
+  // ==========================================================================
+  // SECTION CHANGER CONTROLLER (7-SCENE RAIL NAVIGATOR)
+  // Allows stepping up/down through all 7 portfolio scenes or clicking nodes
+  // ==========================================================================
+  class SectionChangerController {
+    constructor() {
+      this.container = document.getElementById('side-section-nav');
+      if (!this.container) return;
+
+      this.btnUp = document.getElementById('section-nav-up');
+      this.btnDown = document.getElementById('section-nav-down');
+      this.nodes = Array.from(this.container.querySelectorAll('.section-node-btn'));
+      this.trackFill = this.container.querySelector('.section-track-fill');
+
+      this.sectionIds = this.nodes.map(n => n.dataset.target);
+      this.currentIndex = 0;
+      this.isNavigating = false;
+
+      this.bindEvents();
+      this.initObserver();
+      this.updateState(0, false);
+    }
+
+    bindEvents() {
+      if (this.btnUp) {
+        this.btnUp.addEventListener('click', () => this.prev());
+      }
+
+      if (this.btnDown) {
+        this.btnDown.addEventListener('click', () => this.next());
+      }
+
+      this.nodes.forEach((node, idx) => {
+        node.addEventListener('click', () => {
+          this.goToIndex(idx);
+        });
+
+        node.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.goToIndex(idx);
+          } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextIdx = Math.min(this.nodes.length - 1, idx + 1);
+            this.nodes[nextIdx].focus();
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevIdx = Math.max(0, idx - 1);
+            this.nodes[prevIdx].focus();
+          }
+        });
+      });
+
+      // Keyboard: PageUp / PageDown global navigation
+      window.addEventListener('keydown', (e) => {
+        if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+        if (document.querySelector('.case-study-drawer.open') || document.querySelector('.lightbox-modal.active') || document.querySelector('.fullscreen-nav-drawer.open')) return;
+
+        if (e.key === 'PageDown' || (e.altKey && e.key === 'ArrowDown')) {
+          e.preventDefault();
+          this.next();
+        } else if (e.key === 'PageUp' || (e.altKey && e.key === 'ArrowUp')) {
+          e.preventDefault();
+          this.prev();
+        }
+      });
+    }
+
+    initObserver() {
+      if (!('IntersectionObserver' in window)) return;
+
+      const sections = this.sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+      const observer = new IntersectionObserver((entries) => {
+        if (this.isNavigating) return;
+
+        let maxRatio = 0;
+        let targetIndex = -1;
+
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            const idx = this.sectionIds.indexOf(entry.target.id);
+            if (idx !== -1) targetIndex = idx;
+          }
+        });
+
+        if (targetIndex !== -1 && targetIndex !== this.currentIndex && maxRatio >= 0.2) {
+          this.updateState(targetIndex, false);
+        }
+      }, {
+        threshold: [0.2, 0.4, 0.6, 0.8]
+      });
+
+      sections.forEach(sec => observer.observe(sec));
+    }
+
+    goToIndex(index, playSound = true) {
+      const clamped = Math.max(0, Math.min(this.sectionIds.length - 1, index));
+      this.currentIndex = clamped;
+      this.updateState(clamped, true);
+
+      const targetEl = document.getElementById(this.sectionIds[clamped]);
+      if (targetEl) {
+        this.isNavigating = true;
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (playSound && typeof SoundSystem !== 'undefined' && SoundSystem.playTick) {
+          SoundSystem.playTick();
+        }
+
+        clearTimeout(this.navTimeout);
+        this.navTimeout = setTimeout(() => {
+          this.isNavigating = false;
+        }, 850);
+      }
+    }
+
+    next() {
+      if (this.currentIndex < this.sectionIds.length - 1) {
+        this.goToIndex(this.currentIndex + 1);
+      }
+    }
+
+    prev() {
+      if (this.currentIndex > 0) {
+        this.goToIndex(this.currentIndex - 1);
+      }
+    }
+
+    updateState(index, updateAria = true) {
+      this.currentIndex = index;
+
+      this.nodes.forEach((node, idx) => {
+        const isActive = idx === index;
+        node.classList.toggle('active', isActive);
+        node.setAttribute('aria-selected', String(isActive));
+        node.setAttribute('tabindex', isActive ? '0' : '-1');
+      });
+
+      if (this.trackFill) {
+        const pct = (index / (this.sectionIds.length - 1)) * 100;
+        this.trackFill.style.height = `${pct}%`;
+      }
+
+      if (this.btnUp) {
+        this.btnUp.disabled = index === 0;
+        this.btnUp.setAttribute('aria-disabled', String(index === 0));
+      }
+
+      if (this.btnDown) {
+        this.btnDown.disabled = index === this.sectionIds.length - 1;
+        this.btnDown.setAttribute('aria-disabled', String(index === this.sectionIds.length - 1));
+      }
+    }
+  }
+
   // Initialize Interactive Controls
   new RetroCrtController();
   new TimelineJourneyScrubber(warpExp);
   new SpatialProjectCarousel();
   new CertificatesVault();
   new MagneticCursor();
+  window.sectionNav = new SectionChangerController();
 });
