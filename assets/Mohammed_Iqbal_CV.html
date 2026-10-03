@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohammed Iqbal Ghaffar - CV</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 7.5mm 9mm 6mm 9mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      background-color: #ffffff;
+      line-height: 1.32;
+      font-size: 8.5pt;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .resume-container {
+      width: 100%;
+      max-width: 192mm;
+      margin: 0 auto;
+      background: #ffffff;
+    }
+
+    /* Header Styling */
+    header {
+      border-bottom: 2.5px solid #0f4c81;
+      padding-bottom: 5px;
+      margin-bottom: 6px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 2px;
+    }
+
+    .name-title h1 {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #0b1f3a;
+      letter-spacing: -0.4px;
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    .target-role {
+      font-size: 9.7pt;
+      font-weight: 700;
+      color: #0f4c81;
+      letter-spacing: 0.1px;
+    }
+
+    .sub-role {
+      font-size: 8.2pt;
+      font-weight: 600;
+      color: #475569;
+      margin-left: 4px;
+    }
+
+    .contact-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5px;
+      margin-top: 4.5px;
+      font-size: 8.1pt;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: #334155;
+    }
+
+    .contact-item a {
+      color: #0f4c81;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact-item svg {
+      width: 11px;
+      height: 11px;
+      fill: #0f4c81;
+      flex-shrink: 0;
+    }
+
+    /* Summary Section */
+    .summary-section {
+      margin-bottom: 7px;
+      background: #f8fafc;
+      border-left: 3.5px solid #0f4c81;
+      padding: 5.5px 9px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .summary-text {
+      font-size: 8.35pt;
+      color: #1e293b;
+      line-height: 1.34;
+      text-align: justify;
+    }
+
+    /* 2-Column Content Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 35.5% 62.5%;
+      column-gap: 2%;
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 9.1pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+      color: #0b1f3a;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 2px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .section-title svg {
+      width: 11.5px;
+      height: 11.5px;
+      fill: #0f4c81;
+    }
+
+    /* Left Column Elements */
+    .sidebar-section {
+      margin-bottom: 6px;
+    }
+
+    .skill-category {
+      margin-bottom: 4.5px;
+    }
+
+    .skill-cat-title {
+      font-size: 8.3pt;
+      font-weight: 700;
+      color: #0f4c81;
+      margin-bottom: 1px;
+    }
+
+    .skill-tags {
+      font-size: 7.85pt;
+      color: #334155;
+      line-height: 1.28;
+    }
+
+    /* Deployments Spotlight Box */
+    .deployments-box {
+      background: #f0f7ff;
+      border: 1px solid #bae6fd;
+      border-radius: 4px;
+      padding: 5px 7px;
+      margin-bottom: 6px;
+    }
+
+    .deployments-title {
+      font-size: 8.15pt;
+      font-weight: 800;
+      color: #0369a1;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .deployments-title svg {
+      width: 10.5px;
+      height: 10.5px;
+      fill: #0369a1;
+    }
+
+    .deployment-item {
+      font-size: 7.7pt;
+      color: #0c4a6e;
+      line-height: 1.27;
+      margin-bottom: 2px;
+      padding-left: 9px;
+      position: relative;
+    }
+
+    .deployment-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .deployment-item::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #0284c7;
+      font-weight: 800;
+    }
+
+    /* Education Block */
+    .edu-block {
+      margin-bottom: 1px;
+    }
+
+    .edu-degree {
+      font-size: 8.2pt;
+      font-weight: 700;
+      color: #0b1f3a;
+      line-height: 1.22;
+    }
+
+    .edu-inst {
+      font-size: 7.8pt;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    /* Languages Grid */
+    .lang-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5px;
+    }
+
+    .lang-item {
+      background: #f1f5f9;
+      padding: 2.5px 5px;
+      border-radius: 3px;
+      border-left: 2.5px solid #0f4c81;
+    }
+
+    .lang-name {
+      font-size: 7.95pt;
+      font-weight: 700;
+      color: #0b1f3a;
+    }
+
+    .lang-level {
+      font-size: 7.25pt;
+      color: #475569;
+      font-weight: 500;
+    }
+
+    /* Right Column - Professional Experience */
+    .exp-item {
+      margin-bottom: 6px;
+    }
+
+    .exp-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1px;
+    }
+
+    .exp-role {
+      font-size: 8.95pt;
+      font-weight: 800;
+      color: #0b1f3a;
+    }
+
+    .exp-date {
+      font-size: 7.95pt;
+      font-weight: 700;
+      color: #0f4c81;
+      white-space: nowrap;
+    }
+
+    .exp-company-block {
+      margin-bottom: 2.5px;
+      line-height: 1.24;
+    }
+
+    .exp-company-name {
+      font-size: 8.05pt;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .exp-location-tag {
+      font-size: 7.85pt;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .exp-bullets {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .exp-bullets li {
+      position: relative;
+      padding-left: 9.5px;
+      font-size: 8.05pt;
+      color: #1e293b;
+      margin-bottom: 2px;
+      line-height: 1.30;
+      text-align: justify;
+    }
+
+    .exp-bullets li:last-child {
+      margin-bottom: 0;
+    }
+
+    .exp-bullets li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #0f4c81;
+      font-size: 9pt;
+      line-height: 1;
+      top: 0;
+    }
+
+    .highlight-metric {
+      font-weight: 700;
+      color: #0b1f3a;
+    }
+
+    @media print {
+      body {
+        background-color: #ffffff;
+        font-size: 8.5pt;
+      }
+      .resume-container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .summary-section {
+        background-color: #f8fafc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .deployments-box {
+        background-color: #f0f7ff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .lang-item {
+        background-color: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="resume-container">
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="name-title">
+        <h1>MOHAMMED IQBAL GHAFFAR</h1>
+        <div class="target-role">AI Solutions Architect · Operations Lead · Systems Engineer <span class="sub-role">(HTS-HQ Deputy Administrative Manager)</span></div>
+      </div>
+    </div>
+    <div class="contact-bar">
+      <div class="contact-row">
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>Sulaimaniyah, Iraq (Open to Relocation to Saudi Arabia / GCC)</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          <span>(+964) 7503424545</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <a href="mailto:moham.iqbal99@gmail.com">moham.iqbal99@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0-.01-3.28 1.64 1.64 0 0 0 .01 3.28M5.07 18.5h2.78v-8.37H5.07v8.37z"/></svg>
+          <a href="https://www.linkedin.com/in/mokurdy" target="_blank">linkedin.com/in/mokurdy</a>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          <a href="https://github.com/mohamediqbalghaffar" target="_blank">github.com/mohamediqbalghaffar (Product Showcase)</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Targeted Career Summary -->
+  <section class="summary-section">
+    <p class="summary-text"><strong>Targeted Summary:</strong> AI Solutions Architect, Operations Lead, and Systems Engineer with 7+ years translating executive requirements into hardened, production-grade intelligence and mission-critical architectures. Deputy Admin Manager at HTS-HQ (#1 enterprise in Halabja Group of Companies), directing enterprise digital transformation of daily operations and administrative workflows. Proven track record architecting and shipping 4 end-to-end production systems—including enterprise correspondence SLA intelligence, humanitarian GIS CRM, retail multi-branch ERP, and offline native Android applications. Deep expertise in Google Antigravity Agentic Workflows, Odoo ERP administration, Next.js/React full-stack engineering, and high-impact cross-functional execution.</p>
+  </section>
+
+  <!-- Main 2-Column Grid -->
+  <div class="content-grid">
+    <!-- Left Column: Core Competencies, Key Solutions, Education, Languages -->
+    <aside class="sidebar-col">
+      <!-- Core Competencies Section -->
+      <section class="sidebar-section">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+          Core Competencies
+        </h2>
+
+        <div class="skill-category">
+          <div class="skill-cat-title">Systems Architecture &amp; Full-Stack</div>
+          <div class="skill-tags">Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS (RTL), Vite, Recharts, SheetJS / ExcelJS, RESTful APIs, Vercel Deployments</div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-title">Agentic AI &amp; Autonomous Workflows</div>
+          <div class="skill-tags">Google Antigravity Agentic Workflows, Multi-Agent Reasoning Systems, LLM Prompt Engineering, Applied ML Models, AI Vibe Coding, Rapid Prototyping</div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-title">Enterprise ERP &amp; Operations</div>
+          <div class="skill-tags">HTS-HQ Business Administration, Odoo ERP Administration (Inventory, HR, Approvals), SLA Monitoring, Standard Operating Procedures (SOPs), Paperless Digitization</div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-title">Mobile &amp; Geospatial Systems</div>
+          <div class="skill-tags">Native Android (Kotlin, Jetpack Compose, Room DB), Offline-First Architecture, Leaflet GIS Mapping, Advanced Excel Modeling, BiDi/RTL Localization</div>
+        </div>
+      </section>
+
+      <!-- Shipped Solutions Spotlight Box -->
+      <section class="sidebar-section">
+        <div class="deployments-box">
+          <div class="deployments-title">
+            <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+            Shipped Systems (Portfolio Spotlight)
+          </div>
+          <div class="deployment-item"><strong>Tracking Approvals (Next.js/TS):</strong> Enterprise correspondence &amp; SLA tracking with live TV kiosk feeds.</div>
+          <div class="deployment-item"><strong>Charity NGO Web (React 19):</strong> Humanitarian aid tracking CRM with 9-stage workflows &amp; Leaflet GIS.</div>
+          <div class="deployment-item"><strong>CRM &amp; Warehouse ERP (Next.js 15):</strong> Retail multi-branch stock ERP with COGS &amp; thermal POS receipts.</div>
+          <div class="deployment-item"><strong>Habakam Android APK (Kotlin):</strong> Kurdish medication adherence app with voice alarms &amp; Room DB.</div>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="sidebar-section">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+          Education
+        </h2>
+        <div class="edu-block">
+          <div class="edu-degree">Bachelor's Degree in Teaching English as a Second Language (TESL)</div>
+          <div class="edu-inst">University of Halabja | Halabja, Iraq</div>
+        </div>
+      </section>
+
+      <!-- Languages -->
+      <section class="sidebar-section">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+          Languages
+        </h2>
+        <div class="lang-grid">
+          <div class="lang-item">
+            <div class="lang-name">Arabic</div>
+            <div class="lang-level">Prof. Working (KSA Align.)</div>
+          </div>
+          <div class="lang-item">
+            <div class="lang-name">English</div>
+            <div class="lang-level">Fluent (TESL Degree)</div>
+          </div>
+          <div class="lang-item">
+            <div class="lang-name">Kurdish</div>
+            <div class="lang-level">Native (Hawrami/Sorani)</div>
+          </div>
+          <div class="lang-item">
+            <div class="lang-name">Turkish</div>
+            <div class="lang-level">Professional / Conv.</div>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Right Column: Professional Experience -->
+    <main class="main-col">
+      <section>
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+          Professional Experience
+        </h2>
+
+        <!-- Role 1: HTS-HQ -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">Product &amp; Systems Lead / Deputy Admin Manager</div>
+            <div class="exp-date">Nov 2024 – Present</div>
+          </div>
+          <div class="exp-company-block">
+            <div class="exp-company-name">HTS-HQ (Halabja Telecom Services &amp; Renewable Energy –</div>
+            <div class="exp-location-tag">Halabja Group of Companies) | Sulaimaniyah, Iraq</div>
+          </div>
+          <ul class="exp-bullets">
+            <li><strong>Executive Administration &amp; Digital Transition:</strong> Lead business administration for the #1 largest enterprise inside Halabja Group of Companies, directing digital transformation of daily operations and administrative tasks.</li>
+            <li><strong>Correspondence &amp; SLA Intelligence Platform:</strong> Architected and deployed <span class="highlight-metric">Tracking Approvals</span> (Next.js, TypeScript, Tailwind, Recharts)—an enterprise correspondence intelligence platform with live SLA countdowns, TV kiosk feeds, and 83% compliance.</li>
+            <li><strong>Enterprise Odoo ERP Administration:</strong> Administered enterprise Odoo ERP operational modules, overseeing continuous workflow optimization, data architecture accuracy, and audit compliance across 5+ business units.</li>
+            <li><strong>Agentic AI &amp; Prototyping:</strong> Leveraged agentic AI workflows (<span class="highlight-metric">Google Antigravity</span>, multi-agent reasoning, prompt engineering) to accelerate research synthesis, author specifications, and build functional enterprise tools.</li>
+            <li><strong>Executive Analytics &amp; Reporting:</strong> Engineered dynamic HTML analytics dashboards and complex quantitative data models to monitor SLA metrics, track leadership KPIs, and eliminate operational bottlenecks.</li>
+          </ul>
+        </article>
+
+        <!-- Role 2: Bed Art Group -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">Commerce Operations &amp; Systems Specialist</div>
+            <div class="exp-date">Nov 2021 – Oct 2024</div>
+          </div>
+          <div class="exp-company-block">
+            <span class="exp-company-name">Bed Art Group (Retail &amp; Multi-Channel Commerce)</span> | <span class="exp-location-tag">Sulaimaniyah, Iraq</span>
+          </div>
+          <ul class="exp-bullets">
+            <li><strong>Retail ERP &amp; Warehouse Architecture:</strong> Architected and deployed <span class="highlight-metric">CRM &amp; Warehouse ERP</span> (Next.js 15, React 19, TypeScript)—a bilingual Kurdish/English retail platform with multi-branch stock transfers and POS thermal receipt printing.</li>
+            <li><strong>Automated COGS &amp; Financial Analytics:</strong> Engineered automated Cost-of-Goods-Sold (COGS), operational expense ratio analytics, and real-time break-even calculations across multi-currency transactions (USD &amp; IQD).</li>
+            <li><strong>Data Integrity &amp; Closing Cycles:</strong> Defined standardized validation protocols and inventory reconciliation routines, eliminating discrepancies and <span class="highlight-metric">cutting monthly accounting closing cycles by 35%</span>.</li>
+            <li><strong>Merchant Discovery &amp; POS Workflows:</strong> Discovered merchant and retail friction points across POS registers and central warehouse inventory, translating operational bottlenecks into structured database and workflow specifications.</li>
+          </ul>
+        </article>
+
+        <!-- Role 3: Islamic Relief Worldwide -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">User Discovery &amp; Field Research Lead (Enumerator)</div>
+            <div class="exp-date">May 2024 – Oct 2024</div>
+          </div>
+          <div class="exp-company-block">
+            <span class="exp-company-name">Islamic Relief Worldwide</span> | <span class="exp-location-tag">Halabja, Iraq</span>
+          </div>
+          <ul class="exp-bullets">
+            <li><strong>User Discovery &amp; Needs Analysis:</strong> Executed structured field discovery across <span class="highlight-metric">1,000+ community beneficiaries</span>, translating qualitative interviews into structured data specifications (directly informing the 9-stage Charity NGO Web GIS platform).</li>
+            <li><strong>Measurement &amp; Quality Compliance:</strong> Enforced quantitative measurement and data verification protocols, achieving <span class="highlight-metric">100% data integrity</span> adhering to international NGO standards and strict compliance guidelines.</li>
+          </ul>
+        </article>
+
+        <!-- Role 4: Halabja Glory Organization -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">Arabic Localization Specialist &amp; Trilingual Liaison</div>
+            <div class="exp-date">Feb 2018 – Oct 2021</div>
+          </div>
+          <div class="exp-company-block">
+            <span class="exp-company-name">Halabja Glory Organization (NGO)</span> | <span class="exp-location-tag">Halabja, Iraq</span>
+          </div>
+          <ul class="exp-bullets">
+            <li><strong>Arabic-First Localization:</strong> Directed trilingual localization (Arabic, English, Kurdish [Hawrami/Sorani], Turkish) across official legal, administrative, and stakeholder document suites, ensuring strict regional terminology accuracy.</li>
+            <li><strong>Stakeholder Alignment &amp; Interpretation:</strong> Facilitated consecutive interpretation and cross-functional alignment during international donor conferences, NGO partner negotiations, and community leadership assemblies.</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>
