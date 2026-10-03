@@ -2941,7 +2941,7 @@ img, video {
 }
 
 .contact-card-box {
-  width: min(720px, 92vw);
+  width: min(780px, 92vw);
   background: #0a0a0d;
   border: 1px solid var(--border-medium);
   border-radius: 20px;
@@ -2963,42 +2963,78 @@ img, video {
 
 .contact-channels-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.25rem;
-  margin: 2.5rem 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2.2rem 0;
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .contact-channels-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
 }
 
 .channel-link-card {
-  background: #141418;
-  border: 1px solid var(--border-subtle);
+  background: #121216;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 12px;
-  padding: 1.25rem;
+  padding: 1.15rem 0.85rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
+  justify-content: center;
+  gap: 0.45rem;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .channel-link-card:hover {
-  border-color: #ffffff;
-  transform: translateY(-4px);
-  background: #1c1c22;
+  border-color: rgba(255, 255, 255, 0.45);
+  background: #1a1a22;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(255, 255, 255, 0.04);
+}
+
+.channel-link-card:focus-visible {
+  outline: 2px solid var(--accent-phosphor);
+  outline-offset: 3px;
 }
 
 .channel-label {
-  font-size: 0.72rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted);
+  line-height: 1.2;
 }
 
 .channel-val {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-size: clamp(0.72rem, 0.88vw, 0.82rem);
+  font-weight: 600;
   color: #ffffff;
+  max-width: 100%;
+  width: 100%;
+  text-align: center;
+  line-height: 1.35;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  transition: color 0.2s ease;
+}
+
+.channel-link-card:hover .channel-val {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .site-bottom-footer {
@@ -3556,13 +3592,13 @@ img, video {
   }
 
   .channel-link-card {
-    padding: 1rem;
-    min-height: 44px;
+    padding: 1rem 0.85rem;
+    min-height: 48px;
   }
 
   .channel-val {
-    font-size: 0.85rem;
-    word-break: break-all;
+    font-size: 0.82rem;
+    word-break: break-word;
   }
 
   .site-bottom-footer {
