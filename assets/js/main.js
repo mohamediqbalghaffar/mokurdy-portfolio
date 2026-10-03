@@ -403,6 +403,78 @@ const SoundSystem = new AudioSynthEngine();
 
 
 // ==========================================
+// 2.5 REAL-TIME SCREEN RATIO CONTROLLER
+// ==========================================
+
+class ScreenRatioManager {
+  constructor() {
+    this.html = document.documentElement;
+    this.update();
+    this.bindEvents();
+  }
+
+  update() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const ratio = w / Math.max(h, 1);
+
+    // Dynamic layout CSS properties
+    this.html.style.setProperty('--app-aspect-ratio', ratio.toFixed(4));
+    this.html.style.setProperty('--screen-w', `${w}px`);
+    this.html.style.setProperty('--screen-h', `${h}px`);
+
+    // Intelligent Hero Scale factor:
+    // Fits CRT Console + statements + CTAs within 100dvh without cutoff on short screens
+    let heroScale = 1;
+    if (ratio >= 1.2) {
+      if (h < 660) {
+        heroScale = Math.max(0.72, h / 880);
+      } else if (h < 800) {
+        heroScale = Math.max(0.82, h / 940);
+      }
+    } else {
+      if (w < 380) {
+        heroScale = 0.9;
+      }
+    }
+    this.html.style.setProperty('--hero-scale-factor', heroScale.toFixed(3));
+
+    // Categorize layout aspect zone
+    let zone = 'widescreen';
+    if (ratio >= 2.1) {
+      zone = 'ultrawide';
+    } else if (ratio >= 1.55) {
+      zone = (h < 760) ? 'laptop-short' : 'widescreen';
+    } else if (ratio >= 1.2) {
+      zone = 'tablet-landscape';
+    } else if (ratio >= 0.85) {
+      zone = 'square-tablet';
+    } else {
+      zone = 'portrait-tall';
+    }
+
+    this.html.setAttribute('data-aspect-zone', zone);
+    this.html.setAttribute('data-orientation', w >= h ? 'landscape' : 'portrait');
+
+    window.dispatchEvent(new CustomEvent('screenratiochange', {
+      detail: { width: w, height: h, ratio, zone }
+    }));
+  }
+
+  bindEvents() {
+    let resizeTimer = null;
+    const onResize = () => {
+      if (resizeTimer) cancelAnimationFrame(resizeTimer);
+      resizeTimer = requestAnimationFrame(() => this.update());
+    };
+
+    window.addEventListener('resize', onResize, { passive: true });
+    window.addEventListener('orientationchange', onResize, { passive: true });
+  }
+}
+
+
+// ==========================================
 // 3. THREE.JS 3D SCENES & SHADERS
 // ==========================================
 
@@ -464,12 +536,18 @@ class WarpTunnelExperience {
   }
 
   bindEvents() {
-    window.addEventListener('resize', () => {
+    const handleResize = () => {
       if (!this.renderer) return;
-      this.camera.aspect = window.innerWidth / window.innerHeight;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      this.camera.aspect = w / h;
       this.camera.updateProjectionMatrix();
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+      this.renderer.setSize(w, h);
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', handleResize, { passive: true });
+    window.addEventListener('screenratiochange', handleResize, { passive: true });
   }
 
   animate() {
@@ -547,7 +625,37 @@ class MoltenSculpture {
       this.mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
     });
 
+    this.bindEvents();
     this.animate();
+  }
+
+  bindEvents() {
+    const handleResize = () => {
+      if (!this.renderer || !this.canvas) return;
+      const rect = this.canvas.getBoundingClientRect();
+      const w = rect.width || this.canvas.clientWidth || 500;
+      const h = rect.height || this.canvas.clientHeight || 650;
+      if (w === 0 || h === 0) return;
+      this.camera.aspect = w / h;
+
+      // Adjust camera distance based on screen aspect ratio
+      const ratio = window.innerWidth / Math.max(window.innerHeight, 1);
+      if (ratio < 0.85) {
+        this.camera.position.z = 5.6; // Pull back in tall portrait
+      } else if (ratio < 1.25) {
+        this.camera.position.z = 4.8; // Tablet / square
+      } else {
+        this.camera.position.z = 4.2; // Standard widescreen
+      }
+
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(w, h);
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', handleResize, { passive: true });
+    window.addEventListener('screenratiochange', handleResize, { passive: true });
+    handleResize();
   }
 
   animate() {
@@ -613,7 +721,36 @@ class MorphingSphere {
     this.scene.add(this.mesh);
 
     this.clock = new THREE.Clock();
+    this.bindEvents();
     this.animate();
+  }
+
+  bindEvents() {
+    const handleResize = () => {
+      if (!this.renderer || !this.canvas) return;
+      const rect = this.canvas.getBoundingClientRect();
+      const w = rect.width || this.canvas.clientWidth || 360;
+      const h = rect.height || this.canvas.clientHeight || 360;
+      if (w === 0 || h === 0) return;
+      this.camera.aspect = w / h;
+
+      const ratio = window.innerWidth / Math.max(window.innerHeight, 1);
+      if (ratio < 0.85) {
+        this.camera.position.z = 6.0;
+      } else if (ratio < 1.25) {
+        this.camera.position.z = 5.5;
+      } else {
+        this.camera.position.z = 5.2;
+      }
+
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(w, h);
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', handleResize, { passive: true });
+    window.addEventListener('screenratiochange', handleResize, { passive: true });
+    handleResize();
   }
 
   animate() {
@@ -679,7 +816,25 @@ class DuneTerrainHorizon {
     this.scene.add(this.mesh);
 
     this.clock = new THREE.Clock();
+    this.bindEvents();
     this.animate();
+  }
+
+  bindEvents() {
+    const handleResize = () => {
+      if (!this.renderer || !this.canvas) return;
+      const w = this.canvas.clientWidth || window.innerWidth;
+      const h = this.canvas.clientHeight || 380;
+      if (w === 0 || h === 0) return;
+      this.camera.aspect = w / h;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(w, h);
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', handleResize, { passive: true });
+    window.addEventListener('screenratiochange', handleResize, { passive: true });
+    handleResize();
   }
 
   animate() {
@@ -1147,11 +1302,29 @@ class SpatialProjectCarousel {
   }
 
   updateLayout() {
-    const isMobile = window.innerWidth < 768;
-    const isTablet = window.innerWidth < 1024;
-    const spreadX = isMobile ? Math.min(window.innerWidth * 0.58, 220) : isTablet ? 320 : 380;
-    const depthZ = isMobile ? -70 : -110;
-    const rotateYDeg = isMobile ? 10 : 20;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const ratio = w / Math.max(h, 1);
+    const isMobile = ratio < 0.85 || w < 768;
+
+    let spreadX, depthZ, rotateYDeg;
+    if (ratio >= 2.1) {
+      spreadX = Math.min(460, w * 0.28);
+      depthZ = -130;
+      rotateYDeg = 24;
+    } else if (isMobile) {
+      spreadX = Math.min(w * 0.62, 230);
+      depthZ = -65;
+      rotateYDeg = 12;
+    } else if (ratio < 1.25 || w < 960) {
+      spreadX = Math.min(w * 0.40, 310);
+      depthZ = -95;
+      rotateYDeg = 18;
+    } else {
+      spreadX = Math.min(380, w * 0.32);
+      depthZ = -110;
+      rotateYDeg = 20;
+    }
 
     this.cards.forEach((card, i) => {
       let offset = (i - this.currentIndex) % this.cardCount;
@@ -1262,7 +1435,9 @@ class SpatialProjectCarousel {
       });
     });
 
-    window.addEventListener('resize', () => this.updateLayout());
+    window.addEventListener('resize', () => this.updateLayout(), { passive: true });
+    window.addEventListener('orientationchange', () => this.updateLayout(), { passive: true });
+    window.addEventListener('screenratiochange', () => this.updateLayout(), { passive: true });
 
     // Keyboard navigation when user is on the section
     window.addEventListener('keydown', (e) => {
@@ -1624,6 +1799,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', handleNavScroll, { passive: true });
     handleNavScroll();
   }
+
+  // Initialize Dynamic Screen Ratio Manager
+  window.screenRatioMgr = new ScreenRatioManager();
 
   // Initialize Scenes
   const warpExp = new WarpTunnelExperience('warp-tunnel-canvas');
