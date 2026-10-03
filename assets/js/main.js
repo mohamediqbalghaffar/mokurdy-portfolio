@@ -151,7 +151,7 @@ const PROJECT_CASE_STUDIES = {
     meta: {
       client: "Corporate Administration & Government Headquarters",
       role: "Lead Systems Architect & Frontend Engineer",
-      duration: "2024 – Present",
+      duration: "2026",
       stack: "Next.js App Router, TypeScript, Tailwind CSS, Recharts, date-fns",
       liveUrl: "https://trackingapprovals.vercel.app",
       liveDomain: "trackingapprovals.vercel.app"
@@ -174,7 +174,7 @@ const PROJECT_CASE_STUDIES = {
     meta: {
       client: "Regional Humanitarian Foundations & NGOs",
       role: "Full Stack Engineer & GIS Architect",
-      duration: "2024 – Present",
+      duration: "2026",
       stack: "React 19, Vite, TypeScript, Tailwind CSS RTL, Leaflet GIS, ExcelJS",
       liveUrl: "https://charityngoweb.vercel.app",
       liveDomain: "charityngoweb.vercel.app"
@@ -197,7 +197,7 @@ const PROJECT_CASE_STUDIES = {
     meta: {
       client: "Bed Art Group & Commercial Retailers",
       role: "Lead Systems Architect & Full Stack Engineer",
-      duration: "2021 – 2023",
+      duration: "2026",
       stack: "Next.js 15, React 19, TypeScript, Tailwind RTL, Recharts, SheetJS",
       liveUrl: "https://crmwebapp-xi.vercel.app",
       liveDomain: "crmwebapp-xi.vercel.app"
@@ -220,7 +220,7 @@ const PROJECT_CASE_STUDIES = {
     meta: {
       client: "Healthcare Adherence & Kurdish Community",
       role: "Lead Android Architect",
-      duration: "2023 – 2024",
+      duration: "2026",
       stack: "Kotlin, Jetpack Compose, Room DB, AlarmManager, Hilt, Material 3",
       liveUrl: null,
       liveDomain: "Android APK (Native Mobile)"
