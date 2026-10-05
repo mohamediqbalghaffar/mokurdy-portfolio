@@ -2473,6 +2473,91 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ==========================================
+  // 12. LIQUID BUTTON SPRING PHYSICS ENGINE
+  // Physical response: 130ms quick compression on press + 1s linear() elastic rebound
+  // Matches liquid CSS.txt & physics preview.mp4
+  // ==========================================
+  class LiquidButtonPhysicsEngine {
+    constructor() {
+      this.selector = [
+        'button',
+        '.box.start-btn',
+        '.pill-btn-white',
+        '.pill-btn-glass',
+        '.contact-btn',
+        '.sound-toggle-btn',
+        '.menu-toggle-btn',
+        '.section-changer-btn',
+        '.section-node-btn',
+        '.power-toggle-btn',
+        '.rotary-knob',
+        '.crt-action-btn',
+        '.guide-pill-link',
+        '.year-node-btn',
+        '.project-tab-btn',
+        '.carousel-nav-btn',
+        '.drawer-close-btn',
+        '.drawer-back-btn',
+        '.lightbox-close-btn',
+        '.channel-link-card',
+        '[role="button"]'
+      ].join(', ');
+
+      this.init();
+    }
+
+    init() {
+      const MIN_COMPRESSION_MS = 110;
+
+      document.addEventListener('pointerdown', (e) => {
+        const btn = e.target.closest(this.selector);
+        if (!btn || btn.disabled || btn.getAttribute('aria-disabled') === 'true') return;
+
+        btn.classList.add('liquid-pressed');
+        btn._liquidPressStart = performance.now();
+      }, { passive: true });
+
+      const handleRelease = (e) => {
+        const pressed = document.querySelectorAll('.liquid-pressed');
+        if (!pressed.length) return;
+
+        pressed.forEach(btn => {
+          const elapsed = performance.now() - (btn._liquidPressStart || 0);
+          const remaining = Math.max(0, MIN_COMPRESSION_MS - elapsed);
+
+          setTimeout(() => {
+            btn.classList.remove('liquid-pressed');
+            btn.classList.add('liquid-rebounding');
+            setTimeout(() => {
+              btn.classList.remove('liquid-rebounding');
+            }, 1000);
+          }, remaining);
+        });
+      };
+
+      document.addEventListener('pointerup', handleRelease, { passive: true });
+      document.addEventListener('pointercancel', handleRelease, { passive: true });
+      window.addEventListener('blur', () => {
+        document.querySelectorAll('.liquid-pressed').forEach(el => el.classList.remove('liquid-pressed'));
+      });
+
+      // Keyboard accessibility (Space / Enter)
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const btn = document.activeElement ? document.activeElement.closest(this.selector) : null;
+        if (!btn || btn.classList.contains('liquid-pressed')) return;
+
+        btn.classList.add('liquid-pressed');
+        setTimeout(() => {
+          btn.classList.remove('liquid-pressed');
+          btn.classList.add('liquid-rebounding');
+          setTimeout(() => btn.classList.remove('liquid-rebounding'), 1000);
+        }, MIN_COMPRESSION_MS);
+      });
+    }
+  }
+
   // Initialize Interactive Controls
   new RetroCrtController();
   new TimelineJourneyScrubber(warpExp);
@@ -2480,4 +2565,5 @@ document.addEventListener('DOMContentLoaded', () => {
   new CertificatesVault();
   new MagneticCursor();
   window.sectionNav = new SectionChangerController();
+  window.liquidButtonPhysics = new LiquidButtonPhysicsEngine();
 });

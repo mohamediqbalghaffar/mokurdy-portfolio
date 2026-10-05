@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/style.css?v=4.6">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.7">
   
   <!-- Three.js & GSAP CDNs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -908,8 +908,19 @@
 
   </section>
 
+  <!-- Liquid Glass Spring Physics Filters (SVG Filter Defs) -->
+  <svg color-interpolation-filters="sRGB" style="position: absolute; width: 0; height: 0; pointer-events: none; opacity: 0;" aria-hidden="true">
+    <filter id="round">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"></feGaussianBlur>
+      <feComponentTransfer in="blur" result="threshold">
+        <feFuncA type="gamma" amplitude="60" exponent="8" offset="-2"></feFuncA>
+      </feComponentTransfer>
+      <feComposite in="SourceGraphic" operator="atop"></feComposite>
+    </filter>
+  </svg>
+
   <!-- Core Interactive Script -->
-  <script src="assets/js/main.js?v=4.6"></script>
+  <script src="assets/js/main.js?v=4.7"></script>
 
 </body>
 </html>
